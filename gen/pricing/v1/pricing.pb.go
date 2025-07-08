@@ -1330,8 +1330,8 @@ const file_pricing_v1_pricing_proto_rawDesc = "" +
 	"\vListCoupons\x12\x1b.pricing.ListCouponsRequest\x1a\x1c.pricing.ListCouponsResponse\x12K\n" +
 	"\fCreateCoupon\x12\x1c.pricing.CreateCouponRequest\x1a\x1d.pricing.CreateCouponResponse\x12K\n" +
 	"\fUpdateCoupon\x12\x1c.pricing.UpdateCouponRequest\x1a\x1d.pricing.UpdateCouponResponse\x12K\n" +
-	"\fDeleteCoupon\x12\x1c.pricing.DeleteCouponRequest\x1a\x1d.pricing.DeleteCouponResponseB\x88\x01\n" +
-	"\vcom.pricingB\fPricingProtoP\x01Z/github.com/bufbuild/buf-examples/gen/pricing/v1\xa2\x02\x03PXX\xaa\x02\aPricing\xca\x02\aPricing\xe2\x02\x13Pricing\\GPBMetadata\xea\x02\aPricingb\x06proto3"
+	"\fDeleteCoupon\x12\x1c.pricing.DeleteCouponRequest\x1a\x1d.pricing.DeleteCouponResponseB\x89\x01\n" +
+	"\vcom.pricingB\fPricingProtoP\x01Z0gitlab.zalopay.vn/loint6/go-proto/gen/pricing/v1\xa2\x02\x03PXX\xaa\x02\aPricing\xca\x02\aPricing\xe2\x02\x13Pricing\\GPBMetadata\xea\x02\aPricingb\x06proto3"
 
 var (
 	file_pricing_v1_pricing_proto_rawDescOnce sync.Once

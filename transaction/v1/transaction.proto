@@ -5,8 +5,6 @@ package transaction;
 option go_package = "gitlab.zalopay.vn/loint6/go-proto/transaction";
 
 import "google/protobuf/timestamp.proto";
-
-// Transaction Service
 service TransactionService {
   rpc CreateTransaction(CreateTransactionRequest) returns (CreateTransactionResponse);
   rpc GetTransaction(GetTransactionRequest) returns (GetTransactionResponse);
@@ -16,7 +14,6 @@ service TransactionService {
   rpc GetCouponTransactions(GetCouponTransactionsRequest) returns (GetCouponTransactionsResponse);
 }
 
-// Messages
 message CreateTransactionRequest {
   string user_id = 1;
   string coupon_id = 2;

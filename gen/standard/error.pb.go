@@ -471,9 +471,9 @@ const file_standard_error_proto_rawDesc = "" +
 	"\x13ERROR_CODE_INTERNAL\x10\v\x12\x1a\n" +
 	"\x16ERROR_CODE_UNAVAILABLE\x10\f\x12\x18\n" +
 	"\x14ERROR_CODE_DATA_LOSS\x10\r\x12 \n" +
-	"\x1cERROR_CODE_DEADLINE_EXCEEDED\x10\x0eB\x89\x01\n" +
+	"\x1cERROR_CODE_DEADLINE_EXCEEDED\x10\x0eB\x8a\x01\n" +
 	"\fcom.standardB\n" +
-	"ErrorProtoP\x01Z-github.com/bufbuild/buf-examples/gen/standard\xa2\x02\x03SXX\xaa\x02\bStandard\xca\x02\bStandard\xe2\x02\x14Standard\\GPBMetadata\xea\x02\bStandardb\x06proto3"
+	"ErrorProtoP\x01Z.gitlab.zalopay.vn/loint6/go-proto/gen/standard\xa2\x02\x03SXX\xaa\x02\bStandard\xca\x02\bStandard\xe2\x02\x14Standard\\GPBMetadata\xea\x02\bStandardb\x06proto3"
 
 var (
 	file_standard_error_proto_rawDescOnce sync.Once

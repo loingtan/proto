@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/bufbuild/buf-examples/gen/auth/v1"
+	v1 "gitlab.zalopay.vn/loint6/go-proto/gen/auth/v1"
 	http "net/http"
 	strings "strings"
 )
@@ -43,6 +43,8 @@ const (
 	// AuthServiceRefreshTokenProcedure is the fully-qualified name of the AuthService's RefreshToken
 	// RPC.
 	AuthServiceRefreshTokenProcedure = "/auth.AuthService/RefreshToken"
+	// AuthServiceListUsersProcedure is the fully-qualified name of the AuthService's ListUsers RPC.
+	AuthServiceListUsersProcedure = "/auth.AuthService/ListUsers"
 	// AuthServiceLogoutProcedure is the fully-qualified name of the AuthService's Logout RPC.
 	AuthServiceLogoutProcedure = "/auth.AuthService/Logout"
 )
@@ -53,6 +55,7 @@ type AuthServiceClient interface {
 	Register(context.Context, *connect.Request[v1.RegisterRequest]) (*connect.Response[v1.RegisterResponse], error)
 	ValidateToken(context.Context, *connect.Request[v1.ValidateTokenRequest]) (*connect.Response[v1.ValidateTokenResponse], error)
 	RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error)
+	ListUsers(context.Context, *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error)
 	Logout(context.Context, *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error)
 }
 
@@ -91,6 +94,12 @@ func NewAuthServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(authServiceMethods.ByName("RefreshToken")),
 			connect.WithClientOptions(opts...),
 		),
+		listUsers: connect.NewClient[v1.ListUsersRequest, v1.ListUsersResponse](
+			httpClient,
+			baseURL+AuthServiceListUsersProcedure,
+			connect.WithSchema(authServiceMethods.ByName("ListUsers")),
+			connect.WithClientOptions(opts...),
+		),
 		logout: connect.NewClient[v1.LogoutRequest, v1.LogoutResponse](
 			httpClient,
 			baseURL+AuthServiceLogoutProcedure,
@@ -106,6 +115,7 @@ type authServiceClient struct {
 	register      *connect.Client[v1.RegisterRequest, v1.RegisterResponse]
 	validateToken *connect.Client[v1.ValidateTokenRequest, v1.ValidateTokenResponse]
 	refreshToken  *connect.Client[v1.RefreshTokenRequest, v1.RefreshTokenResponse]
+	listUsers     *connect.Client[v1.ListUsersRequest, v1.ListUsersResponse]
 	logout        *connect.Client[v1.LogoutRequest, v1.LogoutResponse]
 }
 
@@ -129,6 +139,11 @@ func (c *authServiceClient) RefreshToken(ctx context.Context, req *connect.Reque
 	return c.refreshToken.CallUnary(ctx, req)
 }
 
+// ListUsers calls auth.AuthService.ListUsers.
+func (c *authServiceClient) ListUsers(ctx context.Context, req *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error) {
+	return c.listUsers.CallUnary(ctx, req)
+}
+
 // Logout calls auth.AuthService.Logout.
 func (c *authServiceClient) Logout(ctx context.Context, req *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error) {
 	return c.logout.CallUnary(ctx, req)
@@ -140,6 +155,7 @@ type AuthServiceHandler interface {
 	Register(context.Context, *connect.Request[v1.RegisterRequest]) (*connect.Response[v1.RegisterResponse], error)
 	ValidateToken(context.Context, *connect.Request[v1.ValidateTokenRequest]) (*connect.Response[v1.ValidateTokenResponse], error)
 	RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error)
+	ListUsers(context.Context, *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error)
 	Logout(context.Context, *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error)
 }
 
@@ -174,6 +190,12 @@ func NewAuthServiceHandler(svc AuthServiceHandler, opts ...connect.HandlerOption
 		connect.WithSchema(authServiceMethods.ByName("RefreshToken")),
 		connect.WithHandlerOptions(opts...),
 	)
+	authServiceListUsersHandler := connect.NewUnaryHandler(
+		AuthServiceListUsersProcedure,
+		svc.ListUsers,
+		connect.WithSchema(authServiceMethods.ByName("ListUsers")),
+		connect.WithHandlerOptions(opts...),
+	)
 	authServiceLogoutHandler := connect.NewUnaryHandler(
 		AuthServiceLogoutProcedure,
 		svc.Logout,
@@ -190,6 +212,8 @@ func NewAuthServiceHandler(svc AuthServiceHandler, opts ...connect.HandlerOption
 			authServiceValidateTokenHandler.ServeHTTP(w, r)
 		case AuthServiceRefreshTokenProcedure:
 			authServiceRefreshTokenHandler.ServeHTTP(w, r)
+		case AuthServiceListUsersProcedure:
+			authServiceListUsersHandler.ServeHTTP(w, r)
 		case AuthServiceLogoutProcedure:
 			authServiceLogoutHandler.ServeHTTP(w, r)
 		default:
@@ -215,6 +239,10 @@ func (UnimplementedAuthServiceHandler) ValidateToken(context.Context, *connect.R
 
 func (UnimplementedAuthServiceHandler) RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("auth.AuthService.RefreshToken is not implemented"))
+}
+
+func (UnimplementedAuthServiceHandler) ListUsers(context.Context, *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("auth.AuthService.ListUsers is not implemented"))
 }
 
 func (UnimplementedAuthServiceHandler) Logout(context.Context, *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error) {

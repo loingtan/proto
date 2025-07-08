@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/bufbuild/buf-examples/gen/transaction/v1"
+	v1 "gitlab.zalopay.vn/loint6/go-proto/gen/transaction/v1"
 	http "net/http"
 	strings "strings"
 )

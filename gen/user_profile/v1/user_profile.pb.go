@@ -316,7 +316,7 @@ func (x *GetUserProfileRequest) GetId() string {
 
 type GetUserProfileResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Profile       *UserProfile           `protobuf:"bytes,1,opt,name=profile,proto3" json:"profile,omitempty"`
+	UserProfile   *UserProfile           `protobuf:"bytes,1,opt,name=user_profile,json=userProfile,proto3" json:"user_profile,omitempty"`
 	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -352,9 +352,9 @@ func (*GetUserProfileResponse) Descriptor() ([]byte, []int) {
 	return file_user_profile_v1_user_profile_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *GetUserProfileResponse) GetProfile() *UserProfile {
+func (x *GetUserProfileResponse) GetUserProfile() *UserProfile {
 	if x != nil {
-		return x.Profile
+		return x.UserProfile
 	}
 	return nil
 }
@@ -412,7 +412,7 @@ func (x *CreateUserProfileRequest) GetUsername() string {
 
 type CreateUserProfileResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Profile       *UserProfile           `protobuf:"bytes,1,opt,name=profile,proto3" json:"profile,omitempty"`
+	UserProfile   *UserProfile           `protobuf:"bytes,1,opt,name=user_profile,json=userProfile,proto3" json:"user_profile,omitempty"`
 	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -448,9 +448,9 @@ func (*CreateUserProfileResponse) Descriptor() ([]byte, []int) {
 	return file_user_profile_v1_user_profile_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *CreateUserProfileResponse) GetProfile() *UserProfile {
+func (x *CreateUserProfileResponse) GetUserProfile() *UserProfile {
 	if x != nil {
-		return x.Profile
+		return x.UserProfile
 	}
 	return nil
 }
@@ -645,14 +645,14 @@ const file_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\x12\x14\n" +
 	"\x05error\x18\x05 \x01(\tR\x05error\"'\n" +
 	"\x15GetUserProfileRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"[\n" +
-	"\x16GetUserProfileResponse\x12+\n" +
-	"\aprofile\x18\x01 \x01(\v2\x11.user.UserProfileR\aprofile\x12\x14\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"d\n" +
+	"\x16GetUserProfileResponse\x124\n" +
+	"\fuser_profile\x18\x01 \x01(\v2\x11.user.UserProfileR\vuserProfile\x12\x14\n" +
 	"\x05error\x18\x02 \x01(\tR\x05error\"6\n" +
 	"\x18CreateUserProfileRequest\x12\x1a\n" +
-	"\busername\x18\x01 \x01(\tR\busername\"^\n" +
-	"\x19CreateUserProfileResponse\x12+\n" +
-	"\aprofile\x18\x01 \x01(\v2\x11.user.UserProfileR\aprofile\x12\x14\n" +
+	"\busername\x18\x01 \x01(\tR\busername\"g\n" +
+	"\x19CreateUserProfileResponse\x124\n" +
+	"\fuser_profile\x18\x01 \x01(\v2\x11.user.UserProfileR\vuserProfile\x12\x14\n" +
 	"\x05error\x18\x02 \x01(\tR\x05error\"\xa1\x02\n" +
 	"\vUserProfile\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
@@ -705,8 +705,8 @@ var file_user_profile_v1_user_profile_proto_goTypes = []any{
 var file_user_profile_v1_user_profile_proto_depIdxs = []int32{
 	8,  // 0: user.UpdateUserProfileResponse.user_profile:type_name -> user.UserProfile
 	8,  // 1: user.ListUserProfilesResponse.users:type_name -> user.UserProfile
-	8,  // 2: user.GetUserProfileResponse.profile:type_name -> user.UserProfile
-	8,  // 3: user.CreateUserProfileResponse.profile:type_name -> user.UserProfile
+	8,  // 2: user.GetUserProfileResponse.user_profile:type_name -> user.UserProfile
+	8,  // 3: user.CreateUserProfileResponse.user_profile:type_name -> user.UserProfile
 	10, // 4: user.UserProfile.created_at:type_name -> google.protobuf.Timestamp
 	10, // 5: user.UserProfile.updated_at:type_name -> google.protobuf.Timestamp
 	9,  // 6: user.UserProfile.stats:type_name -> user.UserStats

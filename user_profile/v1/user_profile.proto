@@ -46,7 +46,7 @@ message GetUserProfileRequest {
 }
 
 message GetUserProfileResponse {
-  UserProfile profile = 1;
+  UserProfile user_profile = 1;
   string error = 2;
 }
 
@@ -55,7 +55,7 @@ message CreateUserProfileRequest {
 }
 
 message CreateUserProfileResponse {
-  UserProfile profile = 1;
+  UserProfile user_profile = 1;
   string error = 2;
 }
 

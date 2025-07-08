@@ -21,8 +21,8 @@ import (
 const _ = connect.IsAtLeastVersion1_13_0
 
 const (
-	// UserServiceName is the fully-qualified name of the UserService service.
-	UserServiceName = "user.UserService"
+	// UserProfileServiceName is the fully-qualified name of the UserProfileService service.
+	UserProfileServiceName = "user.UserProfileService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -33,218 +33,164 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// UserServiceGetUserProcedure is the fully-qualified name of the UserService's GetUser RPC.
-	UserServiceGetUserProcedure = "/user.UserService/GetUser"
-	// UserServiceUpdateUserProcedure is the fully-qualified name of the UserService's UpdateUser RPC.
-	UserServiceUpdateUserProcedure = "/user.UserService/UpdateUser"
-	// UserServiceDeleteUserProcedure is the fully-qualified name of the UserService's DeleteUser RPC.
-	UserServiceDeleteUserProcedure = "/user.UserService/DeleteUser"
-	// UserServiceListUsersProcedure is the fully-qualified name of the UserService's ListUsers RPC.
-	UserServiceListUsersProcedure = "/user.UserService/ListUsers"
-	// UserServiceUpdatePasswordProcedure is the fully-qualified name of the UserService's
-	// UpdatePassword RPC.
-	UserServiceUpdatePasswordProcedure = "/user.UserService/UpdatePassword"
-	// UserServiceGetUserProfileProcedure is the fully-qualified name of the UserService's
+	// UserProfileServiceCreateUserProfileProcedure is the fully-qualified name of the
+	// UserProfileService's CreateUserProfile RPC.
+	UserProfileServiceCreateUserProfileProcedure = "/user.UserProfileService/CreateUserProfile"
+	// UserProfileServiceUpdateUserProcedure is the fully-qualified name of the UserProfileService's
+	// UpdateUser RPC.
+	UserProfileServiceUpdateUserProcedure = "/user.UserProfileService/UpdateUser"
+	// UserProfileServiceListUserProfilesProcedure is the fully-qualified name of the
+	// UserProfileService's ListUserProfiles RPC.
+	UserProfileServiceListUserProfilesProcedure = "/user.UserProfileService/ListUserProfiles"
+	// UserProfileServiceGetUserProfileProcedure is the fully-qualified name of the UserProfileService's
 	// GetUserProfile RPC.
-	UserServiceGetUserProfileProcedure = "/user.UserService/GetUserProfile"
+	UserProfileServiceGetUserProfileProcedure = "/user.UserProfileService/GetUserProfile"
 )
 
-// UserServiceClient is a client for the user.UserService service.
-type UserServiceClient interface {
-	GetUser(context.Context, *connect.Request[v1.GetUserRequest]) (*connect.Response[v1.GetUserResponse], error)
-	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
-	DeleteUser(context.Context, *connect.Request[v1.DeleteUserRequest]) (*connect.Response[v1.DeleteUserResponse], error)
-	ListUsers(context.Context, *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error)
-	UpdatePassword(context.Context, *connect.Request[v1.UpdatePasswordRequest]) (*connect.Response[v1.UpdatePasswordResponse], error)
+// UserProfileServiceClient is a client for the user.UserProfileService service.
+type UserProfileServiceClient interface {
+	CreateUserProfile(context.Context, *connect.Request[v1.CreateUserProfileRequest]) (*connect.Response[v1.CreateUserProfileResponse], error)
+	UpdateUser(context.Context, *connect.Request[v1.UpdateUserProfileRequest]) (*connect.Response[v1.UpdateUserProfileResponse], error)
+	ListUserProfiles(context.Context, *connect.Request[v1.ListUserProfilesRequest]) (*connect.Response[v1.ListUserProfilesResponse], error)
 	GetUserProfile(context.Context, *connect.Request[v1.GetUserProfileRequest]) (*connect.Response[v1.GetUserProfileResponse], error)
 }
 
-// NewUserServiceClient constructs a client for the user.UserService service. By default, it uses
-// the Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and sends
-// uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
-// connect.WithGRPCWeb() options.
+// NewUserProfileServiceClient constructs a client for the user.UserProfileService service. By
+// default, it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses,
+// and sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the
+// connect.WithGRPC() or connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) UserServiceClient {
+func NewUserProfileServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) UserProfileServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	userServiceMethods := v1.File_user_v1_user_profile_proto.Services().ByName("UserService").Methods()
-	return &userServiceClient{
-		getUser: connect.NewClient[v1.GetUserRequest, v1.GetUserResponse](
+	userProfileServiceMethods := v1.File_user_v1_user_profile_proto.Services().ByName("UserProfileService").Methods()
+	return &userProfileServiceClient{
+		createUserProfile: connect.NewClient[v1.CreateUserProfileRequest, v1.CreateUserProfileResponse](
 			httpClient,
-			baseURL+UserServiceGetUserProcedure,
-			connect.WithSchema(userServiceMethods.ByName("GetUser")),
+			baseURL+UserProfileServiceCreateUserProfileProcedure,
+			connect.WithSchema(userProfileServiceMethods.ByName("CreateUserProfile")),
 			connect.WithClientOptions(opts...),
 		),
-		updateUser: connect.NewClient[v1.UpdateUserRequest, v1.UpdateUserResponse](
+		updateUser: connect.NewClient[v1.UpdateUserProfileRequest, v1.UpdateUserProfileResponse](
 			httpClient,
-			baseURL+UserServiceUpdateUserProcedure,
-			connect.WithSchema(userServiceMethods.ByName("UpdateUser")),
+			baseURL+UserProfileServiceUpdateUserProcedure,
+			connect.WithSchema(userProfileServiceMethods.ByName("UpdateUser")),
 			connect.WithClientOptions(opts...),
 		),
-		deleteUser: connect.NewClient[v1.DeleteUserRequest, v1.DeleteUserResponse](
+		listUserProfiles: connect.NewClient[v1.ListUserProfilesRequest, v1.ListUserProfilesResponse](
 			httpClient,
-			baseURL+UserServiceDeleteUserProcedure,
-			connect.WithSchema(userServiceMethods.ByName("DeleteUser")),
-			connect.WithClientOptions(opts...),
-		),
-		listUsers: connect.NewClient[v1.ListUsersRequest, v1.ListUsersResponse](
-			httpClient,
-			baseURL+UserServiceListUsersProcedure,
-			connect.WithSchema(userServiceMethods.ByName("ListUsers")),
-			connect.WithClientOptions(opts...),
-		),
-		updatePassword: connect.NewClient[v1.UpdatePasswordRequest, v1.UpdatePasswordResponse](
-			httpClient,
-			baseURL+UserServiceUpdatePasswordProcedure,
-			connect.WithSchema(userServiceMethods.ByName("UpdatePassword")),
+			baseURL+UserProfileServiceListUserProfilesProcedure,
+			connect.WithSchema(userProfileServiceMethods.ByName("ListUserProfiles")),
 			connect.WithClientOptions(opts...),
 		),
 		getUserProfile: connect.NewClient[v1.GetUserProfileRequest, v1.GetUserProfileResponse](
 			httpClient,
-			baseURL+UserServiceGetUserProfileProcedure,
-			connect.WithSchema(userServiceMethods.ByName("GetUserProfile")),
+			baseURL+UserProfileServiceGetUserProfileProcedure,
+			connect.WithSchema(userProfileServiceMethods.ByName("GetUserProfile")),
 			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
-// userServiceClient implements UserServiceClient.
-type userServiceClient struct {
-	getUser        *connect.Client[v1.GetUserRequest, v1.GetUserResponse]
-	updateUser     *connect.Client[v1.UpdateUserRequest, v1.UpdateUserResponse]
-	deleteUser     *connect.Client[v1.DeleteUserRequest, v1.DeleteUserResponse]
-	listUsers      *connect.Client[v1.ListUsersRequest, v1.ListUsersResponse]
-	updatePassword *connect.Client[v1.UpdatePasswordRequest, v1.UpdatePasswordResponse]
-	getUserProfile *connect.Client[v1.GetUserProfileRequest, v1.GetUserProfileResponse]
+// userProfileServiceClient implements UserProfileServiceClient.
+type userProfileServiceClient struct {
+	createUserProfile *connect.Client[v1.CreateUserProfileRequest, v1.CreateUserProfileResponse]
+	updateUser        *connect.Client[v1.UpdateUserProfileRequest, v1.UpdateUserProfileResponse]
+	listUserProfiles  *connect.Client[v1.ListUserProfilesRequest, v1.ListUserProfilesResponse]
+	getUserProfile    *connect.Client[v1.GetUserProfileRequest, v1.GetUserProfileResponse]
 }
 
-// GetUser calls user.UserService.GetUser.
-func (c *userServiceClient) GetUser(ctx context.Context, req *connect.Request[v1.GetUserRequest]) (*connect.Response[v1.GetUserResponse], error) {
-	return c.getUser.CallUnary(ctx, req)
+// CreateUserProfile calls user.UserProfileService.CreateUserProfile.
+func (c *userProfileServiceClient) CreateUserProfile(ctx context.Context, req *connect.Request[v1.CreateUserProfileRequest]) (*connect.Response[v1.CreateUserProfileResponse], error) {
+	return c.createUserProfile.CallUnary(ctx, req)
 }
 
-// UpdateUser calls user.UserService.UpdateUser.
-func (c *userServiceClient) UpdateUser(ctx context.Context, req *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error) {
+// UpdateUser calls user.UserProfileService.UpdateUser.
+func (c *userProfileServiceClient) UpdateUser(ctx context.Context, req *connect.Request[v1.UpdateUserProfileRequest]) (*connect.Response[v1.UpdateUserProfileResponse], error) {
 	return c.updateUser.CallUnary(ctx, req)
 }
 
-// DeleteUser calls user.UserService.DeleteUser.
-func (c *userServiceClient) DeleteUser(ctx context.Context, req *connect.Request[v1.DeleteUserRequest]) (*connect.Response[v1.DeleteUserResponse], error) {
-	return c.deleteUser.CallUnary(ctx, req)
+// ListUserProfiles calls user.UserProfileService.ListUserProfiles.
+func (c *userProfileServiceClient) ListUserProfiles(ctx context.Context, req *connect.Request[v1.ListUserProfilesRequest]) (*connect.Response[v1.ListUserProfilesResponse], error) {
+	return c.listUserProfiles.CallUnary(ctx, req)
 }
 
-// ListUsers calls user.UserService.ListUsers.
-func (c *userServiceClient) ListUsers(ctx context.Context, req *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error) {
-	return c.listUsers.CallUnary(ctx, req)
-}
-
-// UpdatePassword calls user.UserService.UpdatePassword.
-func (c *userServiceClient) UpdatePassword(ctx context.Context, req *connect.Request[v1.UpdatePasswordRequest]) (*connect.Response[v1.UpdatePasswordResponse], error) {
-	return c.updatePassword.CallUnary(ctx, req)
-}
-
-// GetUserProfile calls user.UserService.GetUserProfile.
-func (c *userServiceClient) GetUserProfile(ctx context.Context, req *connect.Request[v1.GetUserProfileRequest]) (*connect.Response[v1.GetUserProfileResponse], error) {
+// GetUserProfile calls user.UserProfileService.GetUserProfile.
+func (c *userProfileServiceClient) GetUserProfile(ctx context.Context, req *connect.Request[v1.GetUserProfileRequest]) (*connect.Response[v1.GetUserProfileResponse], error) {
 	return c.getUserProfile.CallUnary(ctx, req)
 }
 
-// UserServiceHandler is an implementation of the user.UserService service.
-type UserServiceHandler interface {
-	GetUser(context.Context, *connect.Request[v1.GetUserRequest]) (*connect.Response[v1.GetUserResponse], error)
-	UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error)
-	DeleteUser(context.Context, *connect.Request[v1.DeleteUserRequest]) (*connect.Response[v1.DeleteUserResponse], error)
-	ListUsers(context.Context, *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error)
-	UpdatePassword(context.Context, *connect.Request[v1.UpdatePasswordRequest]) (*connect.Response[v1.UpdatePasswordResponse], error)
+// UserProfileServiceHandler is an implementation of the user.UserProfileService service.
+type UserProfileServiceHandler interface {
+	CreateUserProfile(context.Context, *connect.Request[v1.CreateUserProfileRequest]) (*connect.Response[v1.CreateUserProfileResponse], error)
+	UpdateUser(context.Context, *connect.Request[v1.UpdateUserProfileRequest]) (*connect.Response[v1.UpdateUserProfileResponse], error)
+	ListUserProfiles(context.Context, *connect.Request[v1.ListUserProfilesRequest]) (*connect.Response[v1.ListUserProfilesResponse], error)
 	GetUserProfile(context.Context, *connect.Request[v1.GetUserProfileRequest]) (*connect.Response[v1.GetUserProfileResponse], error)
 }
 
-// NewUserServiceHandler builds an HTTP handler from the service implementation. It returns the path
-// on which to mount the handler and the handler itself.
+// NewUserProfileServiceHandler builds an HTTP handler from the service implementation. It returns
+// the path on which to mount the handler and the handler itself.
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	userServiceMethods := v1.File_user_v1_user_profile_proto.Services().ByName("UserService").Methods()
-	userServiceGetUserHandler := connect.NewUnaryHandler(
-		UserServiceGetUserProcedure,
-		svc.GetUser,
-		connect.WithSchema(userServiceMethods.ByName("GetUser")),
+func NewUserProfileServiceHandler(svc UserProfileServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	userProfileServiceMethods := v1.File_user_v1_user_profile_proto.Services().ByName("UserProfileService").Methods()
+	userProfileServiceCreateUserProfileHandler := connect.NewUnaryHandler(
+		UserProfileServiceCreateUserProfileProcedure,
+		svc.CreateUserProfile,
+		connect.WithSchema(userProfileServiceMethods.ByName("CreateUserProfile")),
 		connect.WithHandlerOptions(opts...),
 	)
-	userServiceUpdateUserHandler := connect.NewUnaryHandler(
-		UserServiceUpdateUserProcedure,
+	userProfileServiceUpdateUserHandler := connect.NewUnaryHandler(
+		UserProfileServiceUpdateUserProcedure,
 		svc.UpdateUser,
-		connect.WithSchema(userServiceMethods.ByName("UpdateUser")),
+		connect.WithSchema(userProfileServiceMethods.ByName("UpdateUser")),
 		connect.WithHandlerOptions(opts...),
 	)
-	userServiceDeleteUserHandler := connect.NewUnaryHandler(
-		UserServiceDeleteUserProcedure,
-		svc.DeleteUser,
-		connect.WithSchema(userServiceMethods.ByName("DeleteUser")),
+	userProfileServiceListUserProfilesHandler := connect.NewUnaryHandler(
+		UserProfileServiceListUserProfilesProcedure,
+		svc.ListUserProfiles,
+		connect.WithSchema(userProfileServiceMethods.ByName("ListUserProfiles")),
 		connect.WithHandlerOptions(opts...),
 	)
-	userServiceListUsersHandler := connect.NewUnaryHandler(
-		UserServiceListUsersProcedure,
-		svc.ListUsers,
-		connect.WithSchema(userServiceMethods.ByName("ListUsers")),
-		connect.WithHandlerOptions(opts...),
-	)
-	userServiceUpdatePasswordHandler := connect.NewUnaryHandler(
-		UserServiceUpdatePasswordProcedure,
-		svc.UpdatePassword,
-		connect.WithSchema(userServiceMethods.ByName("UpdatePassword")),
-		connect.WithHandlerOptions(opts...),
-	)
-	userServiceGetUserProfileHandler := connect.NewUnaryHandler(
-		UserServiceGetUserProfileProcedure,
+	userProfileServiceGetUserProfileHandler := connect.NewUnaryHandler(
+		UserProfileServiceGetUserProfileProcedure,
 		svc.GetUserProfile,
-		connect.WithSchema(userServiceMethods.ByName("GetUserProfile")),
+		connect.WithSchema(userProfileServiceMethods.ByName("GetUserProfile")),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/user.UserService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/user.UserProfileService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case UserServiceGetUserProcedure:
-			userServiceGetUserHandler.ServeHTTP(w, r)
-		case UserServiceUpdateUserProcedure:
-			userServiceUpdateUserHandler.ServeHTTP(w, r)
-		case UserServiceDeleteUserProcedure:
-			userServiceDeleteUserHandler.ServeHTTP(w, r)
-		case UserServiceListUsersProcedure:
-			userServiceListUsersHandler.ServeHTTP(w, r)
-		case UserServiceUpdatePasswordProcedure:
-			userServiceUpdatePasswordHandler.ServeHTTP(w, r)
-		case UserServiceGetUserProfileProcedure:
-			userServiceGetUserProfileHandler.ServeHTTP(w, r)
+		case UserProfileServiceCreateUserProfileProcedure:
+			userProfileServiceCreateUserProfileHandler.ServeHTTP(w, r)
+		case UserProfileServiceUpdateUserProcedure:
+			userProfileServiceUpdateUserHandler.ServeHTTP(w, r)
+		case UserProfileServiceListUserProfilesProcedure:
+			userProfileServiceListUserProfilesHandler.ServeHTTP(w, r)
+		case UserProfileServiceGetUserProfileProcedure:
+			userProfileServiceGetUserProfileHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
 	})
 }
 
-// UnimplementedUserServiceHandler returns CodeUnimplemented from all methods.
-type UnimplementedUserServiceHandler struct{}
+// UnimplementedUserProfileServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedUserProfileServiceHandler struct{}
 
-func (UnimplementedUserServiceHandler) GetUser(context.Context, *connect.Request[v1.GetUserRequest]) (*connect.Response[v1.GetUserResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.UserService.GetUser is not implemented"))
+func (UnimplementedUserProfileServiceHandler) CreateUserProfile(context.Context, *connect.Request[v1.CreateUserProfileRequest]) (*connect.Response[v1.CreateUserProfileResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.UserProfileService.CreateUserProfile is not implemented"))
 }
 
-func (UnimplementedUserServiceHandler) UpdateUser(context.Context, *connect.Request[v1.UpdateUserRequest]) (*connect.Response[v1.UpdateUserResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.UserService.UpdateUser is not implemented"))
+func (UnimplementedUserProfileServiceHandler) UpdateUser(context.Context, *connect.Request[v1.UpdateUserProfileRequest]) (*connect.Response[v1.UpdateUserProfileResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.UserProfileService.UpdateUser is not implemented"))
 }
 
-func (UnimplementedUserServiceHandler) DeleteUser(context.Context, *connect.Request[v1.DeleteUserRequest]) (*connect.Response[v1.DeleteUserResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.UserService.DeleteUser is not implemented"))
+func (UnimplementedUserProfileServiceHandler) ListUserProfiles(context.Context, *connect.Request[v1.ListUserProfilesRequest]) (*connect.Response[v1.ListUserProfilesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.UserProfileService.ListUserProfiles is not implemented"))
 }
 
-func (UnimplementedUserServiceHandler) ListUsers(context.Context, *connect.Request[v1.ListUsersRequest]) (*connect.Response[v1.ListUsersResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.UserService.ListUsers is not implemented"))
-}
-
-func (UnimplementedUserServiceHandler) UpdatePassword(context.Context, *connect.Request[v1.UpdatePasswordRequest]) (*connect.Response[v1.UpdatePasswordResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.UserService.UpdatePassword is not implemented"))
-}
-
-func (UnimplementedUserServiceHandler) GetUserProfile(context.Context, *connect.Request[v1.GetUserProfileRequest]) (*connect.Response[v1.GetUserProfileResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.UserService.GetUserProfile is not implemented"))
+func (UnimplementedUserProfileServiceHandler) GetUserProfile(context.Context, *connect.Request[v1.GetUserProfileRequest]) (*connect.Response[v1.GetUserProfileResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("user.UserProfileService.GetUserProfile is not implemented"))
 }

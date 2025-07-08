@@ -1,0 +1,12 @@
+version: v2
+name: buf.build/loint6/go-proto
+deps:
+  - buf.build/googleapis/googleapis
+breaking:
+  use:
+    - FILE
+lint:
+  use:
+    - DEFAULT
+  ignore:
+    - proto/generated

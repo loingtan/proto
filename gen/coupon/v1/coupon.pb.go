@@ -9,7 +9,9 @@ package v1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
+	sync "sync"
 	unsafe "unsafe"
 )
 
@@ -20,19 +22,1074 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Coupon struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Code              string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	Title             string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
+	Description       string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	MinSpend          float64                `protobuf:"fixed64,5,opt,name=min_spend,json=minSpend,proto3" json:"min_spend,omitempty"`
+	FirstTimeUserOnly bool                   `protobuf:"varint,6,opt,name=first_time_user_only,json=firstTimeUserOnly,proto3" json:"first_time_user_only,omitempty"`
+	UsageLimitPerUser int32                  `protobuf:"varint,7,opt,name=usage_limit_per_user,json=usageLimitPerUser,proto3" json:"usage_limit_per_user,omitempty"`
+	UsageLimitGlobal  int32                  `protobuf:"varint,8,opt,name=usage_limit_global,json=usageLimitGlobal,proto3" json:"usage_limit_global,omitempty"`
+	DiscountType      string                 `protobuf:"bytes,9,opt,name=discount_type,json=discountType,proto3" json:"discount_type,omitempty"`
+	UsageType         string                 `protobuf:"bytes,10,opt,name=usage_type,json=usageType,proto3" json:"usage_type,omitempty"`
+	DiscountVal       float64                `protobuf:"fixed64,11,opt,name=discount_val,json=discountVal,proto3" json:"discount_val,omitempty"`
+	MaxDiscount       float64                `protobuf:"fixed64,12,opt,name=max_discount,json=maxDiscount,proto3" json:"max_discount,omitempty"`
+	StartTime         *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime           *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *Coupon) Reset() {
+	*x = Coupon{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Coupon) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Coupon) ProtoMessage() {}
+
+func (x *Coupon) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Coupon.ProtoReflect.Descriptor instead.
+func (*Coupon) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Coupon) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Coupon) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *Coupon) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *Coupon) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *Coupon) GetMinSpend() float64 {
+	if x != nil {
+		return x.MinSpend
+	}
+	return 0
+}
+
+func (x *Coupon) GetFirstTimeUserOnly() bool {
+	if x != nil {
+		return x.FirstTimeUserOnly
+	}
+	return false
+}
+
+func (x *Coupon) GetUsageLimitPerUser() int32 {
+	if x != nil {
+		return x.UsageLimitPerUser
+	}
+	return 0
+}
+
+func (x *Coupon) GetUsageLimitGlobal() int32 {
+	if x != nil {
+		return x.UsageLimitGlobal
+	}
+	return 0
+}
+
+func (x *Coupon) GetDiscountType() string {
+	if x != nil {
+		return x.DiscountType
+	}
+	return ""
+}
+
+func (x *Coupon) GetUsageType() string {
+	if x != nil {
+		return x.UsageType
+	}
+	return ""
+}
+
+func (x *Coupon) GetDiscountVal() float64 {
+	if x != nil {
+		return x.DiscountVal
+	}
+	return 0
+}
+
+func (x *Coupon) GetMaxDiscount() float64 {
+	if x != nil {
+		return x.MaxDiscount
+	}
+	return 0
+}
+
+func (x *Coupon) GetStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTime
+	}
+	return nil
+}
+
+func (x *Coupon) GetEndTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndTime
+	}
+	return nil
+}
+
+func (x *Coupon) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *Coupon) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+type CreateCouponRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Code              string                 `protobuf:"bytes,1,opt,name=code,proto3" json:"code,omitempty"`
+	Title             string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Description       string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	MinSpend          float64                `protobuf:"fixed64,4,opt,name=min_spend,json=minSpend,proto3" json:"min_spend,omitempty"`
+	FirstTimeUserOnly bool                   `protobuf:"varint,5,opt,name=first_time_user_only,json=firstTimeUserOnly,proto3" json:"first_time_user_only,omitempty"`
+	UsageLimitPerUser int32                  `protobuf:"varint,6,opt,name=usage_limit_per_user,json=usageLimitPerUser,proto3" json:"usage_limit_per_user,omitempty"`
+	UsageLimitGlobal  int32                  `protobuf:"varint,7,opt,name=usage_limit_global,json=usageLimitGlobal,proto3" json:"usage_limit_global,omitempty"`
+	DiscountType      string                 `protobuf:"bytes,8,opt,name=discount_type,json=discountType,proto3" json:"discount_type,omitempty"`
+	UsageType         string                 `protobuf:"bytes,9,opt,name=usage_type,json=usageType,proto3" json:"usage_type,omitempty"`
+	DiscountVal       float64                `protobuf:"fixed64,10,opt,name=discount_val,json=discountVal,proto3" json:"discount_val,omitempty"`
+	MaxDiscount       float64                `protobuf:"fixed64,11,opt,name=max_discount,json=maxDiscount,proto3" json:"max_discount,omitempty"`
+	StartTime         *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime           *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *CreateCouponRequest) Reset() {
+	*x = CreateCouponRequest{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCouponRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCouponRequest) ProtoMessage() {}
+
+func (x *CreateCouponRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCouponRequest.ProtoReflect.Descriptor instead.
+func (*CreateCouponRequest) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *CreateCouponRequest) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *CreateCouponRequest) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *CreateCouponRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *CreateCouponRequest) GetMinSpend() float64 {
+	if x != nil {
+		return x.MinSpend
+	}
+	return 0
+}
+
+func (x *CreateCouponRequest) GetFirstTimeUserOnly() bool {
+	if x != nil {
+		return x.FirstTimeUserOnly
+	}
+	return false
+}
+
+func (x *CreateCouponRequest) GetUsageLimitPerUser() int32 {
+	if x != nil {
+		return x.UsageLimitPerUser
+	}
+	return 0
+}
+
+func (x *CreateCouponRequest) GetUsageLimitGlobal() int32 {
+	if x != nil {
+		return x.UsageLimitGlobal
+	}
+	return 0
+}
+
+func (x *CreateCouponRequest) GetDiscountType() string {
+	if x != nil {
+		return x.DiscountType
+	}
+	return ""
+}
+
+func (x *CreateCouponRequest) GetUsageType() string {
+	if x != nil {
+		return x.UsageType
+	}
+	return ""
+}
+
+func (x *CreateCouponRequest) GetDiscountVal() float64 {
+	if x != nil {
+		return x.DiscountVal
+	}
+	return 0
+}
+
+func (x *CreateCouponRequest) GetMaxDiscount() float64 {
+	if x != nil {
+		return x.MaxDiscount
+	}
+	return 0
+}
+
+func (x *CreateCouponRequest) GetStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTime
+	}
+	return nil
+}
+
+func (x *CreateCouponRequest) GetEndTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndTime
+	}
+	return nil
+}
+
+type CreateCouponResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Coupon        *Coupon                `protobuf:"bytes,1,opt,name=coupon,proto3" json:"coupon,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateCouponResponse) Reset() {
+	*x = CreateCouponResponse{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCouponResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCouponResponse) ProtoMessage() {}
+
+func (x *CreateCouponResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCouponResponse.ProtoReflect.Descriptor instead.
+func (*CreateCouponResponse) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *CreateCouponResponse) GetCoupon() *Coupon {
+	if x != nil {
+		return x.Coupon
+	}
+	return nil
+}
+
+func (x *CreateCouponResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+type UpdateCouponRequest struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Title             string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Description       string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	MinSpend          float64                `protobuf:"fixed64,4,opt,name=min_spend,json=minSpend,proto3" json:"min_spend,omitempty"`
+	FirstTimeUserOnly bool                   `protobuf:"varint,5,opt,name=first_time_user_only,json=firstTimeUserOnly,proto3" json:"first_time_user_only,omitempty"`
+	UsageLimitPerUser int32                  `protobuf:"varint,6,opt,name=usage_limit_per_user,json=usageLimitPerUser,proto3" json:"usage_limit_per_user,omitempty"`
+	UsageLimitGlobal  int32                  `protobuf:"varint,7,opt,name=usage_limit_global,json=usageLimitGlobal,proto3" json:"usage_limit_global,omitempty"`
+	DiscountType      string                 `protobuf:"bytes,8,opt,name=discount_type,json=discountType,proto3" json:"discount_type,omitempty"`
+	UsageType         string                 `protobuf:"bytes,9,opt,name=usage_type,json=usageType,proto3" json:"usage_type,omitempty"`
+	DiscountVal       float64                `protobuf:"fixed64,10,opt,name=discount_val,json=discountVal,proto3" json:"discount_val,omitempty"`
+	MaxDiscount       float64                `protobuf:"fixed64,11,opt,name=max_discount,json=maxDiscount,proto3" json:"max_discount,omitempty"`
+	StartTime         *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
+	EndTime           *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *UpdateCouponRequest) Reset() {
+	*x = UpdateCouponRequest{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateCouponRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCouponRequest) ProtoMessage() {}
+
+func (x *UpdateCouponRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCouponRequest.ProtoReflect.Descriptor instead.
+func (*UpdateCouponRequest) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *UpdateCouponRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UpdateCouponRequest) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *UpdateCouponRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *UpdateCouponRequest) GetMinSpend() float64 {
+	if x != nil {
+		return x.MinSpend
+	}
+	return 0
+}
+
+func (x *UpdateCouponRequest) GetFirstTimeUserOnly() bool {
+	if x != nil {
+		return x.FirstTimeUserOnly
+	}
+	return false
+}
+
+func (x *UpdateCouponRequest) GetUsageLimitPerUser() int32 {
+	if x != nil {
+		return x.UsageLimitPerUser
+	}
+	return 0
+}
+
+func (x *UpdateCouponRequest) GetUsageLimitGlobal() int32 {
+	if x != nil {
+		return x.UsageLimitGlobal
+	}
+	return 0
+}
+
+func (x *UpdateCouponRequest) GetDiscountType() string {
+	if x != nil {
+		return x.DiscountType
+	}
+	return ""
+}
+
+func (x *UpdateCouponRequest) GetUsageType() string {
+	if x != nil {
+		return x.UsageType
+	}
+	return ""
+}
+
+func (x *UpdateCouponRequest) GetDiscountVal() float64 {
+	if x != nil {
+		return x.DiscountVal
+	}
+	return 0
+}
+
+func (x *UpdateCouponRequest) GetMaxDiscount() float64 {
+	if x != nil {
+		return x.MaxDiscount
+	}
+	return 0
+}
+
+func (x *UpdateCouponRequest) GetStartTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTime
+	}
+	return nil
+}
+
+func (x *UpdateCouponRequest) GetEndTime() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndTime
+	}
+	return nil
+}
+
+type UpdateCouponResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Coupon        *Coupon                `protobuf:"bytes,1,opt,name=coupon,proto3" json:"coupon,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateCouponResponse) Reset() {
+	*x = UpdateCouponResponse{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateCouponResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateCouponResponse) ProtoMessage() {}
+
+func (x *UpdateCouponResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateCouponResponse.ProtoReflect.Descriptor instead.
+func (*UpdateCouponResponse) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *UpdateCouponResponse) GetCoupon() *Coupon {
+	if x != nil {
+		return x.Coupon
+	}
+	return nil
+}
+
+func (x *UpdateCouponResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+type DeleteCouponRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteCouponRequest) Reset() {
+	*x = DeleteCouponRequest{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteCouponRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCouponRequest) ProtoMessage() {}
+
+func (x *DeleteCouponRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCouponRequest.ProtoReflect.Descriptor instead.
+func (*DeleteCouponRequest) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *DeleteCouponRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type DeleteCouponResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteCouponResponse) Reset() {
+	*x = DeleteCouponResponse{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteCouponResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteCouponResponse) ProtoMessage() {}
+
+func (x *DeleteCouponResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteCouponResponse.ProtoReflect.Descriptor instead.
+func (*DeleteCouponResponse) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *DeleteCouponResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+func (x *DeleteCouponResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+type ListCouponsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Page          int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Filter        string                 `protobuf:"bytes,3,opt,name=filter,proto3" json:"filter,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCouponsRequest) Reset() {
+	*x = ListCouponsRequest{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCouponsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCouponsRequest) ProtoMessage() {}
+
+func (x *ListCouponsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCouponsRequest.ProtoReflect.Descriptor instead.
+func (*ListCouponsRequest) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *ListCouponsRequest) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListCouponsRequest) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListCouponsRequest) GetFilter() string {
+	if x != nil {
+		return x.Filter
+	}
+	return ""
+}
+
+type ListCouponsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Coupons       []*Coupon              `protobuf:"bytes,1,rep,name=coupons,proto3" json:"coupons,omitempty"`
+	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Error         string                 `protobuf:"bytes,5,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCouponsResponse) Reset() {
+	*x = ListCouponsResponse{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCouponsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCouponsResponse) ProtoMessage() {}
+
+func (x *ListCouponsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCouponsResponse.ProtoReflect.Descriptor instead.
+func (*ListCouponsResponse) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *ListCouponsResponse) GetCoupons() []*Coupon {
+	if x != nil {
+		return x.Coupons
+	}
+	return nil
+}
+
+func (x *ListCouponsResponse) GetTotal() int32 {
+	if x != nil {
+		return x.Total
+	}
+	return 0
+}
+
+func (x *ListCouponsResponse) GetPage() int32 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+func (x *ListCouponsResponse) GetPageSize() int32 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *ListCouponsResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+type GetCouponRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Identifier:
+	//
+	//	*GetCouponRequest_Id
+	//	*GetCouponRequest_Code
+	Identifier    isGetCouponRequest_Identifier `protobuf_oneof:"identifier"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCouponRequest) Reset() {
+	*x = GetCouponRequest{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCouponRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCouponRequest) ProtoMessage() {}
+
+func (x *GetCouponRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCouponRequest.ProtoReflect.Descriptor instead.
+func (*GetCouponRequest) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetCouponRequest) GetIdentifier() isGetCouponRequest_Identifier {
+	if x != nil {
+		return x.Identifier
+	}
+	return nil
+}
+
+func (x *GetCouponRequest) GetId() string {
+	if x != nil {
+		if x, ok := x.Identifier.(*GetCouponRequest_Id); ok {
+			return x.Id
+		}
+	}
+	return ""
+}
+
+func (x *GetCouponRequest) GetCode() string {
+	if x != nil {
+		if x, ok := x.Identifier.(*GetCouponRequest_Code); ok {
+			return x.Code
+		}
+	}
+	return ""
+}
+
+type isGetCouponRequest_Identifier interface {
+	isGetCouponRequest_Identifier()
+}
+
+type GetCouponRequest_Id struct {
+	Id string `protobuf:"bytes,1,opt,name=id,proto3,oneof"`
+}
+
+type GetCouponRequest_Code struct {
+	Code string `protobuf:"bytes,2,opt,name=code,proto3,oneof"`
+}
+
+func (*GetCouponRequest_Id) isGetCouponRequest_Identifier() {}
+
+func (*GetCouponRequest_Code) isGetCouponRequest_Identifier() {}
+
+type GetCouponResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Coupon        *Coupon                `protobuf:"bytes,1,opt,name=coupon,proto3" json:"coupon,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCouponResponse) Reset() {
+	*x = GetCouponResponse{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCouponResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCouponResponse) ProtoMessage() {}
+
+func (x *GetCouponResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCouponResponse.ProtoReflect.Descriptor instead.
+func (*GetCouponResponse) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *GetCouponResponse) GetCoupon() *Coupon {
+	if x != nil {
+		return x.Coupon
+	}
+	return nil
+}
+
+func (x *GetCouponResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
 var File_coupon_v1_coupon_proto protoreflect.FileDescriptor
 
 const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\n" +
-	"\x16coupon/v1/coupon.protoB@B\vCouponProtoP\x01Z/gitlab.zalopay.vn/loint6/go-proto/gen/coupon/v1"
+	"\x16coupon/v1/coupon.proto\x12\x06coupon\x1a\x1fgoogle/protobuf/timestamp.proto\"\x83\x05\n" +
+	"\x06Coupon\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04code\x18\x02 \x01(\tR\x04code\x12\x14\n" +
+	"\x05title\x18\x03 \x01(\tR\x05title\x12 \n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1b\n" +
+	"\tmin_spend\x18\x05 \x01(\x01R\bminSpend\x12/\n" +
+	"\x14first_time_user_only\x18\x06 \x01(\bR\x11firstTimeUserOnly\x12/\n" +
+	"\x14usage_limit_per_user\x18\a \x01(\x05R\x11usageLimitPerUser\x12,\n" +
+	"\x12usage_limit_global\x18\b \x01(\x05R\x10usageLimitGlobal\x12#\n" +
+	"\rdiscount_type\x18\t \x01(\tR\fdiscountType\x12\x1d\n" +
+	"\n" +
+	"usage_type\x18\n" +
+	" \x01(\tR\tusageType\x12!\n" +
+	"\fdiscount_val\x18\v \x01(\x01R\vdiscountVal\x12!\n" +
+	"\fmax_discount\x18\f \x01(\x01R\vmaxDiscount\x129\n" +
+	"\n" +
+	"start_time\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
+	"\bend_time\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x129\n" +
+	"\n" +
+	"created_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x8a\x04\n" +
+	"\x13CreateCouponRequest\x12\x12\n" +
+	"\x04code\x18\x01 \x01(\tR\x04code\x12\x14\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1b\n" +
+	"\tmin_spend\x18\x04 \x01(\x01R\bminSpend\x12/\n" +
+	"\x14first_time_user_only\x18\x05 \x01(\bR\x11firstTimeUserOnly\x12/\n" +
+	"\x14usage_limit_per_user\x18\x06 \x01(\x05R\x11usageLimitPerUser\x12,\n" +
+	"\x12usage_limit_global\x18\a \x01(\x05R\x10usageLimitGlobal\x12#\n" +
+	"\rdiscount_type\x18\b \x01(\tR\fdiscountType\x12\x1d\n" +
+	"\n" +
+	"usage_type\x18\t \x01(\tR\tusageType\x12!\n" +
+	"\fdiscount_val\x18\n" +
+	" \x01(\x01R\vdiscountVal\x12!\n" +
+	"\fmax_discount\x18\v \x01(\x01R\vmaxDiscount\x129\n" +
+	"\n" +
+	"start_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
+	"\bend_time\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\"T\n" +
+	"\x14CreateCouponResponse\x12&\n" +
+	"\x06coupon\x18\x01 \x01(\v2\x0e.coupon.CouponR\x06coupon\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\x86\x04\n" +
+	"\x13UpdateCouponRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1b\n" +
+	"\tmin_spend\x18\x04 \x01(\x01R\bminSpend\x12/\n" +
+	"\x14first_time_user_only\x18\x05 \x01(\bR\x11firstTimeUserOnly\x12/\n" +
+	"\x14usage_limit_per_user\x18\x06 \x01(\x05R\x11usageLimitPerUser\x12,\n" +
+	"\x12usage_limit_global\x18\a \x01(\x05R\x10usageLimitGlobal\x12#\n" +
+	"\rdiscount_type\x18\b \x01(\tR\fdiscountType\x12\x1d\n" +
+	"\n" +
+	"usage_type\x18\t \x01(\tR\tusageType\x12!\n" +
+	"\fdiscount_val\x18\n" +
+	" \x01(\x01R\vdiscountVal\x12!\n" +
+	"\fmax_discount\x18\v \x01(\x01R\vmaxDiscount\x129\n" +
+	"\n" +
+	"start_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
+	"\bend_time\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\"T\n" +
+	"\x14UpdateCouponResponse\x12&\n" +
+	"\x06coupon\x18\x01 \x01(\v2\x0e.coupon.CouponR\x06coupon\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"%\n" +
+	"\x13DeleteCouponRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"F\n" +
+	"\x14DeleteCouponResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"]\n" +
+	"\x12ListCouponsRequest\x12\x12\n" +
+	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x16\n" +
+	"\x06filter\x18\x03 \x01(\tR\x06filter\"\x9c\x01\n" +
+	"\x13ListCouponsResponse\x12(\n" +
+	"\acoupons\x18\x01 \x03(\v2\x0e.coupon.CouponR\acoupons\x12\x14\n" +
+	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
+	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\x12\x14\n" +
+	"\x05error\x18\x05 \x01(\tR\x05error\"H\n" +
+	"\x10GetCouponRequest\x12\x10\n" +
+	"\x02id\x18\x01 \x01(\tH\x00R\x02id\x12\x14\n" +
+	"\x04code\x18\x02 \x01(\tH\x00R\x04codeB\f\n" +
+	"\n" +
+	"identifier\"Q\n" +
+	"\x11GetCouponResponse\x12&\n" +
+	"\x06coupon\x18\x01 \x01(\v2\x0e.coupon.CouponR\x06coupon\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error2\xfa\x02\n" +
+	"\rCouponService\x12@\n" +
+	"\tGetCoupon\x12\x18.coupon.GetCouponRequest\x1a\x19.coupon.GetCouponResponse\x12F\n" +
+	"\vListCoupons\x12\x1a.coupon.ListCouponsRequest\x1a\x1b.coupon.ListCouponsResponse\x12I\n" +
+	"\fCreateCoupon\x12\x1b.coupon.CreateCouponRequest\x1a\x1c.coupon.CreateCouponResponse\x12I\n" +
+	"\fUpdateCoupon\x12\x1b.coupon.UpdateCouponRequest\x1a\x1c.coupon.UpdateCouponResponse\x12I\n" +
+	"\fDeleteCoupon\x12\x1b.coupon.DeleteCouponRequest\x1a\x1c.coupon.DeleteCouponResponseB\x82\x01\n" +
+	"\n" +
+	"com.couponB\vCouponProtoP\x01Z/gitlab.zalopay.vn/loint6/go-proto/gen/coupon/v1\xa2\x02\x03CXX\xaa\x02\x06Coupon\xca\x02\x06Coupon\xe2\x02\x12Coupon\\GPBMetadata\xea\x02\x06Couponb\x06proto3"
 
-var file_coupon_v1_coupon_proto_goTypes = []any{}
+var (
+	file_coupon_v1_coupon_proto_rawDescOnce sync.Once
+	file_coupon_v1_coupon_proto_rawDescData []byte
+)
+
+func file_coupon_v1_coupon_proto_rawDescGZIP() []byte {
+	file_coupon_v1_coupon_proto_rawDescOnce.Do(func() {
+		file_coupon_v1_coupon_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_coupon_v1_coupon_proto_rawDesc), len(file_coupon_v1_coupon_proto_rawDesc)))
+	})
+	return file_coupon_v1_coupon_proto_rawDescData
+}
+
+var file_coupon_v1_coupon_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_coupon_v1_coupon_proto_goTypes = []any{
+	(*Coupon)(nil),                // 0: coupon.Coupon
+	(*CreateCouponRequest)(nil),   // 1: coupon.CreateCouponRequest
+	(*CreateCouponResponse)(nil),  // 2: coupon.CreateCouponResponse
+	(*UpdateCouponRequest)(nil),   // 3: coupon.UpdateCouponRequest
+	(*UpdateCouponResponse)(nil),  // 4: coupon.UpdateCouponResponse
+	(*DeleteCouponRequest)(nil),   // 5: coupon.DeleteCouponRequest
+	(*DeleteCouponResponse)(nil),  // 6: coupon.DeleteCouponResponse
+	(*ListCouponsRequest)(nil),    // 7: coupon.ListCouponsRequest
+	(*ListCouponsResponse)(nil),   // 8: coupon.ListCouponsResponse
+	(*GetCouponRequest)(nil),      // 9: coupon.GetCouponRequest
+	(*GetCouponResponse)(nil),     // 10: coupon.GetCouponResponse
+	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
+}
 var file_coupon_v1_coupon_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	11, // 0: coupon.Coupon.start_time:type_name -> google.protobuf.Timestamp
+	11, // 1: coupon.Coupon.end_time:type_name -> google.protobuf.Timestamp
+	11, // 2: coupon.Coupon.created_at:type_name -> google.protobuf.Timestamp
+	11, // 3: coupon.Coupon.updated_at:type_name -> google.protobuf.Timestamp
+	11, // 4: coupon.CreateCouponRequest.start_time:type_name -> google.protobuf.Timestamp
+	11, // 5: coupon.CreateCouponRequest.end_time:type_name -> google.protobuf.Timestamp
+	0,  // 6: coupon.CreateCouponResponse.coupon:type_name -> coupon.Coupon
+	11, // 7: coupon.UpdateCouponRequest.start_time:type_name -> google.protobuf.Timestamp
+	11, // 8: coupon.UpdateCouponRequest.end_time:type_name -> google.protobuf.Timestamp
+	0,  // 9: coupon.UpdateCouponResponse.coupon:type_name -> coupon.Coupon
+	0,  // 10: coupon.ListCouponsResponse.coupons:type_name -> coupon.Coupon
+	0,  // 11: coupon.GetCouponResponse.coupon:type_name -> coupon.Coupon
+	9,  // 12: coupon.CouponService.GetCoupon:input_type -> coupon.GetCouponRequest
+	7,  // 13: coupon.CouponService.ListCoupons:input_type -> coupon.ListCouponsRequest
+	1,  // 14: coupon.CouponService.CreateCoupon:input_type -> coupon.CreateCouponRequest
+	3,  // 15: coupon.CouponService.UpdateCoupon:input_type -> coupon.UpdateCouponRequest
+	5,  // 16: coupon.CouponService.DeleteCoupon:input_type -> coupon.DeleteCouponRequest
+	10, // 17: coupon.CouponService.GetCoupon:output_type -> coupon.GetCouponResponse
+	8,  // 18: coupon.CouponService.ListCoupons:output_type -> coupon.ListCouponsResponse
+	2,  // 19: coupon.CouponService.CreateCoupon:output_type -> coupon.CreateCouponResponse
+	4,  // 20: coupon.CouponService.UpdateCoupon:output_type -> coupon.UpdateCouponResponse
+	6,  // 21: coupon.CouponService.DeleteCoupon:output_type -> coupon.DeleteCouponResponse
+	17, // [17:22] is the sub-list for method output_type
+	12, // [12:17] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_coupon_v1_coupon_proto_init() }
@@ -40,18 +1097,23 @@ func file_coupon_v1_coupon_proto_init() {
 	if File_coupon_v1_coupon_proto != nil {
 		return
 	}
+	file_coupon_v1_coupon_proto_msgTypes[9].OneofWrappers = []any{
+		(*GetCouponRequest_Id)(nil),
+		(*GetCouponRequest_Code)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_coupon_v1_coupon_proto_rawDesc), len(file_coupon_v1_coupon_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   0,
+			NumMessages:   11,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_coupon_v1_coupon_proto_goTypes,
 		DependencyIndexes: file_coupon_v1_coupon_proto_depIdxs,
+		MessageInfos:      file_coupon_v1_coupon_proto_msgTypes,
 	}.Build()
 	File_coupon_v1_coupon_proto = out.File
 	file_coupon_v1_coupon_proto_goTypes = nil

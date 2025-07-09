@@ -1,0 +1,102 @@
+
+syntax = "proto3";
+package coupon;
+option go_package = "gitlab.zalopay.vn/loint6/go-proto/coupon";
+import "google/protobuf/timestamp.proto";
+
+
+service CouponService {
+  rpc GetCoupon(GetCouponRequest) returns (GetCouponResponse);
+  rpc ListCoupons(ListCouponsRequest) returns (ListCouponsResponse);
+  rpc CreateCoupon(CreateCouponRequest) returns (CreateCouponResponse);
+  rpc UpdateCoupon(UpdateCouponRequest) returns (UpdateCouponResponse);
+  rpc DeleteCoupon(DeleteCouponRequest) returns (DeleteCouponResponse);
+}
+
+
+message Coupon {
+  string id = 1;
+  string code = 2;
+  string title = 3;
+  string description = 4;
+  double min_spend = 5;
+  bool first_time_user_only = 6;
+  int32 usage_limit_per_user = 7;
+  int32 usage_limit_global = 8;
+  string discount_type = 9;
+  string usage_type = 10;
+  double discount_val = 11;
+  double max_discount = 12;
+  google.protobuf.Timestamp start_time = 13;
+  google.protobuf.Timestamp end_time = 14;
+  google.protobuf.Timestamp created_at = 15;
+  google.protobuf.Timestamp updated_at = 16;
+}
+message CreateCouponRequest {
+  string code = 1;
+  string title = 2;
+  string description = 3;
+  double min_spend = 4;
+  bool first_time_user_only = 5;
+  int32 usage_limit_per_user = 6;
+  int32 usage_limit_global = 7;
+  string discount_type = 8;
+  string usage_type = 9;
+  double discount_val = 10;
+  double max_discount = 11;
+  google.protobuf.Timestamp start_time = 12;
+  google.protobuf.Timestamp end_time = 13;
+}
+message CreateCouponResponse {
+  Coupon coupon = 1;
+  string error = 2;
+}
+message UpdateCouponRequest {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  double min_spend = 4;
+  bool first_time_user_only = 5;
+  int32 usage_limit_per_user = 6;
+  int32 usage_limit_global = 7;
+  string discount_type = 8;
+  string usage_type = 9;
+  double discount_val = 10;
+  double max_discount = 11;
+  google.protobuf.Timestamp start_time = 12;
+  google.protobuf.Timestamp end_time = 13;
+}
+message UpdateCouponResponse {
+  Coupon coupon = 1;
+  string error = 2;
+}
+message DeleteCouponRequest {
+  string id = 1;
+}
+
+message DeleteCouponResponse {
+  bool success = 1;
+  string error = 2;
+}
+message ListCouponsRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+  string filter = 3;
+}
+message ListCouponsResponse {
+  repeated Coupon coupons = 1;
+  int32 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+  string error = 5;
+}
+message GetCouponRequest {
+  oneof identifier {
+    string id = 1;
+    string code = 2;
+  }
+}
+message GetCouponResponse {
+  Coupon coupon = 1;
+  string error = 2;
+}

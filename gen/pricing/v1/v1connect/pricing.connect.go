@@ -39,32 +39,12 @@ const (
 	// PricingServiceValidateCouponProcedure is the fully-qualified name of the PricingService's
 	// ValidateCoupon RPC.
 	PricingServiceValidateCouponProcedure = "/pricing.PricingService/ValidateCoupon"
-	// PricingServiceGetCouponProcedure is the fully-qualified name of the PricingService's GetCoupon
-	// RPC.
-	PricingServiceGetCouponProcedure = "/pricing.PricingService/GetCoupon"
-	// PricingServiceListCouponsProcedure is the fully-qualified name of the PricingService's
-	// ListCoupons RPC.
-	PricingServiceListCouponsProcedure = "/pricing.PricingService/ListCoupons"
-	// PricingServiceCreateCouponProcedure is the fully-qualified name of the PricingService's
-	// CreateCoupon RPC.
-	PricingServiceCreateCouponProcedure = "/pricing.PricingService/CreateCoupon"
-	// PricingServiceUpdateCouponProcedure is the fully-qualified name of the PricingService's
-	// UpdateCoupon RPC.
-	PricingServiceUpdateCouponProcedure = "/pricing.PricingService/UpdateCoupon"
-	// PricingServiceDeleteCouponProcedure is the fully-qualified name of the PricingService's
-	// DeleteCoupon RPC.
-	PricingServiceDeleteCouponProcedure = "/pricing.PricingService/DeleteCoupon"
 )
 
 // PricingServiceClient is a client for the pricing.PricingService service.
 type PricingServiceClient interface {
 	CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error)
 	ValidateCoupon(context.Context, *connect.Request[v1.ValidateCouponRequest]) (*connect.Response[v1.ValidateCouponResponse], error)
-	GetCoupon(context.Context, *connect.Request[v1.GetCouponRequest]) (*connect.Response[v1.GetCouponResponse], error)
-	ListCoupons(context.Context, *connect.Request[v1.ListCouponsRequest]) (*connect.Response[v1.ListCouponsResponse], error)
-	CreateCoupon(context.Context, *connect.Request[v1.CreateCouponRequest]) (*connect.Response[v1.CreateCouponResponse], error)
-	UpdateCoupon(context.Context, *connect.Request[v1.UpdateCouponRequest]) (*connect.Response[v1.UpdateCouponResponse], error)
-	DeleteCoupon(context.Context, *connect.Request[v1.DeleteCouponRequest]) (*connect.Response[v1.DeleteCouponResponse], error)
 }
 
 // NewPricingServiceClient constructs a client for the pricing.PricingService service. By default,
@@ -90,36 +70,6 @@ func NewPricingServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(pricingServiceMethods.ByName("ValidateCoupon")),
 			connect.WithClientOptions(opts...),
 		),
-		getCoupon: connect.NewClient[v1.GetCouponRequest, v1.GetCouponResponse](
-			httpClient,
-			baseURL+PricingServiceGetCouponProcedure,
-			connect.WithSchema(pricingServiceMethods.ByName("GetCoupon")),
-			connect.WithClientOptions(opts...),
-		),
-		listCoupons: connect.NewClient[v1.ListCouponsRequest, v1.ListCouponsResponse](
-			httpClient,
-			baseURL+PricingServiceListCouponsProcedure,
-			connect.WithSchema(pricingServiceMethods.ByName("ListCoupons")),
-			connect.WithClientOptions(opts...),
-		),
-		createCoupon: connect.NewClient[v1.CreateCouponRequest, v1.CreateCouponResponse](
-			httpClient,
-			baseURL+PricingServiceCreateCouponProcedure,
-			connect.WithSchema(pricingServiceMethods.ByName("CreateCoupon")),
-			connect.WithClientOptions(opts...),
-		),
-		updateCoupon: connect.NewClient[v1.UpdateCouponRequest, v1.UpdateCouponResponse](
-			httpClient,
-			baseURL+PricingServiceUpdateCouponProcedure,
-			connect.WithSchema(pricingServiceMethods.ByName("UpdateCoupon")),
-			connect.WithClientOptions(opts...),
-		),
-		deleteCoupon: connect.NewClient[v1.DeleteCouponRequest, v1.DeleteCouponResponse](
-			httpClient,
-			baseURL+PricingServiceDeleteCouponProcedure,
-			connect.WithSchema(pricingServiceMethods.ByName("DeleteCoupon")),
-			connect.WithClientOptions(opts...),
-		),
 	}
 }
 
@@ -127,11 +77,6 @@ func NewPricingServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 type pricingServiceClient struct {
 	calculateDiscount *connect.Client[v1.CalculateDiscountRequest, v1.CalculateDiscountResponse]
 	validateCoupon    *connect.Client[v1.ValidateCouponRequest, v1.ValidateCouponResponse]
-	getCoupon         *connect.Client[v1.GetCouponRequest, v1.GetCouponResponse]
-	listCoupons       *connect.Client[v1.ListCouponsRequest, v1.ListCouponsResponse]
-	createCoupon      *connect.Client[v1.CreateCouponRequest, v1.CreateCouponResponse]
-	updateCoupon      *connect.Client[v1.UpdateCouponRequest, v1.UpdateCouponResponse]
-	deleteCoupon      *connect.Client[v1.DeleteCouponRequest, v1.DeleteCouponResponse]
 }
 
 // CalculateDiscount calls pricing.PricingService.CalculateDiscount.
@@ -144,40 +89,10 @@ func (c *pricingServiceClient) ValidateCoupon(ctx context.Context, req *connect.
 	return c.validateCoupon.CallUnary(ctx, req)
 }
 
-// GetCoupon calls pricing.PricingService.GetCoupon.
-func (c *pricingServiceClient) GetCoupon(ctx context.Context, req *connect.Request[v1.GetCouponRequest]) (*connect.Response[v1.GetCouponResponse], error) {
-	return c.getCoupon.CallUnary(ctx, req)
-}
-
-// ListCoupons calls pricing.PricingService.ListCoupons.
-func (c *pricingServiceClient) ListCoupons(ctx context.Context, req *connect.Request[v1.ListCouponsRequest]) (*connect.Response[v1.ListCouponsResponse], error) {
-	return c.listCoupons.CallUnary(ctx, req)
-}
-
-// CreateCoupon calls pricing.PricingService.CreateCoupon.
-func (c *pricingServiceClient) CreateCoupon(ctx context.Context, req *connect.Request[v1.CreateCouponRequest]) (*connect.Response[v1.CreateCouponResponse], error) {
-	return c.createCoupon.CallUnary(ctx, req)
-}
-
-// UpdateCoupon calls pricing.PricingService.UpdateCoupon.
-func (c *pricingServiceClient) UpdateCoupon(ctx context.Context, req *connect.Request[v1.UpdateCouponRequest]) (*connect.Response[v1.UpdateCouponResponse], error) {
-	return c.updateCoupon.CallUnary(ctx, req)
-}
-
-// DeleteCoupon calls pricing.PricingService.DeleteCoupon.
-func (c *pricingServiceClient) DeleteCoupon(ctx context.Context, req *connect.Request[v1.DeleteCouponRequest]) (*connect.Response[v1.DeleteCouponResponse], error) {
-	return c.deleteCoupon.CallUnary(ctx, req)
-}
-
 // PricingServiceHandler is an implementation of the pricing.PricingService service.
 type PricingServiceHandler interface {
 	CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error)
 	ValidateCoupon(context.Context, *connect.Request[v1.ValidateCouponRequest]) (*connect.Response[v1.ValidateCouponResponse], error)
-	GetCoupon(context.Context, *connect.Request[v1.GetCouponRequest]) (*connect.Response[v1.GetCouponResponse], error)
-	ListCoupons(context.Context, *connect.Request[v1.ListCouponsRequest]) (*connect.Response[v1.ListCouponsResponse], error)
-	CreateCoupon(context.Context, *connect.Request[v1.CreateCouponRequest]) (*connect.Response[v1.CreateCouponResponse], error)
-	UpdateCoupon(context.Context, *connect.Request[v1.UpdateCouponRequest]) (*connect.Response[v1.UpdateCouponResponse], error)
-	DeleteCoupon(context.Context, *connect.Request[v1.DeleteCouponRequest]) (*connect.Response[v1.DeleteCouponResponse], error)
 }
 
 // NewPricingServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -199,52 +114,12 @@ func NewPricingServiceHandler(svc PricingServiceHandler, opts ...connect.Handler
 		connect.WithSchema(pricingServiceMethods.ByName("ValidateCoupon")),
 		connect.WithHandlerOptions(opts...),
 	)
-	pricingServiceGetCouponHandler := connect.NewUnaryHandler(
-		PricingServiceGetCouponProcedure,
-		svc.GetCoupon,
-		connect.WithSchema(pricingServiceMethods.ByName("GetCoupon")),
-		connect.WithHandlerOptions(opts...),
-	)
-	pricingServiceListCouponsHandler := connect.NewUnaryHandler(
-		PricingServiceListCouponsProcedure,
-		svc.ListCoupons,
-		connect.WithSchema(pricingServiceMethods.ByName("ListCoupons")),
-		connect.WithHandlerOptions(opts...),
-	)
-	pricingServiceCreateCouponHandler := connect.NewUnaryHandler(
-		PricingServiceCreateCouponProcedure,
-		svc.CreateCoupon,
-		connect.WithSchema(pricingServiceMethods.ByName("CreateCoupon")),
-		connect.WithHandlerOptions(opts...),
-	)
-	pricingServiceUpdateCouponHandler := connect.NewUnaryHandler(
-		PricingServiceUpdateCouponProcedure,
-		svc.UpdateCoupon,
-		connect.WithSchema(pricingServiceMethods.ByName("UpdateCoupon")),
-		connect.WithHandlerOptions(opts...),
-	)
-	pricingServiceDeleteCouponHandler := connect.NewUnaryHandler(
-		PricingServiceDeleteCouponProcedure,
-		svc.DeleteCoupon,
-		connect.WithSchema(pricingServiceMethods.ByName("DeleteCoupon")),
-		connect.WithHandlerOptions(opts...),
-	)
 	return "/pricing.PricingService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case PricingServiceCalculateDiscountProcedure:
 			pricingServiceCalculateDiscountHandler.ServeHTTP(w, r)
 		case PricingServiceValidateCouponProcedure:
 			pricingServiceValidateCouponHandler.ServeHTTP(w, r)
-		case PricingServiceGetCouponProcedure:
-			pricingServiceGetCouponHandler.ServeHTTP(w, r)
-		case PricingServiceListCouponsProcedure:
-			pricingServiceListCouponsHandler.ServeHTTP(w, r)
-		case PricingServiceCreateCouponProcedure:
-			pricingServiceCreateCouponHandler.ServeHTTP(w, r)
-		case PricingServiceUpdateCouponProcedure:
-			pricingServiceUpdateCouponHandler.ServeHTTP(w, r)
-		case PricingServiceDeleteCouponProcedure:
-			pricingServiceDeleteCouponHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -260,24 +135,4 @@ func (UnimplementedPricingServiceHandler) CalculateDiscount(context.Context, *co
 
 func (UnimplementedPricingServiceHandler) ValidateCoupon(context.Context, *connect.Request[v1.ValidateCouponRequest]) (*connect.Response[v1.ValidateCouponResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("pricing.PricingService.ValidateCoupon is not implemented"))
-}
-
-func (UnimplementedPricingServiceHandler) GetCoupon(context.Context, *connect.Request[v1.GetCouponRequest]) (*connect.Response[v1.GetCouponResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("pricing.PricingService.GetCoupon is not implemented"))
-}
-
-func (UnimplementedPricingServiceHandler) ListCoupons(context.Context, *connect.Request[v1.ListCouponsRequest]) (*connect.Response[v1.ListCouponsResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("pricing.PricingService.ListCoupons is not implemented"))
-}
-
-func (UnimplementedPricingServiceHandler) CreateCoupon(context.Context, *connect.Request[v1.CreateCouponRequest]) (*connect.Response[v1.CreateCouponResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("pricing.PricingService.CreateCoupon is not implemented"))
-}
-
-func (UnimplementedPricingServiceHandler) UpdateCoupon(context.Context, *connect.Request[v1.UpdateCouponRequest]) (*connect.Response[v1.UpdateCouponResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("pricing.PricingService.UpdateCoupon is not implemented"))
-}
-
-func (UnimplementedPricingServiceHandler) DeleteCoupon(context.Context, *connect.Request[v1.DeleteCouponRequest]) (*connect.Response[v1.DeleteCouponResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("pricing.PricingService.DeleteCoupon is not implemented"))
 }

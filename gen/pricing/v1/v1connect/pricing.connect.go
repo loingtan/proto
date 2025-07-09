@@ -36,15 +36,11 @@ const (
 	// PricingServiceCalculateDiscountProcedure is the fully-qualified name of the PricingService's
 	// CalculateDiscount RPC.
 	PricingServiceCalculateDiscountProcedure = "/pricing.PricingService/CalculateDiscount"
-	// PricingServiceValidateCouponProcedure is the fully-qualified name of the PricingService's
-	// ValidateCoupon RPC.
-	PricingServiceValidateCouponProcedure = "/pricing.PricingService/ValidateCoupon"
 )
 
 // PricingServiceClient is a client for the pricing.PricingService service.
 type PricingServiceClient interface {
 	CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error)
-	ValidateCoupon(context.Context, *connect.Request[v1.ValidateCouponRequest]) (*connect.Response[v1.ValidateCouponResponse], error)
 }
 
 // NewPricingServiceClient constructs a client for the pricing.PricingService service. By default,
@@ -64,19 +60,12 @@ func NewPricingServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(pricingServiceMethods.ByName("CalculateDiscount")),
 			connect.WithClientOptions(opts...),
 		),
-		validateCoupon: connect.NewClient[v1.ValidateCouponRequest, v1.ValidateCouponResponse](
-			httpClient,
-			baseURL+PricingServiceValidateCouponProcedure,
-			connect.WithSchema(pricingServiceMethods.ByName("ValidateCoupon")),
-			connect.WithClientOptions(opts...),
-		),
 	}
 }
 
 // pricingServiceClient implements PricingServiceClient.
 type pricingServiceClient struct {
 	calculateDiscount *connect.Client[v1.CalculateDiscountRequest, v1.CalculateDiscountResponse]
-	validateCoupon    *connect.Client[v1.ValidateCouponRequest, v1.ValidateCouponResponse]
 }
 
 // CalculateDiscount calls pricing.PricingService.CalculateDiscount.
@@ -84,15 +73,9 @@ func (c *pricingServiceClient) CalculateDiscount(ctx context.Context, req *conne
 	return c.calculateDiscount.CallUnary(ctx, req)
 }
 
-// ValidateCoupon calls pricing.PricingService.ValidateCoupon.
-func (c *pricingServiceClient) ValidateCoupon(ctx context.Context, req *connect.Request[v1.ValidateCouponRequest]) (*connect.Response[v1.ValidateCouponResponse], error) {
-	return c.validateCoupon.CallUnary(ctx, req)
-}
-
 // PricingServiceHandler is an implementation of the pricing.PricingService service.
 type PricingServiceHandler interface {
 	CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error)
-	ValidateCoupon(context.Context, *connect.Request[v1.ValidateCouponRequest]) (*connect.Response[v1.ValidateCouponResponse], error)
 }
 
 // NewPricingServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -108,18 +91,10 @@ func NewPricingServiceHandler(svc PricingServiceHandler, opts ...connect.Handler
 		connect.WithSchema(pricingServiceMethods.ByName("CalculateDiscount")),
 		connect.WithHandlerOptions(opts...),
 	)
-	pricingServiceValidateCouponHandler := connect.NewUnaryHandler(
-		PricingServiceValidateCouponProcedure,
-		svc.ValidateCoupon,
-		connect.WithSchema(pricingServiceMethods.ByName("ValidateCoupon")),
-		connect.WithHandlerOptions(opts...),
-	)
 	return "/pricing.PricingService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case PricingServiceCalculateDiscountProcedure:
 			pricingServiceCalculateDiscountHandler.ServeHTTP(w, r)
-		case PricingServiceValidateCouponProcedure:
-			pricingServiceValidateCouponHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -131,8 +106,4 @@ type UnimplementedPricingServiceHandler struct{}
 
 func (UnimplementedPricingServiceHandler) CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("pricing.PricingService.CalculateDiscount is not implemented"))
-}
-
-func (UnimplementedPricingServiceHandler) ValidateCoupon(context.Context, *connect.Request[v1.ValidateCouponRequest]) (*connect.Response[v1.ValidateCouponResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("pricing.PricingService.ValidateCoupon is not implemented"))
 }

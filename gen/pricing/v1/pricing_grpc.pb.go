@@ -20,7 +20,6 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	PricingService_CalculateDiscount_FullMethodName = "/pricing.PricingService/CalculateDiscount"
-	PricingService_ValidateCoupon_FullMethodName    = "/pricing.PricingService/ValidateCoupon"
 )
 
 // PricingServiceClient is the client API for PricingService service.
@@ -28,7 +27,6 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PricingServiceClient interface {
 	CalculateDiscount(ctx context.Context, in *CalculateDiscountRequest, opts ...grpc.CallOption) (*CalculateDiscountResponse, error)
-	ValidateCoupon(ctx context.Context, in *ValidateCouponRequest, opts ...grpc.CallOption) (*ValidateCouponResponse, error)
 }
 
 type pricingServiceClient struct {
@@ -49,22 +47,11 @@ func (c *pricingServiceClient) CalculateDiscount(ctx context.Context, in *Calcul
 	return out, nil
 }
 
-func (c *pricingServiceClient) ValidateCoupon(ctx context.Context, in *ValidateCouponRequest, opts ...grpc.CallOption) (*ValidateCouponResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ValidateCouponResponse)
-	err := c.cc.Invoke(ctx, PricingService_ValidateCoupon_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // PricingServiceServer is the server API for PricingService service.
 // All implementations must embed UnimplementedPricingServiceServer
 // for forward compatibility.
 type PricingServiceServer interface {
 	CalculateDiscount(context.Context, *CalculateDiscountRequest) (*CalculateDiscountResponse, error)
-	ValidateCoupon(context.Context, *ValidateCouponRequest) (*ValidateCouponResponse, error)
 	mustEmbedUnimplementedPricingServiceServer()
 }
 
@@ -77,9 +64,6 @@ type UnimplementedPricingServiceServer struct{}
 
 func (UnimplementedPricingServiceServer) CalculateDiscount(context.Context, *CalculateDiscountRequest) (*CalculateDiscountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CalculateDiscount not implemented")
-}
-func (UnimplementedPricingServiceServer) ValidateCoupon(context.Context, *ValidateCouponRequest) (*ValidateCouponResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ValidateCoupon not implemented")
 }
 func (UnimplementedPricingServiceServer) mustEmbedUnimplementedPricingServiceServer() {}
 func (UnimplementedPricingServiceServer) testEmbeddedByValue()                        {}
@@ -120,24 +104,6 @@ func _PricingService_CalculateDiscount_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PricingService_ValidateCoupon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ValidateCouponRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(PricingServiceServer).ValidateCoupon(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: PricingService_ValidateCoupon_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PricingServiceServer).ValidateCoupon(ctx, req.(*ValidateCouponRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // PricingService_ServiceDesc is the grpc.ServiceDesc for PricingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -148,10 +114,6 @@ var PricingService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CalculateDiscount",
 			Handler:    _PricingService_CalculateDiscount_Handler,
-		},
-		{
-			MethodName: "ValidateCoupon",
-			Handler:    _PricingService_ValidateCoupon_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

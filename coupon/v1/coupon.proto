@@ -16,7 +16,7 @@ service CouponService {
 
 message Coupon {
   string id = 1;
-  string code = 2;
+  string code = 2;  
   string title = 3;
   string description = 4;
   double min_spend = 5;

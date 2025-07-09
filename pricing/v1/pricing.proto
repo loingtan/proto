@@ -8,7 +8,6 @@ import "google/protobuf/timestamp.proto";
 
 service PricingService {
   rpc CalculateDiscount(CalculateDiscountRequest) returns (CalculateDiscountResponse);
-  rpc ValidateCoupon(ValidateCouponRequest) returns (ValidateCouponResponse);
 }
 message CalculateDiscountRequest {
   string coupon_code = 1;
@@ -25,36 +24,6 @@ message CalculateDiscountResponse {
   string error = 5;
 }
 
-message ValidateCouponRequest {
-  string coupon_code = 1;
-  string user_id = 2;
-  double amount = 3;
-  google.protobuf.Timestamp order_time = 4;
-}
-
-message ValidateCouponResponse {
-  bool valid = 1;
-  string error = 2;
-  Coupon coupon = 3;
-}
-message Coupon {
-  string id = 1;
-  string code = 2;
-  string title = 3;
-  string description = 4;
-  double min_spend = 5;
-  bool first_time_user_only = 6;
-  int32 usage_limit_per_user = 7;
-  int32 usage_limit_global = 8;
-  string discount_type = 9;
-  string usage_type = 10;
-  double discount_val = 11;
-  double max_discount = 12;
-  google.protobuf.Timestamp start_time = 13;
-  google.protobuf.Timestamp end_time = 14;
-  google.protobuf.Timestamp created_at = 15;
-  google.protobuf.Timestamp updated_at = 16;
-}
 
 
 

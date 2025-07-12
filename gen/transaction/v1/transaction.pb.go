@@ -894,8 +894,8 @@ const file_transaction_v1_transaction_proto_rawDesc = "" +
 	"\x10ListTransactions\x12$.transaction.ListTransactionsRequest\x1a%.transaction.ListTransactionsResponse\x12t\n" +
 	"\x17UpdateTransactionStatus\x12+.transaction.UpdateTransactionStatusRequest\x1a,.transaction.UpdateTransactionStatusResponse\x12h\n" +
 	"\x13GetUserTransactions\x12'.transaction.GetUserTransactionsRequest\x1a(.transaction.GetUserTransactionsResponse\x12n\n" +
-	"\x15GetCouponTransactions\x12).transaction.GetCouponTransactionsRequest\x1a*.transaction.GetCouponTransactionsResponseB\xa5\x01\n" +
-	"\x0fcom.transactionB\x10TransactionProtoP\x01Z4gitlab.zalopay.vn/loint6/go-proto/gen/transaction/v1\xa2\x02\x03TXX\xaa\x02\vTransaction\xca\x02\vTransaction\xe2\x02\x17Transaction\\GPBMetadata\xea\x02\vTransactionb\x06proto3"
+	"\x15GetCouponTransactions\x12).transaction.GetCouponTransactionsRequest\x1a*.transaction.GetCouponTransactionsResponseB\x9d\x01\n" +
+	"\x0fcom.transactionB\x10TransactionProtoP\x01Z,github.com/loingtan/proto/gen/transaction/v1\xa2\x02\x03TXX\xaa\x02\vTransaction\xca\x02\vTransaction\xe2\x02\x17Transaction\\GPBMetadata\xea\x02\vTransactionb\x06proto3"
 
 var (
 	file_transaction_v1_transaction_proto_rawDescOnce sync.Once

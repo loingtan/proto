@@ -176,8 +176,8 @@ const file_pricing_v1_pricing_proto_rawDesc = "" +
 	"\tcoupon_id\x18\x03 \x01(\tR\bcouponId\x12\x14\n" +
 	"\x05error\x18\x05 \x01(\tR\x05error2l\n" +
 	"\x0ePricingService\x12Z\n" +
-	"\x11CalculateDiscount\x12!.pricing.CalculateDiscountRequest\x1a\".pricing.CalculateDiscountResponseB\x89\x01\n" +
-	"\vcom.pricingB\fPricingProtoP\x01Z0gitlab.zalopay.vn/loint6/go-proto/gen/pricing/v1\xa2\x02\x03PXX\xaa\x02\aPricing\xca\x02\aPricing\xe2\x02\x13Pricing\\GPBMetadata\xea\x02\aPricingb\x06proto3"
+	"\x11CalculateDiscount\x12!.pricing.CalculateDiscountRequest\x1a\".pricing.CalculateDiscountResponseB\x81\x01\n" +
+	"\vcom.pricingB\fPricingProtoP\x01Z(github.com/loingtan/proto/gen/pricing/v1\xa2\x02\x03PXX\xaa\x02\aPricing\xca\x02\aPricing\xe2\x02\x13Pricing\\GPBMetadata\xea\x02\aPricingb\x06proto3"
 
 var (
 	file_pricing_v1_pricing_proto_rawDescOnce sync.Once

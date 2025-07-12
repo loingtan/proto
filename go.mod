@@ -1,4 +1,4 @@
-module gitlab.zalopay.vn/loint6/go-proto
+module github.com/loingtan/proto
 
 go 1.24.4
 

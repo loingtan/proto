@@ -910,8 +910,8 @@ const file_auth_v1_auth_proto_rawDesc = "" +
 	"\rValidateToken\x12\x1a.auth.ValidateTokenRequest\x1a\x1b.auth.ValidateTokenResponse\x12E\n" +
 	"\fRefreshToken\x12\x19.auth.RefreshTokenRequest\x1a\x1a.auth.RefreshTokenResponse\x12<\n" +
 	"\tListUsers\x12\x16.auth.ListUsersRequest\x1a\x17.auth.ListUsersResponse\x123\n" +
-	"\x06Logout\x12\x13.auth.LogoutRequest\x1a\x14.auth.LogoutResponseBt\n" +
-	"\bcom.authB\tAuthProtoP\x01Z-gitlab.zalopay.vn/loint6/go-proto/gen/auth/v1\xa2\x02\x03AXX\xaa\x02\x04Auth\xca\x02\x04Auth\xe2\x02\x10Auth\\GPBMetadata\xea\x02\x04Authb\x06proto3"
+	"\x06Logout\x12\x13.auth.LogoutRequest\x1a\x14.auth.LogoutResponseBl\n" +
+	"\bcom.authB\tAuthProtoP\x01Z%github.com/loingtan/proto/gen/auth/v1\xa2\x02\x03AXX\xaa\x02\x04Auth\xca\x02\x04Auth\xe2\x02\x10Auth\\GPBMetadata\xea\x02\x04Authb\x06proto3"
 
 var (
 	file_auth_v1_auth_proto_rawDescOnce sync.Once

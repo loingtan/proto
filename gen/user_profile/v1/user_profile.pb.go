@@ -673,8 +673,8 @@ const file_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\x11CreateUserProfile\x12\x1e.user.CreateUserProfileRequest\x1a\x1f.user.CreateUserProfileResponse\x12T\n" +
 	"\x11UpdateUserProfile\x12\x1e.user.UpdateUserProfileRequest\x1a\x1f.user.UpdateUserProfileResponse\x12Q\n" +
 	"\x10ListUserProfiles\x12\x1d.user.ListUserProfilesRequest\x1a\x1e.user.ListUserProfilesResponse\x12K\n" +
-	"\x0eGetUserProfile\x12\x1b.user.GetUserProfileRequest\x1a\x1c.user.GetUserProfileResponseB\x83\x01\n" +
-	"\bcom.userB\x10UserProfileProtoP\x01Z5gitlab.zalopay.vn/loint6/go-proto/gen/user_profile/v1\xa2\x02\x03UXX\xaa\x02\x04User\xca\x02\x04User\xe2\x02\x10User\\GPBMetadata\xea\x02\x04Userb\x06proto3"
+	"\x0eGetUserProfile\x12\x1b.user.GetUserProfileRequest\x1a\x1c.user.GetUserProfileResponseB{\n" +
+	"\bcom.userB\x10UserProfileProtoP\x01Z-github.com/loingtan/proto/gen/user_profile/v1\xa2\x02\x03UXX\xaa\x02\x04User\xca\x02\x04User\xe2\x02\x10User\\GPBMetadata\xea\x02\x04Userb\x06proto3"
 
 var (
 	file_user_profile_v1_user_profile_proto_rawDescOnce sync.Once

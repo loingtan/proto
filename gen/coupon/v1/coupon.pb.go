@@ -1031,9 +1031,9 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\vListCoupons\x12\x1a.coupon.ListCouponsRequest\x1a\x1b.coupon.ListCouponsResponse\x12I\n" +
 	"\fCreateCoupon\x12\x1b.coupon.CreateCouponRequest\x1a\x1c.coupon.CreateCouponResponse\x12I\n" +
 	"\fUpdateCoupon\x12\x1b.coupon.UpdateCouponRequest\x1a\x1c.coupon.UpdateCouponResponse\x12I\n" +
-	"\fDeleteCoupon\x12\x1b.coupon.DeleteCouponRequest\x1a\x1c.coupon.DeleteCouponResponseB\x82\x01\n" +
+	"\fDeleteCoupon\x12\x1b.coupon.DeleteCouponRequest\x1a\x1c.coupon.DeleteCouponResponseBz\n" +
 	"\n" +
-	"com.couponB\vCouponProtoP\x01Z/gitlab.zalopay.vn/loint6/go-proto/gen/coupon/v1\xa2\x02\x03CXX\xaa\x02\x06Coupon\xca\x02\x06Coupon\xe2\x02\x12Coupon\\GPBMetadata\xea\x02\x06Couponb\x06proto3"
+	"com.couponB\vCouponProtoP\x01Z'github.com/loingtan/proto/gen/coupon/v1\xa2\x02\x03CXX\xaa\x02\x06Coupon\xca\x02\x06Coupon\xe2\x02\x12Coupon\\GPBMetadata\xea\x02\x06Couponb\x06proto3"
 
 var (
 	file_coupon_v1_coupon_proto_rawDescOnce sync.Once

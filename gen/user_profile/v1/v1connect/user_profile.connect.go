@@ -8,7 +8,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "gitlab.zalopay.vn/loint6/go-proto/gen/user_profile/v1"
+	v1 "github.com/loingtan/proto/gen/user_profile/v1"
 	http "net/http"
 	strings "strings"
 )

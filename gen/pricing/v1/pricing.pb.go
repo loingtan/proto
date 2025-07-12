@@ -95,7 +95,6 @@ type CalculateDiscountResponse struct {
 	DiscountAmount float64                `protobuf:"fixed64,1,opt,name=discount_amount,json=discountAmount,proto3" json:"discount_amount,omitempty"`
 	FinalAmount    float64                `protobuf:"fixed64,2,opt,name=final_amount,json=finalAmount,proto3" json:"final_amount,omitempty"`
 	CouponId       string                 `protobuf:"bytes,3,opt,name=coupon_id,json=couponId,proto3" json:"coupon_id,omitempty"`
-	Success        bool                   `protobuf:"varint,4,opt,name=success,proto3" json:"success,omitempty"`
 	Error          string                 `protobuf:"bytes,5,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -152,13 +151,6 @@ func (x *CalculateDiscountResponse) GetCouponId() string {
 	return ""
 }
 
-func (x *CalculateDiscountResponse) GetSuccess() bool {
-	if x != nil {
-		return x.Success
-	}
-	return false
-}
-
 func (x *CalculateDiscountResponse) GetError() string {
 	if x != nil {
 		return x.Error
@@ -177,12 +169,11 @@ const file_pricing_v1_pricing_proto_rawDesc = "" +
 	"\x06amount\x18\x02 \x01(\x01R\x06amount\x12\x17\n" +
 	"\auser_id\x18\x03 \x01(\tR\x06userId\x129\n" +
 	"\n" +
-	"order_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\torderTime\"\xb4\x01\n" +
+	"order_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\torderTime\"\x9a\x01\n" +
 	"\x19CalculateDiscountResponse\x12'\n" +
 	"\x0fdiscount_amount\x18\x01 \x01(\x01R\x0ediscountAmount\x12!\n" +
 	"\ffinal_amount\x18\x02 \x01(\x01R\vfinalAmount\x12\x1b\n" +
-	"\tcoupon_id\x18\x03 \x01(\tR\bcouponId\x12\x18\n" +
-	"\asuccess\x18\x04 \x01(\bR\asuccess\x12\x14\n" +
+	"\tcoupon_id\x18\x03 \x01(\tR\bcouponId\x12\x14\n" +
 	"\x05error\x18\x05 \x01(\tR\x05error2l\n" +
 	"\x0ePricingService\x12Z\n" +
 	"\x11CalculateDiscount\x12!.pricing.CalculateDiscountRequest\x1a\".pricing.CalculateDiscountResponseB\x89\x01\n" +

@@ -20,7 +20,6 @@ message CalculateDiscountResponse {
   double discount_amount = 1;
   double final_amount = 2;
   string coupon_id = 3;
-  bool success = 4;
   string error = 5;
 }
 

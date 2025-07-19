@@ -21,8 +21,8 @@ import (
 const _ = connect.IsAtLeastVersion1_13_0
 
 const (
-	// TransactionServiceName is the fully-qualified name of the TransactionService service.
-	TransactionServiceName = "transaction.TransactionService"
+	// OrderServiceName is the fully-qualified name of the OrderService service.
+	OrderServiceName = "Order.OrderService"
 )
 
 // These constants are the fully-qualified names of the RPCs defined in this package. They're
@@ -33,222 +33,220 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// TransactionServiceCreateTransactionProcedure is the fully-qualified name of the
-	// TransactionService's CreateTransaction RPC.
-	TransactionServiceCreateTransactionProcedure = "/transaction.TransactionService/CreateTransaction"
-	// TransactionServiceGetTransactionProcedure is the fully-qualified name of the TransactionService's
-	// GetTransaction RPC.
-	TransactionServiceGetTransactionProcedure = "/transaction.TransactionService/GetTransaction"
-	// TransactionServiceListTransactionsProcedure is the fully-qualified name of the
-	// TransactionService's ListTransactions RPC.
-	TransactionServiceListTransactionsProcedure = "/transaction.TransactionService/ListTransactions"
-	// TransactionServiceUpdateTransactionStatusProcedure is the fully-qualified name of the
-	// TransactionService's UpdateTransactionStatus RPC.
-	TransactionServiceUpdateTransactionStatusProcedure = "/transaction.TransactionService/UpdateTransactionStatus"
-	// TransactionServiceGetUserTransactionsProcedure is the fully-qualified name of the
-	// TransactionService's GetUserTransactions RPC.
-	TransactionServiceGetUserTransactionsProcedure = "/transaction.TransactionService/GetUserTransactions"
-	// TransactionServiceGetCouponTransactionsProcedure is the fully-qualified name of the
-	// TransactionService's GetCouponTransactions RPC.
-	TransactionServiceGetCouponTransactionsProcedure = "/transaction.TransactionService/GetCouponTransactions"
+	// OrderServiceCreateOrderProcedure is the fully-qualified name of the OrderService's CreateOrder
+	// RPC.
+	OrderServiceCreateOrderProcedure = "/Order.OrderService/CreateOrder"
+	// OrderServiceGetOrderProcedure is the fully-qualified name of the OrderService's GetOrder RPC.
+	OrderServiceGetOrderProcedure = "/Order.OrderService/GetOrder"
+	// OrderServiceListOrdersProcedure is the fully-qualified name of the OrderService's ListOrders RPC.
+	OrderServiceListOrdersProcedure = "/Order.OrderService/ListOrders"
+	// OrderServiceUpdateOrderStatusProcedure is the fully-qualified name of the OrderService's
+	// UpdateOrderStatus RPC.
+	OrderServiceUpdateOrderStatusProcedure = "/Order.OrderService/UpdateOrderStatus"
+	// OrderServiceGetUserOrdersProcedure is the fully-qualified name of the OrderService's
+	// GetUserOrders RPC.
+	OrderServiceGetUserOrdersProcedure = "/Order.OrderService/GetUserOrders"
+	// OrderServiceGetCouponOrdersProcedure is the fully-qualified name of the OrderService's
+	// GetCouponOrders RPC.
+	OrderServiceGetCouponOrdersProcedure = "/Order.OrderService/GetCouponOrders"
 )
 
-// TransactionServiceClient is a client for the transaction.TransactionService service.
-type TransactionServiceClient interface {
-	CreateTransaction(context.Context, *connect.Request[v1.CreateTransactionRequest]) (*connect.Response[v1.CreateTransactionResponse], error)
-	GetTransaction(context.Context, *connect.Request[v1.GetTransactionRequest]) (*connect.Response[v1.GetTransactionResponse], error)
-	ListTransactions(context.Context, *connect.Request[v1.ListTransactionsRequest]) (*connect.Response[v1.ListTransactionsResponse], error)
-	UpdateTransactionStatus(context.Context, *connect.Request[v1.UpdateTransactionStatusRequest]) (*connect.Response[v1.UpdateTransactionStatusResponse], error)
-	GetUserTransactions(context.Context, *connect.Request[v1.GetUserTransactionsRequest]) (*connect.Response[v1.GetUserTransactionsResponse], error)
-	GetCouponTransactions(context.Context, *connect.Request[v1.GetCouponTransactionsRequest]) (*connect.Response[v1.GetCouponTransactionsResponse], error)
+// OrderServiceClient is a client for the Order.OrderService service.
+type OrderServiceClient interface {
+	CreateOrder(context.Context, *connect.Request[v1.CreateOrderRequest]) (*connect.Response[v1.CreateOrderResponse], error)
+	GetOrder(context.Context, *connect.Request[v1.GetOrderRequest]) (*connect.Response[v1.GetOrderResponse], error)
+	ListOrders(context.Context, *connect.Request[v1.ListOrdersRequest]) (*connect.Response[v1.ListOrdersResponse], error)
+	UpdateOrderStatus(context.Context, *connect.Request[v1.UpdateOrderStatusRequest]) (*connect.Response[v1.UpdateOrderStatusResponse], error)
+	GetUserOrders(context.Context, *connect.Request[v1.GetUserOrdersRequest]) (*connect.Response[v1.GetUserOrdersResponse], error)
+	GetCouponOrders(context.Context, *connect.Request[v1.GetCouponOrdersRequest]) (*connect.Response[v1.GetCouponOrdersResponse], error)
 }
 
-// NewTransactionServiceClient constructs a client for the transaction.TransactionService service.
-// By default, it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped
-// responses, and sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the
-// connect.WithGRPC() or connect.WithGRPCWeb() options.
+// NewOrderServiceClient constructs a client for the Order.OrderService service. By default, it uses
+// the Connect protocol with the binary Protobuf Codec, asks for gzipped responses, and sends
+// uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or
+// connect.WithGRPCWeb() options.
 //
 // The URL supplied here should be the base URL for the Connect or gRPC server (for example,
 // http://api.acme.com or https://acme.com/grpc).
-func NewTransactionServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) TransactionServiceClient {
+func NewOrderServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) OrderServiceClient {
 	baseURL = strings.TrimRight(baseURL, "/")
-	transactionServiceMethods := v1.File_order_v1_order_proto.Services().ByName("TransactionService").Methods()
-	return &transactionServiceClient{
-		createTransaction: connect.NewClient[v1.CreateTransactionRequest, v1.CreateTransactionResponse](
+	orderServiceMethods := v1.File_order_v1_order_proto.Services().ByName("OrderService").Methods()
+	return &orderServiceClient{
+		createOrder: connect.NewClient[v1.CreateOrderRequest, v1.CreateOrderResponse](
 			httpClient,
-			baseURL+TransactionServiceCreateTransactionProcedure,
-			connect.WithSchema(transactionServiceMethods.ByName("CreateTransaction")),
+			baseURL+OrderServiceCreateOrderProcedure,
+			connect.WithSchema(orderServiceMethods.ByName("CreateOrder")),
 			connect.WithClientOptions(opts...),
 		),
-		getTransaction: connect.NewClient[v1.GetTransactionRequest, v1.GetTransactionResponse](
+		getOrder: connect.NewClient[v1.GetOrderRequest, v1.GetOrderResponse](
 			httpClient,
-			baseURL+TransactionServiceGetTransactionProcedure,
-			connect.WithSchema(transactionServiceMethods.ByName("GetTransaction")),
+			baseURL+OrderServiceGetOrderProcedure,
+			connect.WithSchema(orderServiceMethods.ByName("GetOrder")),
 			connect.WithClientOptions(opts...),
 		),
-		listTransactions: connect.NewClient[v1.ListTransactionsRequest, v1.ListTransactionsResponse](
+		listOrders: connect.NewClient[v1.ListOrdersRequest, v1.ListOrdersResponse](
 			httpClient,
-			baseURL+TransactionServiceListTransactionsProcedure,
-			connect.WithSchema(transactionServiceMethods.ByName("ListTransactions")),
+			baseURL+OrderServiceListOrdersProcedure,
+			connect.WithSchema(orderServiceMethods.ByName("ListOrders")),
 			connect.WithClientOptions(opts...),
 		),
-		updateTransactionStatus: connect.NewClient[v1.UpdateTransactionStatusRequest, v1.UpdateTransactionStatusResponse](
+		updateOrderStatus: connect.NewClient[v1.UpdateOrderStatusRequest, v1.UpdateOrderStatusResponse](
 			httpClient,
-			baseURL+TransactionServiceUpdateTransactionStatusProcedure,
-			connect.WithSchema(transactionServiceMethods.ByName("UpdateTransactionStatus")),
+			baseURL+OrderServiceUpdateOrderStatusProcedure,
+			connect.WithSchema(orderServiceMethods.ByName("UpdateOrderStatus")),
 			connect.WithClientOptions(opts...),
 		),
-		getUserTransactions: connect.NewClient[v1.GetUserTransactionsRequest, v1.GetUserTransactionsResponse](
+		getUserOrders: connect.NewClient[v1.GetUserOrdersRequest, v1.GetUserOrdersResponse](
 			httpClient,
-			baseURL+TransactionServiceGetUserTransactionsProcedure,
-			connect.WithSchema(transactionServiceMethods.ByName("GetUserTransactions")),
+			baseURL+OrderServiceGetUserOrdersProcedure,
+			connect.WithSchema(orderServiceMethods.ByName("GetUserOrders")),
 			connect.WithClientOptions(opts...),
 		),
-		getCouponTransactions: connect.NewClient[v1.GetCouponTransactionsRequest, v1.GetCouponTransactionsResponse](
+		getCouponOrders: connect.NewClient[v1.GetCouponOrdersRequest, v1.GetCouponOrdersResponse](
 			httpClient,
-			baseURL+TransactionServiceGetCouponTransactionsProcedure,
-			connect.WithSchema(transactionServiceMethods.ByName("GetCouponTransactions")),
+			baseURL+OrderServiceGetCouponOrdersProcedure,
+			connect.WithSchema(orderServiceMethods.ByName("GetCouponOrders")),
 			connect.WithClientOptions(opts...),
 		),
 	}
 }
 
-// transactionServiceClient implements TransactionServiceClient.
-type transactionServiceClient struct {
-	createTransaction       *connect.Client[v1.CreateTransactionRequest, v1.CreateTransactionResponse]
-	getTransaction          *connect.Client[v1.GetTransactionRequest, v1.GetTransactionResponse]
-	listTransactions        *connect.Client[v1.ListTransactionsRequest, v1.ListTransactionsResponse]
-	updateTransactionStatus *connect.Client[v1.UpdateTransactionStatusRequest, v1.UpdateTransactionStatusResponse]
-	getUserTransactions     *connect.Client[v1.GetUserTransactionsRequest, v1.GetUserTransactionsResponse]
-	getCouponTransactions   *connect.Client[v1.GetCouponTransactionsRequest, v1.GetCouponTransactionsResponse]
+// orderServiceClient implements OrderServiceClient.
+type orderServiceClient struct {
+	createOrder       *connect.Client[v1.CreateOrderRequest, v1.CreateOrderResponse]
+	getOrder          *connect.Client[v1.GetOrderRequest, v1.GetOrderResponse]
+	listOrders        *connect.Client[v1.ListOrdersRequest, v1.ListOrdersResponse]
+	updateOrderStatus *connect.Client[v1.UpdateOrderStatusRequest, v1.UpdateOrderStatusResponse]
+	getUserOrders     *connect.Client[v1.GetUserOrdersRequest, v1.GetUserOrdersResponse]
+	getCouponOrders   *connect.Client[v1.GetCouponOrdersRequest, v1.GetCouponOrdersResponse]
 }
 
-// CreateTransaction calls transaction.TransactionService.CreateTransaction.
-func (c *transactionServiceClient) CreateTransaction(ctx context.Context, req *connect.Request[v1.CreateTransactionRequest]) (*connect.Response[v1.CreateTransactionResponse], error) {
-	return c.createTransaction.CallUnary(ctx, req)
+// CreateOrder calls Order.OrderService.CreateOrder.
+func (c *orderServiceClient) CreateOrder(ctx context.Context, req *connect.Request[v1.CreateOrderRequest]) (*connect.Response[v1.CreateOrderResponse], error) {
+	return c.createOrder.CallUnary(ctx, req)
 }
 
-// GetTransaction calls transaction.TransactionService.GetTransaction.
-func (c *transactionServiceClient) GetTransaction(ctx context.Context, req *connect.Request[v1.GetTransactionRequest]) (*connect.Response[v1.GetTransactionResponse], error) {
-	return c.getTransaction.CallUnary(ctx, req)
+// GetOrder calls Order.OrderService.GetOrder.
+func (c *orderServiceClient) GetOrder(ctx context.Context, req *connect.Request[v1.GetOrderRequest]) (*connect.Response[v1.GetOrderResponse], error) {
+	return c.getOrder.CallUnary(ctx, req)
 }
 
-// ListTransactions calls transaction.TransactionService.ListTransactions.
-func (c *transactionServiceClient) ListTransactions(ctx context.Context, req *connect.Request[v1.ListTransactionsRequest]) (*connect.Response[v1.ListTransactionsResponse], error) {
-	return c.listTransactions.CallUnary(ctx, req)
+// ListOrders calls Order.OrderService.ListOrders.
+func (c *orderServiceClient) ListOrders(ctx context.Context, req *connect.Request[v1.ListOrdersRequest]) (*connect.Response[v1.ListOrdersResponse], error) {
+	return c.listOrders.CallUnary(ctx, req)
 }
 
-// UpdateTransactionStatus calls transaction.TransactionService.UpdateTransactionStatus.
-func (c *transactionServiceClient) UpdateTransactionStatus(ctx context.Context, req *connect.Request[v1.UpdateTransactionStatusRequest]) (*connect.Response[v1.UpdateTransactionStatusResponse], error) {
-	return c.updateTransactionStatus.CallUnary(ctx, req)
+// UpdateOrderStatus calls Order.OrderService.UpdateOrderStatus.
+func (c *orderServiceClient) UpdateOrderStatus(ctx context.Context, req *connect.Request[v1.UpdateOrderStatusRequest]) (*connect.Response[v1.UpdateOrderStatusResponse], error) {
+	return c.updateOrderStatus.CallUnary(ctx, req)
 }
 
-// GetUserTransactions calls transaction.TransactionService.GetUserTransactions.
-func (c *transactionServiceClient) GetUserTransactions(ctx context.Context, req *connect.Request[v1.GetUserTransactionsRequest]) (*connect.Response[v1.GetUserTransactionsResponse], error) {
-	return c.getUserTransactions.CallUnary(ctx, req)
+// GetUserOrders calls Order.OrderService.GetUserOrders.
+func (c *orderServiceClient) GetUserOrders(ctx context.Context, req *connect.Request[v1.GetUserOrdersRequest]) (*connect.Response[v1.GetUserOrdersResponse], error) {
+	return c.getUserOrders.CallUnary(ctx, req)
 }
 
-// GetCouponTransactions calls transaction.TransactionService.GetCouponTransactions.
-func (c *transactionServiceClient) GetCouponTransactions(ctx context.Context, req *connect.Request[v1.GetCouponTransactionsRequest]) (*connect.Response[v1.GetCouponTransactionsResponse], error) {
-	return c.getCouponTransactions.CallUnary(ctx, req)
+// GetCouponOrders calls Order.OrderService.GetCouponOrders.
+func (c *orderServiceClient) GetCouponOrders(ctx context.Context, req *connect.Request[v1.GetCouponOrdersRequest]) (*connect.Response[v1.GetCouponOrdersResponse], error) {
+	return c.getCouponOrders.CallUnary(ctx, req)
 }
 
-// TransactionServiceHandler is an implementation of the transaction.TransactionService service.
-type TransactionServiceHandler interface {
-	CreateTransaction(context.Context, *connect.Request[v1.CreateTransactionRequest]) (*connect.Response[v1.CreateTransactionResponse], error)
-	GetTransaction(context.Context, *connect.Request[v1.GetTransactionRequest]) (*connect.Response[v1.GetTransactionResponse], error)
-	ListTransactions(context.Context, *connect.Request[v1.ListTransactionsRequest]) (*connect.Response[v1.ListTransactionsResponse], error)
-	UpdateTransactionStatus(context.Context, *connect.Request[v1.UpdateTransactionStatusRequest]) (*connect.Response[v1.UpdateTransactionStatusResponse], error)
-	GetUserTransactions(context.Context, *connect.Request[v1.GetUserTransactionsRequest]) (*connect.Response[v1.GetUserTransactionsResponse], error)
-	GetCouponTransactions(context.Context, *connect.Request[v1.GetCouponTransactionsRequest]) (*connect.Response[v1.GetCouponTransactionsResponse], error)
+// OrderServiceHandler is an implementation of the Order.OrderService service.
+type OrderServiceHandler interface {
+	CreateOrder(context.Context, *connect.Request[v1.CreateOrderRequest]) (*connect.Response[v1.CreateOrderResponse], error)
+	GetOrder(context.Context, *connect.Request[v1.GetOrderRequest]) (*connect.Response[v1.GetOrderResponse], error)
+	ListOrders(context.Context, *connect.Request[v1.ListOrdersRequest]) (*connect.Response[v1.ListOrdersResponse], error)
+	UpdateOrderStatus(context.Context, *connect.Request[v1.UpdateOrderStatusRequest]) (*connect.Response[v1.UpdateOrderStatusResponse], error)
+	GetUserOrders(context.Context, *connect.Request[v1.GetUserOrdersRequest]) (*connect.Response[v1.GetUserOrdersResponse], error)
+	GetCouponOrders(context.Context, *connect.Request[v1.GetCouponOrdersRequest]) (*connect.Response[v1.GetCouponOrdersResponse], error)
 }
 
-// NewTransactionServiceHandler builds an HTTP handler from the service implementation. It returns
-// the path on which to mount the handler and the handler itself.
+// NewOrderServiceHandler builds an HTTP handler from the service implementation. It returns the
+// path on which to mount the handler and the handler itself.
 //
 // By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
 // and JSON codecs. They also support gzip compression.
-func NewTransactionServiceHandler(svc TransactionServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	transactionServiceMethods := v1.File_order_v1_order_proto.Services().ByName("TransactionService").Methods()
-	transactionServiceCreateTransactionHandler := connect.NewUnaryHandler(
-		TransactionServiceCreateTransactionProcedure,
-		svc.CreateTransaction,
-		connect.WithSchema(transactionServiceMethods.ByName("CreateTransaction")),
+func NewOrderServiceHandler(svc OrderServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
+	orderServiceMethods := v1.File_order_v1_order_proto.Services().ByName("OrderService").Methods()
+	orderServiceCreateOrderHandler := connect.NewUnaryHandler(
+		OrderServiceCreateOrderProcedure,
+		svc.CreateOrder,
+		connect.WithSchema(orderServiceMethods.ByName("CreateOrder")),
 		connect.WithHandlerOptions(opts...),
 	)
-	transactionServiceGetTransactionHandler := connect.NewUnaryHandler(
-		TransactionServiceGetTransactionProcedure,
-		svc.GetTransaction,
-		connect.WithSchema(transactionServiceMethods.ByName("GetTransaction")),
+	orderServiceGetOrderHandler := connect.NewUnaryHandler(
+		OrderServiceGetOrderProcedure,
+		svc.GetOrder,
+		connect.WithSchema(orderServiceMethods.ByName("GetOrder")),
 		connect.WithHandlerOptions(opts...),
 	)
-	transactionServiceListTransactionsHandler := connect.NewUnaryHandler(
-		TransactionServiceListTransactionsProcedure,
-		svc.ListTransactions,
-		connect.WithSchema(transactionServiceMethods.ByName("ListTransactions")),
+	orderServiceListOrdersHandler := connect.NewUnaryHandler(
+		OrderServiceListOrdersProcedure,
+		svc.ListOrders,
+		connect.WithSchema(orderServiceMethods.ByName("ListOrders")),
 		connect.WithHandlerOptions(opts...),
 	)
-	transactionServiceUpdateTransactionStatusHandler := connect.NewUnaryHandler(
-		TransactionServiceUpdateTransactionStatusProcedure,
-		svc.UpdateTransactionStatus,
-		connect.WithSchema(transactionServiceMethods.ByName("UpdateTransactionStatus")),
+	orderServiceUpdateOrderStatusHandler := connect.NewUnaryHandler(
+		OrderServiceUpdateOrderStatusProcedure,
+		svc.UpdateOrderStatus,
+		connect.WithSchema(orderServiceMethods.ByName("UpdateOrderStatus")),
 		connect.WithHandlerOptions(opts...),
 	)
-	transactionServiceGetUserTransactionsHandler := connect.NewUnaryHandler(
-		TransactionServiceGetUserTransactionsProcedure,
-		svc.GetUserTransactions,
-		connect.WithSchema(transactionServiceMethods.ByName("GetUserTransactions")),
+	orderServiceGetUserOrdersHandler := connect.NewUnaryHandler(
+		OrderServiceGetUserOrdersProcedure,
+		svc.GetUserOrders,
+		connect.WithSchema(orderServiceMethods.ByName("GetUserOrders")),
 		connect.WithHandlerOptions(opts...),
 	)
-	transactionServiceGetCouponTransactionsHandler := connect.NewUnaryHandler(
-		TransactionServiceGetCouponTransactionsProcedure,
-		svc.GetCouponTransactions,
-		connect.WithSchema(transactionServiceMethods.ByName("GetCouponTransactions")),
+	orderServiceGetCouponOrdersHandler := connect.NewUnaryHandler(
+		OrderServiceGetCouponOrdersProcedure,
+		svc.GetCouponOrders,
+		connect.WithSchema(orderServiceMethods.ByName("GetCouponOrders")),
 		connect.WithHandlerOptions(opts...),
 	)
-	return "/transaction.TransactionService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return "/Order.OrderService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case TransactionServiceCreateTransactionProcedure:
-			transactionServiceCreateTransactionHandler.ServeHTTP(w, r)
-		case TransactionServiceGetTransactionProcedure:
-			transactionServiceGetTransactionHandler.ServeHTTP(w, r)
-		case TransactionServiceListTransactionsProcedure:
-			transactionServiceListTransactionsHandler.ServeHTTP(w, r)
-		case TransactionServiceUpdateTransactionStatusProcedure:
-			transactionServiceUpdateTransactionStatusHandler.ServeHTTP(w, r)
-		case TransactionServiceGetUserTransactionsProcedure:
-			transactionServiceGetUserTransactionsHandler.ServeHTTP(w, r)
-		case TransactionServiceGetCouponTransactionsProcedure:
-			transactionServiceGetCouponTransactionsHandler.ServeHTTP(w, r)
+		case OrderServiceCreateOrderProcedure:
+			orderServiceCreateOrderHandler.ServeHTTP(w, r)
+		case OrderServiceGetOrderProcedure:
+			orderServiceGetOrderHandler.ServeHTTP(w, r)
+		case OrderServiceListOrdersProcedure:
+			orderServiceListOrdersHandler.ServeHTTP(w, r)
+		case OrderServiceUpdateOrderStatusProcedure:
+			orderServiceUpdateOrderStatusHandler.ServeHTTP(w, r)
+		case OrderServiceGetUserOrdersProcedure:
+			orderServiceGetUserOrdersHandler.ServeHTTP(w, r)
+		case OrderServiceGetCouponOrdersProcedure:
+			orderServiceGetCouponOrdersHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
 	})
 }
 
-// UnimplementedTransactionServiceHandler returns CodeUnimplemented from all methods.
-type UnimplementedTransactionServiceHandler struct{}
+// UnimplementedOrderServiceHandler returns CodeUnimplemented from all methods.
+type UnimplementedOrderServiceHandler struct{}
 
-func (UnimplementedTransactionServiceHandler) CreateTransaction(context.Context, *connect.Request[v1.CreateTransactionRequest]) (*connect.Response[v1.CreateTransactionResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("transaction.TransactionService.CreateTransaction is not implemented"))
+func (UnimplementedOrderServiceHandler) CreateOrder(context.Context, *connect.Request[v1.CreateOrderRequest]) (*connect.Response[v1.CreateOrderResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("Order.OrderService.CreateOrder is not implemented"))
 }
 
-func (UnimplementedTransactionServiceHandler) GetTransaction(context.Context, *connect.Request[v1.GetTransactionRequest]) (*connect.Response[v1.GetTransactionResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("transaction.TransactionService.GetTransaction is not implemented"))
+func (UnimplementedOrderServiceHandler) GetOrder(context.Context, *connect.Request[v1.GetOrderRequest]) (*connect.Response[v1.GetOrderResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("Order.OrderService.GetOrder is not implemented"))
 }
 
-func (UnimplementedTransactionServiceHandler) ListTransactions(context.Context, *connect.Request[v1.ListTransactionsRequest]) (*connect.Response[v1.ListTransactionsResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("transaction.TransactionService.ListTransactions is not implemented"))
+func (UnimplementedOrderServiceHandler) ListOrders(context.Context, *connect.Request[v1.ListOrdersRequest]) (*connect.Response[v1.ListOrdersResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("Order.OrderService.ListOrders is not implemented"))
 }
 
-func (UnimplementedTransactionServiceHandler) UpdateTransactionStatus(context.Context, *connect.Request[v1.UpdateTransactionStatusRequest]) (*connect.Response[v1.UpdateTransactionStatusResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("transaction.TransactionService.UpdateTransactionStatus is not implemented"))
+func (UnimplementedOrderServiceHandler) UpdateOrderStatus(context.Context, *connect.Request[v1.UpdateOrderStatusRequest]) (*connect.Response[v1.UpdateOrderStatusResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("Order.OrderService.UpdateOrderStatus is not implemented"))
 }
 
-func (UnimplementedTransactionServiceHandler) GetUserTransactions(context.Context, *connect.Request[v1.GetUserTransactionsRequest]) (*connect.Response[v1.GetUserTransactionsResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("transaction.TransactionService.GetUserTransactions is not implemented"))
+func (UnimplementedOrderServiceHandler) GetUserOrders(context.Context, *connect.Request[v1.GetUserOrdersRequest]) (*connect.Response[v1.GetUserOrdersResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("Order.OrderService.GetUserOrders is not implemented"))
 }
 
-func (UnimplementedTransactionServiceHandler) GetCouponTransactions(context.Context, *connect.Request[v1.GetCouponTransactionsRequest]) (*connect.Response[v1.GetCouponTransactionsResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("transaction.TransactionService.GetCouponTransactions is not implemented"))
+func (UnimplementedOrderServiceHandler) GetCouponOrders(context.Context, *connect.Request[v1.GetCouponOrdersRequest]) (*connect.Response[v1.GetCouponOrdersResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("Order.OrderService.GetCouponOrders is not implemented"))
 }

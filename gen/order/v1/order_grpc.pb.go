@@ -19,291 +19,291 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TransactionService_CreateTransaction_FullMethodName       = "/transaction.TransactionService/CreateTransaction"
-	TransactionService_GetTransaction_FullMethodName          = "/transaction.TransactionService/GetTransaction"
-	TransactionService_ListTransactions_FullMethodName        = "/transaction.TransactionService/ListTransactions"
-	TransactionService_UpdateTransactionStatus_FullMethodName = "/transaction.TransactionService/UpdateTransactionStatus"
-	TransactionService_GetUserTransactions_FullMethodName     = "/transaction.TransactionService/GetUserTransactions"
-	TransactionService_GetCouponTransactions_FullMethodName   = "/transaction.TransactionService/GetCouponTransactions"
+	OrderService_CreateOrder_FullMethodName       = "/Order.OrderService/CreateOrder"
+	OrderService_GetOrder_FullMethodName          = "/Order.OrderService/GetOrder"
+	OrderService_ListOrders_FullMethodName        = "/Order.OrderService/ListOrders"
+	OrderService_UpdateOrderStatus_FullMethodName = "/Order.OrderService/UpdateOrderStatus"
+	OrderService_GetUserOrders_FullMethodName     = "/Order.OrderService/GetUserOrders"
+	OrderService_GetCouponOrders_FullMethodName   = "/Order.OrderService/GetCouponOrders"
 )
 
-// TransactionServiceClient is the client API for TransactionService service.
+// OrderServiceClient is the client API for OrderService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type TransactionServiceClient interface {
-	CreateTransaction(ctx context.Context, in *CreateTransactionRequest, opts ...grpc.CallOption) (*CreateTransactionResponse, error)
-	GetTransaction(ctx context.Context, in *GetTransactionRequest, opts ...grpc.CallOption) (*GetTransactionResponse, error)
-	ListTransactions(ctx context.Context, in *ListTransactionsRequest, opts ...grpc.CallOption) (*ListTransactionsResponse, error)
-	UpdateTransactionStatus(ctx context.Context, in *UpdateTransactionStatusRequest, opts ...grpc.CallOption) (*UpdateTransactionStatusResponse, error)
-	GetUserTransactions(ctx context.Context, in *GetUserTransactionsRequest, opts ...grpc.CallOption) (*GetUserTransactionsResponse, error)
-	GetCouponTransactions(ctx context.Context, in *GetCouponTransactionsRequest, opts ...grpc.CallOption) (*GetCouponTransactionsResponse, error)
+type OrderServiceClient interface {
+	CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*CreateOrderResponse, error)
+	GetOrder(ctx context.Context, in *GetOrderRequest, opts ...grpc.CallOption) (*GetOrderResponse, error)
+	ListOrders(ctx context.Context, in *ListOrdersRequest, opts ...grpc.CallOption) (*ListOrdersResponse, error)
+	UpdateOrderStatus(ctx context.Context, in *UpdateOrderStatusRequest, opts ...grpc.CallOption) (*UpdateOrderStatusResponse, error)
+	GetUserOrders(ctx context.Context, in *GetUserOrdersRequest, opts ...grpc.CallOption) (*GetUserOrdersResponse, error)
+	GetCouponOrders(ctx context.Context, in *GetCouponOrdersRequest, opts ...grpc.CallOption) (*GetCouponOrdersResponse, error)
 }
 
-type transactionServiceClient struct {
+type orderServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTransactionServiceClient(cc grpc.ClientConnInterface) TransactionServiceClient {
-	return &transactionServiceClient{cc}
+func NewOrderServiceClient(cc grpc.ClientConnInterface) OrderServiceClient {
+	return &orderServiceClient{cc}
 }
 
-func (c *transactionServiceClient) CreateTransaction(ctx context.Context, in *CreateTransactionRequest, opts ...grpc.CallOption) (*CreateTransactionResponse, error) {
+func (c *orderServiceClient) CreateOrder(ctx context.Context, in *CreateOrderRequest, opts ...grpc.CallOption) (*CreateOrderResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateTransactionResponse)
-	err := c.cc.Invoke(ctx, TransactionService_CreateTransaction_FullMethodName, in, out, cOpts...)
+	out := new(CreateOrderResponse)
+	err := c.cc.Invoke(ctx, OrderService_CreateOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *transactionServiceClient) GetTransaction(ctx context.Context, in *GetTransactionRequest, opts ...grpc.CallOption) (*GetTransactionResponse, error) {
+func (c *orderServiceClient) GetOrder(ctx context.Context, in *GetOrderRequest, opts ...grpc.CallOption) (*GetOrderResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetTransactionResponse)
-	err := c.cc.Invoke(ctx, TransactionService_GetTransaction_FullMethodName, in, out, cOpts...)
+	out := new(GetOrderResponse)
+	err := c.cc.Invoke(ctx, OrderService_GetOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *transactionServiceClient) ListTransactions(ctx context.Context, in *ListTransactionsRequest, opts ...grpc.CallOption) (*ListTransactionsResponse, error) {
+func (c *orderServiceClient) ListOrders(ctx context.Context, in *ListOrdersRequest, opts ...grpc.CallOption) (*ListOrdersResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ListTransactionsResponse)
-	err := c.cc.Invoke(ctx, TransactionService_ListTransactions_FullMethodName, in, out, cOpts...)
+	out := new(ListOrdersResponse)
+	err := c.cc.Invoke(ctx, OrderService_ListOrders_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *transactionServiceClient) UpdateTransactionStatus(ctx context.Context, in *UpdateTransactionStatusRequest, opts ...grpc.CallOption) (*UpdateTransactionStatusResponse, error) {
+func (c *orderServiceClient) UpdateOrderStatus(ctx context.Context, in *UpdateOrderStatusRequest, opts ...grpc.CallOption) (*UpdateOrderStatusResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UpdateTransactionStatusResponse)
-	err := c.cc.Invoke(ctx, TransactionService_UpdateTransactionStatus_FullMethodName, in, out, cOpts...)
+	out := new(UpdateOrderStatusResponse)
+	err := c.cc.Invoke(ctx, OrderService_UpdateOrderStatus_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *transactionServiceClient) GetUserTransactions(ctx context.Context, in *GetUserTransactionsRequest, opts ...grpc.CallOption) (*GetUserTransactionsResponse, error) {
+func (c *orderServiceClient) GetUserOrders(ctx context.Context, in *GetUserOrdersRequest, opts ...grpc.CallOption) (*GetUserOrdersResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUserTransactionsResponse)
-	err := c.cc.Invoke(ctx, TransactionService_GetUserTransactions_FullMethodName, in, out, cOpts...)
+	out := new(GetUserOrdersResponse)
+	err := c.cc.Invoke(ctx, OrderService_GetUserOrders_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *transactionServiceClient) GetCouponTransactions(ctx context.Context, in *GetCouponTransactionsRequest, opts ...grpc.CallOption) (*GetCouponTransactionsResponse, error) {
+func (c *orderServiceClient) GetCouponOrders(ctx context.Context, in *GetCouponOrdersRequest, opts ...grpc.CallOption) (*GetCouponOrdersResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetCouponTransactionsResponse)
-	err := c.cc.Invoke(ctx, TransactionService_GetCouponTransactions_FullMethodName, in, out, cOpts...)
+	out := new(GetCouponOrdersResponse)
+	err := c.cc.Invoke(ctx, OrderService_GetCouponOrders_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TransactionServiceServer is the server API for TransactionService service.
-// All implementations must embed UnimplementedTransactionServiceServer
+// OrderServiceServer is the server API for OrderService service.
+// All implementations must embed UnimplementedOrderServiceServer
 // for forward compatibility.
-type TransactionServiceServer interface {
-	CreateTransaction(context.Context, *CreateTransactionRequest) (*CreateTransactionResponse, error)
-	GetTransaction(context.Context, *GetTransactionRequest) (*GetTransactionResponse, error)
-	ListTransactions(context.Context, *ListTransactionsRequest) (*ListTransactionsResponse, error)
-	UpdateTransactionStatus(context.Context, *UpdateTransactionStatusRequest) (*UpdateTransactionStatusResponse, error)
-	GetUserTransactions(context.Context, *GetUserTransactionsRequest) (*GetUserTransactionsResponse, error)
-	GetCouponTransactions(context.Context, *GetCouponTransactionsRequest) (*GetCouponTransactionsResponse, error)
-	mustEmbedUnimplementedTransactionServiceServer()
+type OrderServiceServer interface {
+	CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderResponse, error)
+	GetOrder(context.Context, *GetOrderRequest) (*GetOrderResponse, error)
+	ListOrders(context.Context, *ListOrdersRequest) (*ListOrdersResponse, error)
+	UpdateOrderStatus(context.Context, *UpdateOrderStatusRequest) (*UpdateOrderStatusResponse, error)
+	GetUserOrders(context.Context, *GetUserOrdersRequest) (*GetUserOrdersResponse, error)
+	GetCouponOrders(context.Context, *GetCouponOrdersRequest) (*GetCouponOrdersResponse, error)
+	mustEmbedUnimplementedOrderServiceServer()
 }
 
-// UnimplementedTransactionServiceServer must be embedded to have
+// UnimplementedOrderServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedTransactionServiceServer struct{}
+type UnimplementedOrderServiceServer struct{}
 
-func (UnimplementedTransactionServiceServer) CreateTransaction(context.Context, *CreateTransactionRequest) (*CreateTransactionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateTransaction not implemented")
+func (UnimplementedOrderServiceServer) CreateOrder(context.Context, *CreateOrderRequest) (*CreateOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrder not implemented")
 }
-func (UnimplementedTransactionServiceServer) GetTransaction(context.Context, *GetTransactionRequest) (*GetTransactionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTransaction not implemented")
+func (UnimplementedOrderServiceServer) GetOrder(context.Context, *GetOrderRequest) (*GetOrderResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrder not implemented")
 }
-func (UnimplementedTransactionServiceServer) ListTransactions(context.Context, *ListTransactionsRequest) (*ListTransactionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListTransactions not implemented")
+func (UnimplementedOrderServiceServer) ListOrders(context.Context, *ListOrdersRequest) (*ListOrdersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrders not implemented")
 }
-func (UnimplementedTransactionServiceServer) UpdateTransactionStatus(context.Context, *UpdateTransactionStatusRequest) (*UpdateTransactionStatusResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateTransactionStatus not implemented")
+func (UnimplementedOrderServiceServer) UpdateOrderStatus(context.Context, *UpdateOrderStatusRequest) (*UpdateOrderStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrderStatus not implemented")
 }
-func (UnimplementedTransactionServiceServer) GetUserTransactions(context.Context, *GetUserTransactionsRequest) (*GetUserTransactionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserTransactions not implemented")
+func (UnimplementedOrderServiceServer) GetUserOrders(context.Context, *GetUserOrdersRequest) (*GetUserOrdersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserOrders not implemented")
 }
-func (UnimplementedTransactionServiceServer) GetCouponTransactions(context.Context, *GetCouponTransactionsRequest) (*GetCouponTransactionsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetCouponTransactions not implemented")
+func (UnimplementedOrderServiceServer) GetCouponOrders(context.Context, *GetCouponOrdersRequest) (*GetCouponOrdersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCouponOrders not implemented")
 }
-func (UnimplementedTransactionServiceServer) mustEmbedUnimplementedTransactionServiceServer() {}
-func (UnimplementedTransactionServiceServer) testEmbeddedByValue()                            {}
+func (UnimplementedOrderServiceServer) mustEmbedUnimplementedOrderServiceServer() {}
+func (UnimplementedOrderServiceServer) testEmbeddedByValue()                      {}
 
-// UnsafeTransactionServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TransactionServiceServer will
+// UnsafeOrderServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to OrderServiceServer will
 // result in compilation errors.
-type UnsafeTransactionServiceServer interface {
-	mustEmbedUnimplementedTransactionServiceServer()
+type UnsafeOrderServiceServer interface {
+	mustEmbedUnimplementedOrderServiceServer()
 }
 
-func RegisterTransactionServiceServer(s grpc.ServiceRegistrar, srv TransactionServiceServer) {
-	// If the following call pancis, it indicates UnimplementedTransactionServiceServer was
+func RegisterOrderServiceServer(s grpc.ServiceRegistrar, srv OrderServiceServer) {
+	// If the following call pancis, it indicates UnimplementedOrderServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&TransactionService_ServiceDesc, srv)
+	s.RegisterService(&OrderService_ServiceDesc, srv)
 }
 
-func _TransactionService_CreateTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTransactionRequest)
+func _OrderService_CreateOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateOrderRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TransactionServiceServer).CreateTransaction(ctx, in)
+		return srv.(OrderServiceServer).CreateOrder(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TransactionService_CreateTransaction_FullMethodName,
+		FullMethod: OrderService_CreateOrder_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransactionServiceServer).CreateTransaction(ctx, req.(*CreateTransactionRequest))
+		return srv.(OrderServiceServer).CreateOrder(ctx, req.(*CreateOrderRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TransactionService_GetTransaction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTransactionRequest)
+func _OrderService_GetOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOrderRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TransactionServiceServer).GetTransaction(ctx, in)
+		return srv.(OrderServiceServer).GetOrder(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TransactionService_GetTransaction_FullMethodName,
+		FullMethod: OrderService_GetOrder_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransactionServiceServer).GetTransaction(ctx, req.(*GetTransactionRequest))
+		return srv.(OrderServiceServer).GetOrder(ctx, req.(*GetOrderRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TransactionService_ListTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListTransactionsRequest)
+func _OrderService_ListOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOrdersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TransactionServiceServer).ListTransactions(ctx, in)
+		return srv.(OrderServiceServer).ListOrders(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TransactionService_ListTransactions_FullMethodName,
+		FullMethod: OrderService_ListOrders_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransactionServiceServer).ListTransactions(ctx, req.(*ListTransactionsRequest))
+		return srv.(OrderServiceServer).ListOrders(ctx, req.(*ListOrdersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TransactionService_UpdateTransactionStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateTransactionStatusRequest)
+func _OrderService_UpdateOrderStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateOrderStatusRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TransactionServiceServer).UpdateTransactionStatus(ctx, in)
+		return srv.(OrderServiceServer).UpdateOrderStatus(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TransactionService_UpdateTransactionStatus_FullMethodName,
+		FullMethod: OrderService_UpdateOrderStatus_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransactionServiceServer).UpdateTransactionStatus(ctx, req.(*UpdateTransactionStatusRequest))
+		return srv.(OrderServiceServer).UpdateOrderStatus(ctx, req.(*UpdateOrderStatusRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TransactionService_GetUserTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserTransactionsRequest)
+func _OrderService_GetUserOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserOrdersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TransactionServiceServer).GetUserTransactions(ctx, in)
+		return srv.(OrderServiceServer).GetUserOrders(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TransactionService_GetUserTransactions_FullMethodName,
+		FullMethod: OrderService_GetUserOrders_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransactionServiceServer).GetUserTransactions(ctx, req.(*GetUserTransactionsRequest))
+		return srv.(OrderServiceServer).GetUserOrders(ctx, req.(*GetUserOrdersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TransactionService_GetCouponTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCouponTransactionsRequest)
+func _OrderService_GetCouponOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCouponOrdersRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TransactionServiceServer).GetCouponTransactions(ctx, in)
+		return srv.(OrderServiceServer).GetCouponOrders(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TransactionService_GetCouponTransactions_FullMethodName,
+		FullMethod: OrderService_GetCouponOrders_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransactionServiceServer).GetCouponTransactions(ctx, req.(*GetCouponTransactionsRequest))
+		return srv.(OrderServiceServer).GetCouponOrders(ctx, req.(*GetCouponOrdersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// TransactionService_ServiceDesc is the grpc.ServiceDesc for TransactionService service.
+// OrderService_ServiceDesc is the grpc.ServiceDesc for OrderService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var TransactionService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "transaction.TransactionService",
-	HandlerType: (*TransactionServiceServer)(nil),
+var OrderService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "Order.OrderService",
+	HandlerType: (*OrderServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateTransaction",
-			Handler:    _TransactionService_CreateTransaction_Handler,
+			MethodName: "CreateOrder",
+			Handler:    _OrderService_CreateOrder_Handler,
 		},
 		{
-			MethodName: "GetTransaction",
-			Handler:    _TransactionService_GetTransaction_Handler,
+			MethodName: "GetOrder",
+			Handler:    _OrderService_GetOrder_Handler,
 		},
 		{
-			MethodName: "ListTransactions",
-			Handler:    _TransactionService_ListTransactions_Handler,
+			MethodName: "ListOrders",
+			Handler:    _OrderService_ListOrders_Handler,
 		},
 		{
-			MethodName: "UpdateTransactionStatus",
-			Handler:    _TransactionService_UpdateTransactionStatus_Handler,
+			MethodName: "UpdateOrderStatus",
+			Handler:    _OrderService_UpdateOrderStatus_Handler,
 		},
 		{
-			MethodName: "GetUserTransactions",
-			Handler:    _TransactionService_GetUserTransactions_Handler,
+			MethodName: "GetUserOrders",
+			Handler:    _OrderService_GetUserOrders_Handler,
 		},
 		{
-			MethodName: "GetCouponTransactions",
-			Handler:    _TransactionService_GetCouponTransactions_Handler,
+			MethodName: "GetCouponOrders",
+			Handler:    _OrderService_GetCouponOrders_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

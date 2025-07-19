@@ -22,7 +22,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type CreateTransactionRequest struct {
+type CreateOrderRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	CouponId      string                 `protobuf:"bytes,2,opt,name=coupon_id,json=couponId,proto3" json:"coupon_id,omitempty"`
@@ -33,20 +33,20 @@ type CreateTransactionRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateTransactionRequest) Reset() {
-	*x = CreateTransactionRequest{}
+func (x *CreateOrderRequest) Reset() {
+	*x = CreateOrderRequest{}
 	mi := &file_order_v1_order_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateTransactionRequest) String() string {
+func (x *CreateOrderRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateTransactionRequest) ProtoMessage() {}
+func (*CreateOrderRequest) ProtoMessage() {}
 
-func (x *CreateTransactionRequest) ProtoReflect() protoreflect.Message {
+func (x *CreateOrderRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -58,68 +58,68 @@ func (x *CreateTransactionRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateTransactionRequest.ProtoReflect.Descriptor instead.
-func (*CreateTransactionRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateOrderRequest.ProtoReflect.Descriptor instead.
+func (*CreateOrderRequest) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *CreateTransactionRequest) GetUserId() string {
+func (x *CreateOrderRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *CreateTransactionRequest) GetCouponId() string {
+func (x *CreateOrderRequest) GetCouponId() string {
 	if x != nil {
 		return x.CouponId
 	}
 	return ""
 }
 
-func (x *CreateTransactionRequest) GetAmount() float64 {
+func (x *CreateOrderRequest) GetAmount() float64 {
 	if x != nil {
 		return x.Amount
 	}
 	return 0
 }
 
-func (x *CreateTransactionRequest) GetDiscount() float64 {
+func (x *CreateOrderRequest) GetDiscount() float64 {
 	if x != nil {
 		return x.Discount
 	}
 	return 0
 }
 
-func (x *CreateTransactionRequest) GetStatus() string {
+func (x *CreateOrderRequest) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-type CreateTransactionResponse struct {
+type CreateOrderResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Transaction   *Transaction           `protobuf:"bytes,1,opt,name=transaction,proto3" json:"transaction,omitempty"`
+	Order         *Order                 `protobuf:"bytes,1,opt,name=Order,proto3" json:"Order,omitempty"`
 	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateTransactionResponse) Reset() {
-	*x = CreateTransactionResponse{}
+func (x *CreateOrderResponse) Reset() {
+	*x = CreateOrderResponse{}
 	mi := &file_order_v1_order_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateTransactionResponse) String() string {
+func (x *CreateOrderResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateTransactionResponse) ProtoMessage() {}
+func (*CreateOrderResponse) ProtoMessage() {}
 
-func (x *CreateTransactionResponse) ProtoReflect() protoreflect.Message {
+func (x *CreateOrderResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -131,46 +131,46 @@ func (x *CreateTransactionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateTransactionResponse.ProtoReflect.Descriptor instead.
-func (*CreateTransactionResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateOrderResponse.ProtoReflect.Descriptor instead.
+func (*CreateOrderResponse) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *CreateTransactionResponse) GetTransaction() *Transaction {
+func (x *CreateOrderResponse) GetOrder() *Order {
 	if x != nil {
-		return x.Transaction
+		return x.Order
 	}
 	return nil
 }
 
-func (x *CreateTransactionResponse) GetError() string {
+func (x *CreateOrderResponse) GetError() string {
 	if x != nil {
 		return x.Error
 	}
 	return ""
 }
 
-type GetTransactionRequest struct {
+type GetOrderRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetTransactionRequest) Reset() {
-	*x = GetTransactionRequest{}
+func (x *GetOrderRequest) Reset() {
+	*x = GetOrderRequest{}
 	mi := &file_order_v1_order_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetTransactionRequest) String() string {
+func (x *GetOrderRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetTransactionRequest) ProtoMessage() {}
+func (*GetOrderRequest) ProtoMessage() {}
 
-func (x *GetTransactionRequest) ProtoReflect() protoreflect.Message {
+func (x *GetOrderRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -182,40 +182,40 @@ func (x *GetTransactionRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetTransactionRequest.ProtoReflect.Descriptor instead.
-func (*GetTransactionRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetOrderRequest.ProtoReflect.Descriptor instead.
+func (*GetOrderRequest) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetTransactionRequest) GetId() string {
+func (x *GetOrderRequest) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-type GetTransactionResponse struct {
+type GetOrderResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Transaction   *Transaction           `protobuf:"bytes,1,opt,name=transaction,proto3" json:"transaction,omitempty"`
+	Order         *Order                 `protobuf:"bytes,1,opt,name=Order,proto3" json:"Order,omitempty"`
 	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetTransactionResponse) Reset() {
-	*x = GetTransactionResponse{}
+func (x *GetOrderResponse) Reset() {
+	*x = GetOrderResponse{}
 	mi := &file_order_v1_order_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetTransactionResponse) String() string {
+func (x *GetOrderResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetTransactionResponse) ProtoMessage() {}
+func (*GetOrderResponse) ProtoMessage() {}
 
-func (x *GetTransactionResponse) ProtoReflect() protoreflect.Message {
+func (x *GetOrderResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -227,26 +227,26 @@ func (x *GetTransactionResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetTransactionResponse.ProtoReflect.Descriptor instead.
-func (*GetTransactionResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetOrderResponse.ProtoReflect.Descriptor instead.
+func (*GetOrderResponse) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *GetTransactionResponse) GetTransaction() *Transaction {
+func (x *GetOrderResponse) GetOrder() *Order {
 	if x != nil {
-		return x.Transaction
+		return x.Order
 	}
 	return nil
 }
 
-func (x *GetTransactionResponse) GetError() string {
+func (x *GetOrderResponse) GetError() string {
 	if x != nil {
 		return x.Error
 	}
 	return ""
 }
 
-type ListTransactionsRequest struct {
+type ListOrdersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Page          int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
 	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
@@ -255,20 +255,20 @@ type ListTransactionsRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ListTransactionsRequest) Reset() {
-	*x = ListTransactionsRequest{}
+func (x *ListOrdersRequest) Reset() {
+	*x = ListOrdersRequest{}
 	mi := &file_order_v1_order_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ListTransactionsRequest) String() string {
+func (x *ListOrdersRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListTransactionsRequest) ProtoMessage() {}
+func (*ListOrdersRequest) ProtoMessage() {}
 
-func (x *ListTransactionsRequest) ProtoReflect() protoreflect.Message {
+func (x *ListOrdersRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -280,35 +280,35 @@ func (x *ListTransactionsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListTransactionsRequest.ProtoReflect.Descriptor instead.
-func (*ListTransactionsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListOrdersRequest.ProtoReflect.Descriptor instead.
+func (*ListOrdersRequest) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *ListTransactionsRequest) GetPage() int32 {
+func (x *ListOrdersRequest) GetPage() int32 {
 	if x != nil {
 		return x.Page
 	}
 	return 0
 }
 
-func (x *ListTransactionsRequest) GetPageSize() int32 {
+func (x *ListOrdersRequest) GetPageSize() int32 {
 	if x != nil {
 		return x.PageSize
 	}
 	return 0
 }
 
-func (x *ListTransactionsRequest) GetFilter() string {
+func (x *ListOrdersRequest) GetFilter() string {
 	if x != nil {
 		return x.Filter
 	}
 	return ""
 }
 
-type ListTransactionsResponse struct {
+type ListOrdersResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Transactions  []*Transaction         `protobuf:"bytes,1,rep,name=transactions,proto3" json:"transactions,omitempty"`
+	Orders        []*Order               `protobuf:"bytes,1,rep,name=Orders,proto3" json:"Orders,omitempty"`
 	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	Page          int32                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
 	PageSize      int32                  `protobuf:"varint,4,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
@@ -317,20 +317,20 @@ type ListTransactionsResponse struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ListTransactionsResponse) Reset() {
-	*x = ListTransactionsResponse{}
+func (x *ListOrdersResponse) Reset() {
+	*x = ListOrdersResponse{}
 	mi := &file_order_v1_order_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ListTransactionsResponse) String() string {
+func (x *ListOrdersResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListTransactionsResponse) ProtoMessage() {}
+func (*ListOrdersResponse) ProtoMessage() {}
 
-func (x *ListTransactionsResponse) ProtoReflect() protoreflect.Message {
+func (x *ListOrdersResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -342,47 +342,47 @@ func (x *ListTransactionsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListTransactionsResponse.ProtoReflect.Descriptor instead.
-func (*ListTransactionsResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ListOrdersResponse.ProtoReflect.Descriptor instead.
+func (*ListOrdersResponse) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *ListTransactionsResponse) GetTransactions() []*Transaction {
+func (x *ListOrdersResponse) GetOrders() []*Order {
 	if x != nil {
-		return x.Transactions
+		return x.Orders
 	}
 	return nil
 }
 
-func (x *ListTransactionsResponse) GetTotal() int32 {
+func (x *ListOrdersResponse) GetTotal() int32 {
 	if x != nil {
 		return x.Total
 	}
 	return 0
 }
 
-func (x *ListTransactionsResponse) GetPage() int32 {
+func (x *ListOrdersResponse) GetPage() int32 {
 	if x != nil {
 		return x.Page
 	}
 	return 0
 }
 
-func (x *ListTransactionsResponse) GetPageSize() int32 {
+func (x *ListOrdersResponse) GetPageSize() int32 {
 	if x != nil {
 		return x.PageSize
 	}
 	return 0
 }
 
-func (x *ListTransactionsResponse) GetError() string {
+func (x *ListOrdersResponse) GetError() string {
 	if x != nil {
 		return x.Error
 	}
 	return ""
 }
 
-type UpdateTransactionStatusRequest struct {
+type UpdateOrderStatusRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
@@ -390,20 +390,20 @@ type UpdateTransactionStatusRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UpdateTransactionStatusRequest) Reset() {
-	*x = UpdateTransactionStatusRequest{}
+func (x *UpdateOrderStatusRequest) Reset() {
+	*x = UpdateOrderStatusRequest{}
 	mi := &file_order_v1_order_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UpdateTransactionStatusRequest) String() string {
+func (x *UpdateOrderStatusRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateTransactionStatusRequest) ProtoMessage() {}
+func (*UpdateOrderStatusRequest) ProtoMessage() {}
 
-func (x *UpdateTransactionStatusRequest) ProtoReflect() protoreflect.Message {
+func (x *UpdateOrderStatusRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -415,47 +415,47 @@ func (x *UpdateTransactionStatusRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateTransactionStatusRequest.ProtoReflect.Descriptor instead.
-func (*UpdateTransactionStatusRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use UpdateOrderStatusRequest.ProtoReflect.Descriptor instead.
+func (*UpdateOrderStatusRequest) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *UpdateTransactionStatusRequest) GetId() string {
+func (x *UpdateOrderStatusRequest) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *UpdateTransactionStatusRequest) GetStatus() string {
+func (x *UpdateOrderStatusRequest) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-type UpdateTransactionStatusResponse struct {
+type UpdateOrderStatusResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Transaction   *Transaction           `protobuf:"bytes,1,opt,name=transaction,proto3" json:"transaction,omitempty"`
+	Order         *Order                 `protobuf:"bytes,1,opt,name=Order,proto3" json:"Order,omitempty"`
 	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UpdateTransactionStatusResponse) Reset() {
-	*x = UpdateTransactionStatusResponse{}
+func (x *UpdateOrderStatusResponse) Reset() {
+	*x = UpdateOrderStatusResponse{}
 	mi := &file_order_v1_order_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UpdateTransactionStatusResponse) String() string {
+func (x *UpdateOrderStatusResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateTransactionStatusResponse) ProtoMessage() {}
+func (*UpdateOrderStatusResponse) ProtoMessage() {}
 
-func (x *UpdateTransactionStatusResponse) ProtoReflect() protoreflect.Message {
+func (x *UpdateOrderStatusResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -467,26 +467,26 @@ func (x *UpdateTransactionStatusResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateTransactionStatusResponse.ProtoReflect.Descriptor instead.
-func (*UpdateTransactionStatusResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use UpdateOrderStatusResponse.ProtoReflect.Descriptor instead.
+func (*UpdateOrderStatusResponse) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *UpdateTransactionStatusResponse) GetTransaction() *Transaction {
+func (x *UpdateOrderStatusResponse) GetOrder() *Order {
 	if x != nil {
-		return x.Transaction
+		return x.Order
 	}
 	return nil
 }
 
-func (x *UpdateTransactionStatusResponse) GetError() string {
+func (x *UpdateOrderStatusResponse) GetError() string {
 	if x != nil {
 		return x.Error
 	}
 	return ""
 }
 
-type GetUserTransactionsRequest struct {
+type GetUserOrdersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
@@ -495,20 +495,20 @@ type GetUserTransactionsRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetUserTransactionsRequest) Reset() {
-	*x = GetUserTransactionsRequest{}
+func (x *GetUserOrdersRequest) Reset() {
+	*x = GetUserOrdersRequest{}
 	mi := &file_order_v1_order_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetUserTransactionsRequest) String() string {
+func (x *GetUserOrdersRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetUserTransactionsRequest) ProtoMessage() {}
+func (*GetUserOrdersRequest) ProtoMessage() {}
 
-func (x *GetUserTransactionsRequest) ProtoReflect() protoreflect.Message {
+func (x *GetUserOrdersRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -520,55 +520,55 @@ func (x *GetUserTransactionsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetUserTransactionsRequest.ProtoReflect.Descriptor instead.
-func (*GetUserTransactionsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetUserOrdersRequest.ProtoReflect.Descriptor instead.
+func (*GetUserOrdersRequest) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *GetUserTransactionsRequest) GetUserId() string {
+func (x *GetUserOrdersRequest) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *GetUserTransactionsRequest) GetPage() int32 {
+func (x *GetUserOrdersRequest) GetPage() int32 {
 	if x != nil {
 		return x.Page
 	}
 	return 0
 }
 
-func (x *GetUserTransactionsRequest) GetPageSize() int32 {
+func (x *GetUserOrdersRequest) GetPageSize() int32 {
 	if x != nil {
 		return x.PageSize
 	}
 	return 0
 }
 
-type GetUserTransactionsResponse struct {
+type GetUserOrdersResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Transactions  []*Transaction         `protobuf:"bytes,1,rep,name=transactions,proto3" json:"transactions,omitempty"`
+	Orders        []*Order               `protobuf:"bytes,1,rep,name=Orders,proto3" json:"Orders,omitempty"`
 	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	Error         string                 `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetUserTransactionsResponse) Reset() {
-	*x = GetUserTransactionsResponse{}
+func (x *GetUserOrdersResponse) Reset() {
+	*x = GetUserOrdersResponse{}
 	mi := &file_order_v1_order_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetUserTransactionsResponse) String() string {
+func (x *GetUserOrdersResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetUserTransactionsResponse) ProtoMessage() {}
+func (*GetUserOrdersResponse) ProtoMessage() {}
 
-func (x *GetUserTransactionsResponse) ProtoReflect() protoreflect.Message {
+func (x *GetUserOrdersResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -580,33 +580,33 @@ func (x *GetUserTransactionsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetUserTransactionsResponse.ProtoReflect.Descriptor instead.
-func (*GetUserTransactionsResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetUserOrdersResponse.ProtoReflect.Descriptor instead.
+func (*GetUserOrdersResponse) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *GetUserTransactionsResponse) GetTransactions() []*Transaction {
+func (x *GetUserOrdersResponse) GetOrders() []*Order {
 	if x != nil {
-		return x.Transactions
+		return x.Orders
 	}
 	return nil
 }
 
-func (x *GetUserTransactionsResponse) GetTotal() int32 {
+func (x *GetUserOrdersResponse) GetTotal() int32 {
 	if x != nil {
 		return x.Total
 	}
 	return 0
 }
 
-func (x *GetUserTransactionsResponse) GetError() string {
+func (x *GetUserOrdersResponse) GetError() string {
 	if x != nil {
 		return x.Error
 	}
 	return ""
 }
 
-type GetCouponTransactionsRequest struct {
+type GetCouponOrdersRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CouponId      string                 `protobuf:"bytes,1,opt,name=coupon_id,json=couponId,proto3" json:"coupon_id,omitempty"`
 	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
@@ -615,20 +615,20 @@ type GetCouponTransactionsRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetCouponTransactionsRequest) Reset() {
-	*x = GetCouponTransactionsRequest{}
+func (x *GetCouponOrdersRequest) Reset() {
+	*x = GetCouponOrdersRequest{}
 	mi := &file_order_v1_order_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetCouponTransactionsRequest) String() string {
+func (x *GetCouponOrdersRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetCouponTransactionsRequest) ProtoMessage() {}
+func (*GetCouponOrdersRequest) ProtoMessage() {}
 
-func (x *GetCouponTransactionsRequest) ProtoReflect() protoreflect.Message {
+func (x *GetCouponOrdersRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -640,55 +640,55 @@ func (x *GetCouponTransactionsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetCouponTransactionsRequest.ProtoReflect.Descriptor instead.
-func (*GetCouponTransactionsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetCouponOrdersRequest.ProtoReflect.Descriptor instead.
+func (*GetCouponOrdersRequest) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *GetCouponTransactionsRequest) GetCouponId() string {
+func (x *GetCouponOrdersRequest) GetCouponId() string {
 	if x != nil {
 		return x.CouponId
 	}
 	return ""
 }
 
-func (x *GetCouponTransactionsRequest) GetPage() int32 {
+func (x *GetCouponOrdersRequest) GetPage() int32 {
 	if x != nil {
 		return x.Page
 	}
 	return 0
 }
 
-func (x *GetCouponTransactionsRequest) GetPageSize() int32 {
+func (x *GetCouponOrdersRequest) GetPageSize() int32 {
 	if x != nil {
 		return x.PageSize
 	}
 	return 0
 }
 
-type GetCouponTransactionsResponse struct {
+type GetCouponOrdersResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Transactions  []*Transaction         `protobuf:"bytes,1,rep,name=transactions,proto3" json:"transactions,omitempty"`
+	Orders        []*Order               `protobuf:"bytes,1,rep,name=Orders,proto3" json:"Orders,omitempty"`
 	Total         int32                  `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
 	Error         string                 `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetCouponTransactionsResponse) Reset() {
-	*x = GetCouponTransactionsResponse{}
+func (x *GetCouponOrdersResponse) Reset() {
+	*x = GetCouponOrdersResponse{}
 	mi := &file_order_v1_order_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetCouponTransactionsResponse) String() string {
+func (x *GetCouponOrdersResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetCouponTransactionsResponse) ProtoMessage() {}
+func (*GetCouponOrdersResponse) ProtoMessage() {}
 
-func (x *GetCouponTransactionsResponse) ProtoReflect() protoreflect.Message {
+func (x *GetCouponOrdersResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -700,33 +700,33 @@ func (x *GetCouponTransactionsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetCouponTransactionsResponse.ProtoReflect.Descriptor instead.
-func (*GetCouponTransactionsResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetCouponOrdersResponse.ProtoReflect.Descriptor instead.
+func (*GetCouponOrdersResponse) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{11}
 }
 
-func (x *GetCouponTransactionsResponse) GetTransactions() []*Transaction {
+func (x *GetCouponOrdersResponse) GetOrders() []*Order {
 	if x != nil {
-		return x.Transactions
+		return x.Orders
 	}
 	return nil
 }
 
-func (x *GetCouponTransactionsResponse) GetTotal() int32 {
+func (x *GetCouponOrdersResponse) GetTotal() int32 {
 	if x != nil {
 		return x.Total
 	}
 	return 0
 }
 
-func (x *GetCouponTransactionsResponse) GetError() string {
+func (x *GetCouponOrdersResponse) GetError() string {
 	if x != nil {
 		return x.Error
 	}
 	return ""
 }
 
-type Transaction struct {
+type Order struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
@@ -740,20 +740,20 @@ type Transaction struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *Transaction) Reset() {
-	*x = Transaction{}
+func (x *Order) Reset() {
+	*x = Order{}
 	mi := &file_order_v1_order_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Transaction) String() string {
+func (x *Order) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Transaction) ProtoMessage() {}
+func (*Order) ProtoMessage() {}
 
-func (x *Transaction) ProtoReflect() protoreflect.Message {
+func (x *Order) ProtoReflect() protoreflect.Message {
 	mi := &file_order_v1_order_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -765,61 +765,61 @@ func (x *Transaction) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Transaction.ProtoReflect.Descriptor instead.
-func (*Transaction) Descriptor() ([]byte, []int) {
+// Deprecated: Use Order.ProtoReflect.Descriptor instead.
+func (*Order) Descriptor() ([]byte, []int) {
 	return file_order_v1_order_proto_rawDescGZIP(), []int{12}
 }
 
-func (x *Transaction) GetId() string {
+func (x *Order) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-func (x *Transaction) GetUserId() string {
+func (x *Order) GetUserId() string {
 	if x != nil {
 		return x.UserId
 	}
 	return ""
 }
 
-func (x *Transaction) GetCouponId() string {
+func (x *Order) GetCouponId() string {
 	if x != nil {
 		return x.CouponId
 	}
 	return ""
 }
 
-func (x *Transaction) GetAmount() float64 {
+func (x *Order) GetAmount() float64 {
 	if x != nil {
 		return x.Amount
 	}
 	return 0
 }
 
-func (x *Transaction) GetDiscount() float64 {
+func (x *Order) GetDiscount() float64 {
 	if x != nil {
 		return x.Discount
 	}
 	return 0
 }
 
-func (x *Transaction) GetStatus() string {
+func (x *Order) GetStatus() string {
 	if x != nil {
 		return x.Status
 	}
 	return ""
 }
 
-func (x *Transaction) GetCreatedAt() *timestamppb.Timestamp {
+func (x *Order) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
 	}
 	return nil
 }
 
-func (x *Transaction) GetUpdatedAt() *timestamppb.Timestamp {
+func (x *Order) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UpdatedAt
 	}
@@ -830,54 +830,54 @@ var File_order_v1_order_proto protoreflect.FileDescriptor
 
 const file_order_v1_order_proto_rawDesc = "" +
 	"\n" +
-	"\x14order/v1/order.proto\x12\vtransaction\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9c\x01\n" +
-	"\x18CreateTransactionRequest\x12\x17\n" +
+	"\x14order/v1/order.proto\x12\x05Order\x1a\x1fgoogle/protobuf/timestamp.proto\"\x96\x01\n" +
+	"\x12CreateOrderRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
 	"\tcoupon_id\x18\x02 \x01(\tR\bcouponId\x12\x16\n" +
 	"\x06amount\x18\x03 \x01(\x01R\x06amount\x12\x1a\n" +
 	"\bdiscount\x18\x04 \x01(\x01R\bdiscount\x12\x16\n" +
-	"\x06status\x18\x05 \x01(\tR\x06status\"m\n" +
-	"\x19CreateTransactionResponse\x12:\n" +
-	"\vtransaction\x18\x01 \x01(\v2\x18.transaction.TransactionR\vtransaction\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"'\n" +
-	"\x15GetTransactionRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"j\n" +
-	"\x16GetTransactionResponse\x12:\n" +
-	"\vtransaction\x18\x01 \x01(\v2\x18.transaction.TransactionR\vtransaction\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"b\n" +
-	"\x17ListTransactionsRequest\x12\x12\n" +
+	"\x06status\x18\x05 \x01(\tR\x06status\"O\n" +
+	"\x13CreateOrderResponse\x12\"\n" +
+	"\x05Order\x18\x01 \x01(\v2\f.Order.OrderR\x05Order\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"!\n" +
+	"\x0fGetOrderRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"L\n" +
+	"\x10GetOrderResponse\x12\"\n" +
+	"\x05Order\x18\x01 \x01(\v2\f.Order.OrderR\x05Order\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\\\n" +
+	"\x11ListOrdersRequest\x12\x12\n" +
 	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x16\n" +
-	"\x06filter\x18\x03 \x01(\tR\x06filter\"\xb5\x01\n" +
-	"\x18ListTransactionsResponse\x12<\n" +
-	"\ftransactions\x18\x01 \x03(\v2\x18.transaction.TransactionR\ftransactions\x12\x14\n" +
+	"\x06filter\x18\x03 \x01(\tR\x06filter\"\x97\x01\n" +
+	"\x12ListOrdersResponse\x12$\n" +
+	"\x06Orders\x18\x01 \x03(\v2\f.Order.OrderR\x06Orders\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
 	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\x12\x14\n" +
-	"\x05error\x18\x05 \x01(\tR\x05error\"H\n" +
-	"\x1eUpdateTransactionStatusRequest\x12\x0e\n" +
+	"\x05error\x18\x05 \x01(\tR\x05error\"B\n" +
+	"\x18UpdateOrderStatusRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\"s\n" +
-	"\x1fUpdateTransactionStatusResponse\x12:\n" +
-	"\vtransaction\x18\x01 \x01(\v2\x18.transaction.TransactionR\vtransaction\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"f\n" +
-	"\x1aGetUserTransactionsRequest\x12\x17\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\"U\n" +
+	"\x19UpdateOrderStatusResponse\x12\"\n" +
+	"\x05Order\x18\x01 \x01(\v2\f.Order.OrderR\x05Order\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"`\n" +
+	"\x14GetUserOrdersRequest\x12\x17\n" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x12\n" +
 	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"\x87\x01\n" +
-	"\x1bGetUserTransactionsResponse\x12<\n" +
-	"\ftransactions\x18\x01 \x03(\v2\x18.transaction.TransactionR\ftransactions\x12\x14\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"i\n" +
+	"\x15GetUserOrdersResponse\x12$\n" +
+	"\x06Orders\x18\x01 \x03(\v2\f.Order.OrderR\x06Orders\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x14\n" +
-	"\x05error\x18\x03 \x01(\tR\x05error\"l\n" +
-	"\x1cGetCouponTransactionsRequest\x12\x1b\n" +
+	"\x05error\x18\x03 \x01(\tR\x05error\"f\n" +
+	"\x16GetCouponOrdersRequest\x12\x1b\n" +
 	"\tcoupon_id\x18\x01 \x01(\tR\bcouponId\x12\x12\n" +
 	"\x04page\x18\x02 \x01(\x05R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"\x89\x01\n" +
-	"\x1dGetCouponTransactionsResponse\x12<\n" +
-	"\ftransactions\x18\x01 \x03(\v2\x18.transaction.TransactionR\ftransactions\x12\x14\n" +
+	"\tpage_size\x18\x03 \x01(\x05R\bpageSize\"k\n" +
+	"\x17GetCouponOrdersResponse\x12$\n" +
+	"\x06Orders\x18\x01 \x03(\v2\f.Order.OrderR\x06Orders\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x14\n" +
-	"\x05error\x18\x03 \x01(\tR\x05error\"\x95\x02\n" +
-	"\vTransaction\x12\x0e\n" +
+	"\x05error\x18\x03 \x01(\tR\x05error\"\x8f\x02\n" +
+	"\x05Order\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
 	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x1b\n" +
 	"\tcoupon_id\x18\x03 \x01(\tR\bcouponId\x12\x16\n" +
@@ -887,16 +887,17 @@ const file_order_v1_order_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\x84\x05\n" +
-	"\x12TransactionService\x12b\n" +
-	"\x11CreateTransaction\x12%.transaction.CreateTransactionRequest\x1a&.transaction.CreateTransactionResponse\x12Y\n" +
-	"\x0eGetTransaction\x12\".transaction.GetTransactionRequest\x1a#.transaction.GetTransactionResponse\x12_\n" +
-	"\x10ListTransactions\x12$.transaction.ListTransactionsRequest\x1a%.transaction.ListTransactionsResponse\x12t\n" +
-	"\x17UpdateTransactionStatus\x12+.transaction.UpdateTransactionStatusRequest\x1a,.transaction.UpdateTransactionStatusResponse\x12h\n" +
-	"\x13GetUserTransactions\x12'.transaction.GetUserTransactionsRequest\x1a(.transaction.GetUserTransactionsResponse\x12n\n" +
-	"\x15GetCouponTransactions\x12).transaction.GetCouponTransactionsRequest\x1a*.transaction.GetCouponTransactionsResponseB\x91\x01\n" +
-	"\x0fcom.transactionB\n" +
-	"OrderProtoP\x01Z&github.com/loingtan/proto/gen/order/v1\xa2\x02\x03TXX\xaa\x02\vTransaction\xca\x02\vTransaction\xe2\x02\x17Transaction\\GPBMetadata\xea\x02\vTransactionb\x06proto3"
+	"updated_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt2\xca\x03\n" +
+	"\fOrderService\x12D\n" +
+	"\vCreateOrder\x12\x19.Order.CreateOrderRequest\x1a\x1a.Order.CreateOrderResponse\x12;\n" +
+	"\bGetOrder\x12\x16.Order.GetOrderRequest\x1a\x17.Order.GetOrderResponse\x12A\n" +
+	"\n" +
+	"ListOrders\x12\x18.Order.ListOrdersRequest\x1a\x19.Order.ListOrdersResponse\x12V\n" +
+	"\x11UpdateOrderStatus\x12\x1f.Order.UpdateOrderStatusRequest\x1a .Order.UpdateOrderStatusResponse\x12J\n" +
+	"\rGetUserOrders\x12\x1b.Order.GetUserOrdersRequest\x1a\x1c.Order.GetUserOrdersResponse\x12P\n" +
+	"\x0fGetCouponOrders\x12\x1d.Order.GetCouponOrdersRequest\x1a\x1e.Order.GetCouponOrdersResponseBs\n" +
+	"\tcom.OrderB\n" +
+	"OrderProtoP\x01Z&github.com/loingtan/proto/gen/order/v1\xa2\x02\x03OXX\xaa\x02\x05Order\xca\x02\x05Order\xe2\x02\x11Order\\GPBMetadata\xea\x02\x05Orderb\x06proto3"
 
 var (
 	file_order_v1_order_proto_rawDescOnce sync.Once
@@ -912,42 +913,42 @@ func file_order_v1_order_proto_rawDescGZIP() []byte {
 
 var file_order_v1_order_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_order_v1_order_proto_goTypes = []any{
-	(*CreateTransactionRequest)(nil),        // 0: transaction.CreateTransactionRequest
-	(*CreateTransactionResponse)(nil),       // 1: transaction.CreateTransactionResponse
-	(*GetTransactionRequest)(nil),           // 2: transaction.GetTransactionRequest
-	(*GetTransactionResponse)(nil),          // 3: transaction.GetTransactionResponse
-	(*ListTransactionsRequest)(nil),         // 4: transaction.ListTransactionsRequest
-	(*ListTransactionsResponse)(nil),        // 5: transaction.ListTransactionsResponse
-	(*UpdateTransactionStatusRequest)(nil),  // 6: transaction.UpdateTransactionStatusRequest
-	(*UpdateTransactionStatusResponse)(nil), // 7: transaction.UpdateTransactionStatusResponse
-	(*GetUserTransactionsRequest)(nil),      // 8: transaction.GetUserTransactionsRequest
-	(*GetUserTransactionsResponse)(nil),     // 9: transaction.GetUserTransactionsResponse
-	(*GetCouponTransactionsRequest)(nil),    // 10: transaction.GetCouponTransactionsRequest
-	(*GetCouponTransactionsResponse)(nil),   // 11: transaction.GetCouponTransactionsResponse
-	(*Transaction)(nil),                     // 12: transaction.Transaction
-	(*timestamppb.Timestamp)(nil),           // 13: google.protobuf.Timestamp
+	(*CreateOrderRequest)(nil),        // 0: Order.CreateOrderRequest
+	(*CreateOrderResponse)(nil),       // 1: Order.CreateOrderResponse
+	(*GetOrderRequest)(nil),           // 2: Order.GetOrderRequest
+	(*GetOrderResponse)(nil),          // 3: Order.GetOrderResponse
+	(*ListOrdersRequest)(nil),         // 4: Order.ListOrdersRequest
+	(*ListOrdersResponse)(nil),        // 5: Order.ListOrdersResponse
+	(*UpdateOrderStatusRequest)(nil),  // 6: Order.UpdateOrderStatusRequest
+	(*UpdateOrderStatusResponse)(nil), // 7: Order.UpdateOrderStatusResponse
+	(*GetUserOrdersRequest)(nil),      // 8: Order.GetUserOrdersRequest
+	(*GetUserOrdersResponse)(nil),     // 9: Order.GetUserOrdersResponse
+	(*GetCouponOrdersRequest)(nil),    // 10: Order.GetCouponOrdersRequest
+	(*GetCouponOrdersResponse)(nil),   // 11: Order.GetCouponOrdersResponse
+	(*Order)(nil),                     // 12: Order.Order
+	(*timestamppb.Timestamp)(nil),     // 13: google.protobuf.Timestamp
 }
 var file_order_v1_order_proto_depIdxs = []int32{
-	12, // 0: transaction.CreateTransactionResponse.transaction:type_name -> transaction.Transaction
-	12, // 1: transaction.GetTransactionResponse.transaction:type_name -> transaction.Transaction
-	12, // 2: transaction.ListTransactionsResponse.transactions:type_name -> transaction.Transaction
-	12, // 3: transaction.UpdateTransactionStatusResponse.transaction:type_name -> transaction.Transaction
-	12, // 4: transaction.GetUserTransactionsResponse.transactions:type_name -> transaction.Transaction
-	12, // 5: transaction.GetCouponTransactionsResponse.transactions:type_name -> transaction.Transaction
-	13, // 6: transaction.Transaction.created_at:type_name -> google.protobuf.Timestamp
-	13, // 7: transaction.Transaction.updated_at:type_name -> google.protobuf.Timestamp
-	0,  // 8: transaction.TransactionService.CreateTransaction:input_type -> transaction.CreateTransactionRequest
-	2,  // 9: transaction.TransactionService.GetTransaction:input_type -> transaction.GetTransactionRequest
-	4,  // 10: transaction.TransactionService.ListTransactions:input_type -> transaction.ListTransactionsRequest
-	6,  // 11: transaction.TransactionService.UpdateTransactionStatus:input_type -> transaction.UpdateTransactionStatusRequest
-	8,  // 12: transaction.TransactionService.GetUserTransactions:input_type -> transaction.GetUserTransactionsRequest
-	10, // 13: transaction.TransactionService.GetCouponTransactions:input_type -> transaction.GetCouponTransactionsRequest
-	1,  // 14: transaction.TransactionService.CreateTransaction:output_type -> transaction.CreateTransactionResponse
-	3,  // 15: transaction.TransactionService.GetTransaction:output_type -> transaction.GetTransactionResponse
-	5,  // 16: transaction.TransactionService.ListTransactions:output_type -> transaction.ListTransactionsResponse
-	7,  // 17: transaction.TransactionService.UpdateTransactionStatus:output_type -> transaction.UpdateTransactionStatusResponse
-	9,  // 18: transaction.TransactionService.GetUserTransactions:output_type -> transaction.GetUserTransactionsResponse
-	11, // 19: transaction.TransactionService.GetCouponTransactions:output_type -> transaction.GetCouponTransactionsResponse
+	12, // 0: Order.CreateOrderResponse.Order:type_name -> Order.Order
+	12, // 1: Order.GetOrderResponse.Order:type_name -> Order.Order
+	12, // 2: Order.ListOrdersResponse.Orders:type_name -> Order.Order
+	12, // 3: Order.UpdateOrderStatusResponse.Order:type_name -> Order.Order
+	12, // 4: Order.GetUserOrdersResponse.Orders:type_name -> Order.Order
+	12, // 5: Order.GetCouponOrdersResponse.Orders:type_name -> Order.Order
+	13, // 6: Order.Order.created_at:type_name -> google.protobuf.Timestamp
+	13, // 7: Order.Order.updated_at:type_name -> google.protobuf.Timestamp
+	0,  // 8: Order.OrderService.CreateOrder:input_type -> Order.CreateOrderRequest
+	2,  // 9: Order.OrderService.GetOrder:input_type -> Order.GetOrderRequest
+	4,  // 10: Order.OrderService.ListOrders:input_type -> Order.ListOrdersRequest
+	6,  // 11: Order.OrderService.UpdateOrderStatus:input_type -> Order.UpdateOrderStatusRequest
+	8,  // 12: Order.OrderService.GetUserOrders:input_type -> Order.GetUserOrdersRequest
+	10, // 13: Order.OrderService.GetCouponOrders:input_type -> Order.GetCouponOrdersRequest
+	1,  // 14: Order.OrderService.CreateOrder:output_type -> Order.CreateOrderResponse
+	3,  // 15: Order.OrderService.GetOrder:output_type -> Order.GetOrderResponse
+	5,  // 16: Order.OrderService.ListOrders:output_type -> Order.ListOrdersResponse
+	7,  // 17: Order.OrderService.UpdateOrderStatus:output_type -> Order.UpdateOrderStatusResponse
+	9,  // 18: Order.OrderService.GetUserOrders:output_type -> Order.GetUserOrdersResponse
+	11, // 19: Order.OrderService.GetCouponOrders:output_type -> Order.GetCouponOrdersResponse
 	14, // [14:20] is the sub-list for method output_type
 	8,  // [8:14] is the sub-list for method input_type
 	8,  // [8:8] is the sub-list for extension type_name

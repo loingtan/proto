@@ -47,6 +47,9 @@ const (
 	// CouponServiceDeleteCouponProcedure is the fully-qualified name of the CouponService's
 	// DeleteCoupon RPC.
 	CouponServiceDeleteCouponProcedure = "/coupon.CouponService/DeleteCoupon"
+	// CouponServiceCalculateDiscountProcedure is the fully-qualified name of the CouponService's
+	// CalculateDiscount RPC.
+	CouponServiceCalculateDiscountProcedure = "/coupon.CouponService/CalculateDiscount"
 )
 
 // CouponServiceClient is a client for the coupon.CouponService service.
@@ -56,6 +59,7 @@ type CouponServiceClient interface {
 	CreateCoupon(context.Context, *connect.Request[v1.CreateCouponRequest]) (*connect.Response[v1.CreateCouponResponse], error)
 	UpdateCoupon(context.Context, *connect.Request[v1.UpdateCouponRequest]) (*connect.Response[v1.UpdateCouponResponse], error)
 	DeleteCoupon(context.Context, *connect.Request[v1.DeleteCouponRequest]) (*connect.Response[v1.DeleteCouponResponse], error)
+	CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error)
 }
 
 // NewCouponServiceClient constructs a client for the coupon.CouponService service. By default, it
@@ -99,16 +103,23 @@ func NewCouponServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(couponServiceMethods.ByName("DeleteCoupon")),
 			connect.WithClientOptions(opts...),
 		),
+		calculateDiscount: connect.NewClient[v1.CalculateDiscountRequest, v1.CalculateDiscountResponse](
+			httpClient,
+			baseURL+CouponServiceCalculateDiscountProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("CalculateDiscount")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // couponServiceClient implements CouponServiceClient.
 type couponServiceClient struct {
-	getCoupon    *connect.Client[v1.GetCouponRequest, v1.GetCouponResponse]
-	listCoupons  *connect.Client[v1.ListCouponsRequest, v1.ListCouponsResponse]
-	createCoupon *connect.Client[v1.CreateCouponRequest, v1.CreateCouponResponse]
-	updateCoupon *connect.Client[v1.UpdateCouponRequest, v1.UpdateCouponResponse]
-	deleteCoupon *connect.Client[v1.DeleteCouponRequest, v1.DeleteCouponResponse]
+	getCoupon         *connect.Client[v1.GetCouponRequest, v1.GetCouponResponse]
+	listCoupons       *connect.Client[v1.ListCouponsRequest, v1.ListCouponsResponse]
+	createCoupon      *connect.Client[v1.CreateCouponRequest, v1.CreateCouponResponse]
+	updateCoupon      *connect.Client[v1.UpdateCouponRequest, v1.UpdateCouponResponse]
+	deleteCoupon      *connect.Client[v1.DeleteCouponRequest, v1.DeleteCouponResponse]
+	calculateDiscount *connect.Client[v1.CalculateDiscountRequest, v1.CalculateDiscountResponse]
 }
 
 // GetCoupon calls coupon.CouponService.GetCoupon.
@@ -136,6 +147,11 @@ func (c *couponServiceClient) DeleteCoupon(ctx context.Context, req *connect.Req
 	return c.deleteCoupon.CallUnary(ctx, req)
 }
 
+// CalculateDiscount calls coupon.CouponService.CalculateDiscount.
+func (c *couponServiceClient) CalculateDiscount(ctx context.Context, req *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error) {
+	return c.calculateDiscount.CallUnary(ctx, req)
+}
+
 // CouponServiceHandler is an implementation of the coupon.CouponService service.
 type CouponServiceHandler interface {
 	GetCoupon(context.Context, *connect.Request[v1.GetCouponRequest]) (*connect.Response[v1.GetCouponResponse], error)
@@ -143,6 +159,7 @@ type CouponServiceHandler interface {
 	CreateCoupon(context.Context, *connect.Request[v1.CreateCouponRequest]) (*connect.Response[v1.CreateCouponResponse], error)
 	UpdateCoupon(context.Context, *connect.Request[v1.UpdateCouponRequest]) (*connect.Response[v1.UpdateCouponResponse], error)
 	DeleteCoupon(context.Context, *connect.Request[v1.DeleteCouponRequest]) (*connect.Response[v1.DeleteCouponResponse], error)
+	CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error)
 }
 
 // NewCouponServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -182,6 +199,12 @@ func NewCouponServiceHandler(svc CouponServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(couponServiceMethods.ByName("DeleteCoupon")),
 		connect.WithHandlerOptions(opts...),
 	)
+	couponServiceCalculateDiscountHandler := connect.NewUnaryHandler(
+		CouponServiceCalculateDiscountProcedure,
+		svc.CalculateDiscount,
+		connect.WithSchema(couponServiceMethods.ByName("CalculateDiscount")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/coupon.CouponService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case CouponServiceGetCouponProcedure:
@@ -194,6 +217,8 @@ func NewCouponServiceHandler(svc CouponServiceHandler, opts ...connect.HandlerOp
 			couponServiceUpdateCouponHandler.ServeHTTP(w, r)
 		case CouponServiceDeleteCouponProcedure:
 			couponServiceDeleteCouponHandler.ServeHTTP(w, r)
+		case CouponServiceCalculateDiscountProcedure:
+			couponServiceCalculateDiscountHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -221,4 +246,8 @@ func (UnimplementedCouponServiceHandler) UpdateCoupon(context.Context, *connect.
 
 func (UnimplementedCouponServiceHandler) DeleteCoupon(context.Context, *connect.Request[v1.DeleteCouponRequest]) (*connect.Response[v1.DeleteCouponResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.DeleteCoupon is not implemented"))
+}
+
+func (UnimplementedCouponServiceHandler) CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.CalculateDiscount is not implemented"))
 }

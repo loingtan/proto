@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package standard;
 
-option go_package = "gitlab.zalopay.vn/loint6/go-proto/standard";
+option go_package = "github.com/loingtan/proto/standard";
 
 import "google/protobuf/any.proto";
 

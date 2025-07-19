@@ -1,7 +1,6 @@
-
 syntax = "proto3";
 package coupon;
-option go_package = "gitlab.zalopay.vn/loint6/go-proto/coupon";
+option go_package = "github.com/loingtan/proto/coupon";
 import "google/protobuf/timestamp.proto";
 
 
@@ -11,6 +10,7 @@ service CouponService {
   rpc CreateCoupon(CreateCouponRequest) returns (CreateCouponResponse);
   rpc UpdateCoupon(UpdateCouponRequest) returns (UpdateCouponResponse);
   rpc DeleteCoupon(DeleteCouponRequest) returns (DeleteCouponResponse);
+  rpc CalculateDiscount(CalculateDiscountRequest) returns (CalculateDiscountResponse);
 }
 
 
@@ -99,4 +99,17 @@ message GetCouponRequest {
 message GetCouponResponse {
   Coupon coupon = 1;
   string error = 2;
+}
+message CalculateDiscountRequest {
+  string coupon_code = 1;
+  double amount = 2;
+  string user_id = 3;
+  google.protobuf.Timestamp order_time = 4;
+}
+
+message CalculateDiscountResponse {
+  double discount_amount = 1;
+  double final_amount = 2;
+  string coupon_id = 3;
+  string error = 4;
 }

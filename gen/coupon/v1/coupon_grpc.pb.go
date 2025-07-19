@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CouponService_GetCoupon_FullMethodName    = "/coupon.CouponService/GetCoupon"
-	CouponService_ListCoupons_FullMethodName  = "/coupon.CouponService/ListCoupons"
-	CouponService_CreateCoupon_FullMethodName = "/coupon.CouponService/CreateCoupon"
-	CouponService_UpdateCoupon_FullMethodName = "/coupon.CouponService/UpdateCoupon"
-	CouponService_DeleteCoupon_FullMethodName = "/coupon.CouponService/DeleteCoupon"
+	CouponService_GetCoupon_FullMethodName         = "/coupon.CouponService/GetCoupon"
+	CouponService_ListCoupons_FullMethodName       = "/coupon.CouponService/ListCoupons"
+	CouponService_CreateCoupon_FullMethodName      = "/coupon.CouponService/CreateCoupon"
+	CouponService_UpdateCoupon_FullMethodName      = "/coupon.CouponService/UpdateCoupon"
+	CouponService_DeleteCoupon_FullMethodName      = "/coupon.CouponService/DeleteCoupon"
+	CouponService_CalculateDiscount_FullMethodName = "/coupon.CouponService/CalculateDiscount"
 )
 
 // CouponServiceClient is the client API for CouponService service.
@@ -35,6 +36,7 @@ type CouponServiceClient interface {
 	CreateCoupon(ctx context.Context, in *CreateCouponRequest, opts ...grpc.CallOption) (*CreateCouponResponse, error)
 	UpdateCoupon(ctx context.Context, in *UpdateCouponRequest, opts ...grpc.CallOption) (*UpdateCouponResponse, error)
 	DeleteCoupon(ctx context.Context, in *DeleteCouponRequest, opts ...grpc.CallOption) (*DeleteCouponResponse, error)
+	CalculateDiscount(ctx context.Context, in *CalculateDiscountRequest, opts ...grpc.CallOption) (*CalculateDiscountResponse, error)
 }
 
 type couponServiceClient struct {
@@ -95,6 +97,16 @@ func (c *couponServiceClient) DeleteCoupon(ctx context.Context, in *DeleteCoupon
 	return out, nil
 }
 
+func (c *couponServiceClient) CalculateDiscount(ctx context.Context, in *CalculateDiscountRequest, opts ...grpc.CallOption) (*CalculateDiscountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CalculateDiscountResponse)
+	err := c.cc.Invoke(ctx, CouponService_CalculateDiscount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CouponServiceServer is the server API for CouponService service.
 // All implementations must embed UnimplementedCouponServiceServer
 // for forward compatibility.
@@ -104,6 +116,7 @@ type CouponServiceServer interface {
 	CreateCoupon(context.Context, *CreateCouponRequest) (*CreateCouponResponse, error)
 	UpdateCoupon(context.Context, *UpdateCouponRequest) (*UpdateCouponResponse, error)
 	DeleteCoupon(context.Context, *DeleteCouponRequest) (*DeleteCouponResponse, error)
+	CalculateDiscount(context.Context, *CalculateDiscountRequest) (*CalculateDiscountResponse, error)
 	mustEmbedUnimplementedCouponServiceServer()
 }
 
@@ -128,6 +141,9 @@ func (UnimplementedCouponServiceServer) UpdateCoupon(context.Context, *UpdateCou
 }
 func (UnimplementedCouponServiceServer) DeleteCoupon(context.Context, *DeleteCouponRequest) (*DeleteCouponResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCoupon not implemented")
+}
+func (UnimplementedCouponServiceServer) CalculateDiscount(context.Context, *CalculateDiscountRequest) (*CalculateDiscountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CalculateDiscount not implemented")
 }
 func (UnimplementedCouponServiceServer) mustEmbedUnimplementedCouponServiceServer() {}
 func (UnimplementedCouponServiceServer) testEmbeddedByValue()                       {}
@@ -240,6 +256,24 @@ func _CouponService_DeleteCoupon_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CouponService_CalculateDiscount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CalculateDiscountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).CalculateDiscount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_CalculateDiscount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).CalculateDiscount(ctx, req.(*CalculateDiscountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CouponService_ServiceDesc is the grpc.ServiceDesc for CouponService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -266,6 +300,10 @@ var CouponService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteCoupon",
 			Handler:    _CouponService_DeleteCoupon_Handler,
+		},
+		{
+			MethodName: "CalculateDiscount",
+			Handler:    _CouponService_CalculateDiscount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

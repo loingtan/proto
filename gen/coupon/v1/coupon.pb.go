@@ -1000,6 +1000,7 @@ type ReserveCouponResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
 	Discount      float64                `protobuf:"fixed64,2,opt,name=discount,proto3" json:"discount,omitempty"`
+	FinalAmount   float64                `protobuf:"fixed64,7,opt,name=final_amount,json=finalAmount,proto3" json:"final_amount,omitempty"`
 	ReservationId string                 `protobuf:"bytes,3,opt,name=reservation_id,json=reservationId,proto3" json:"reservation_id,omitempty"`
 	CouponId      string                 `protobuf:"bytes,6,opt,name=coupon_id,json=couponId,proto3" json:"coupon_id,omitempty"`
 	Reason        string                 `protobuf:"bytes,4,opt,name=reason,proto3" json:"reason,omitempty"`
@@ -1048,6 +1049,13 @@ func (x *ReserveCouponResponse) GetOk() bool {
 func (x *ReserveCouponResponse) GetDiscount() float64 {
 	if x != nil {
 		return x.Discount
+	}
+	return 0
+}
+
+func (x *ReserveCouponResponse) GetFinalAmount() float64 {
+	if x != nil {
+		return x.FinalAmount
 	}
 	return 0
 }
@@ -1310,10 +1318,11 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
 	"\tcoupon_id\x18\x02 \x01(\tR\bcouponId\x12\x1d\n" +
 	"\n" +
-	"cart_total\x18\x03 \x01(\x01R\tcartTotal\"\xc0\x01\n" +
+	"cart_total\x18\x03 \x01(\x01R\tcartTotal\"\xe3\x01\n" +
 	"\x15ReserveCouponResponse\x12\x0e\n" +
 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x1a\n" +
-	"\bdiscount\x18\x02 \x01(\x01R\bdiscount\x12%\n" +
+	"\bdiscount\x18\x02 \x01(\x01R\bdiscount\x12!\n" +
+	"\ffinal_amount\x18\a \x01(\x01R\vfinalAmount\x12%\n" +
 	"\x0ereservation_id\x18\x03 \x01(\tR\rreservationId\x12\x1b\n" +
 	"\tcoupon_id\x18\x06 \x01(\tR\bcouponId\x12\x16\n" +
 	"\x06reason\x18\x04 \x01(\tR\x06reason\x12\x1f\n" +

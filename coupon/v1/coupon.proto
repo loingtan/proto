@@ -106,11 +106,11 @@ message ReserveCouponRequest {
   string user_id     = 1;
   string coupon_id   = 2;
   double cart_total  = 3;
-  
 }
 message ReserveCouponResponse {
   bool   ok             = 1;
   double discount       = 2;
+  double final_amount   = 7;
   string reservation_id = 3;
   string coupon_id      = 6;
   string reason         = 4;

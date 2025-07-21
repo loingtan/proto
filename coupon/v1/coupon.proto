@@ -10,6 +10,7 @@ service CouponService {
   rpc CreateCoupon(CreateCouponRequest) returns (CreateCouponResponse);
   rpc UpdateCoupon(UpdateCouponRequest) returns (UpdateCouponResponse);
   rpc DeleteCoupon(DeleteCouponRequest) returns (DeleteCouponResponse);
+  rpc ReserveCoupon (ReserveCouponRequest) returns (ReserveCouponResponse);
   rpc CalculateDiscount(CalculateDiscountRequest) returns (CalculateDiscountResponse);
 }
 
@@ -99,6 +100,21 @@ message GetCouponRequest {
 message GetCouponResponse {
   Coupon coupon = 1;
   string error = 2;
+}
+
+message ReserveCouponRequest {
+  string user_id     = 1;
+  string coupon_id   = 2;
+  double cart_total  = 3;
+  
+}
+message ReserveCouponResponse {
+  bool   ok             = 1;
+  double discount       = 2;
+  string reservation_id = 3;
+  string coupon_id      = 6;
+  string reason         = 4;
+  int32  ttl_seconds    = 5;
 }
 message CalculateDiscountRequest {
   string coupon_code = 1;

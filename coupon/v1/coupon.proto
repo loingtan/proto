@@ -2,6 +2,7 @@ syntax = "proto3";
 package coupon;
 option go_package = "github.com/loingtan/proto/coupon";
 import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
 
 
 service CouponService {
@@ -16,63 +17,69 @@ service CouponService {
 
 
 message Coupon {
-  string id = 1;
-  string code = 2;  
-  string title = 3;
-  string description = 4;
-  double min_spend = 5;
+  string id = 1 [(validate.rules).string.uuid = true];
+  string code = 2 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[A-Z0-9_-]+$"}];
+  string title = 3 [(validate.rules).string = {min_len: 1, max_len: 100}];
+  string description = 4 [(validate.rules).string.max_len = 500];
+  double min_spend = 5 [(validate.rules).double.gte = 0];
   bool first_time_user_only = 6;
-  int32 usage_limit_per_user = 7;
-  int32 usage_limit_global = 8;
-  string discount_type = 9;
-  string usage_type = 10;
-  double discount_val = 11;
-  double max_discount = 12;
-  google.protobuf.Timestamp start_time = 13;
-  google.protobuf.Timestamp end_time = 14;
+  int32 usage_limit_per_user = 7 [(validate.rules).int32.gte = 0];
+  int32 usage_limit_global = 8 [(validate.rules).int32.gte = 0];
+  int32 usage_global = 20 [(validate.rules).int32.gte = 0];
+  int32 reserved_global = 21 [(validate.rules).int32.gte = 0];
+  string discount_type = 9 [(validate.rules).string = {in: ["PERCENT", "FIXED", "FIXED_PRICE"]}];
+  string usage_type = 10 [(validate.rules).string = {in: ["MANUAL", "AUTO"]}];
+  double discount_val = 11 [(validate.rules).double.gt = 0];
+  double max_discount = 12 [(validate.rules).double.gte = 0];
+  google.protobuf.Timestamp start_time = 13 [(validate.rules).timestamp.required = true];
+  google.protobuf.Timestamp end_time = 14 [(validate.rules).timestamp.required = true];
   google.protobuf.Timestamp created_at = 15;
   google.protobuf.Timestamp updated_at = 16;
 }
 message CreateCouponRequest {
-  string code = 1;
-  string title = 2;
-  string description = 3;
-  double min_spend = 4;
+  string code = 1 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[A-Z0-9_-]+$"}];
+  string title = 2 [(validate.rules).string = {min_len: 1, max_len: 100}];
+  string description = 3 [(validate.rules).string.max_len = 500];
+  double min_spend = 4 [(validate.rules).double.gte = 0];
   bool first_time_user_only = 5;
-  int32 usage_limit_per_user = 6;
-  int32 usage_limit_global = 7;
-  string discount_type = 8;
-  string usage_type = 9;
-  double discount_val = 10;
-  double max_discount = 11;
-  google.protobuf.Timestamp start_time = 12;
-  google.protobuf.Timestamp end_time = 13;
+  int32 usage_limit_per_user = 6 [(validate.rules).int32.gte = 0];
+  int32 usage_limit_global = 7 [(validate.rules).int32.gte = 0];
+  int32 usage_global = 20 [(validate.rules).int32.gte = 0];
+  int32 reserved_global = 21 [(validate.rules).int32.gte = 0];
+  string discount_type = 8 [(validate.rules).string = {in: ["PERCENT", "FIXED", "FIXED_PRICE"]}];
+  string usage_type = 9 [(validate.rules).string = {in: ["MANUAL", "AUTO"]}];
+  double discount_val = 10 [(validate.rules).double.gt = 0];
+  double max_discount = 11 [(validate.rules).double.gte = 0];
+  google.protobuf.Timestamp start_time = 12 [(validate.rules).timestamp.required = true];
+  google.protobuf.Timestamp end_time = 13 [(validate.rules).timestamp.required = true];
 }
 message CreateCouponResponse {
   Coupon coupon = 1;
   string error = 2;
 }
 message UpdateCouponRequest {
-  string id = 1;
-  string title = 2;
-  string description = 3;
-  double min_spend = 4;
+  string id = 1 [(validate.rules).string.uuid = true];
+  string title = 2 [(validate.rules).string = {min_len: 1, max_len: 100}];
+  string description = 3 [(validate.rules).string.max_len = 500];
+  double min_spend = 4 [(validate.rules).double.gte = 0];
   bool first_time_user_only = 5;
-  int32 usage_limit_per_user = 6;
-  int32 usage_limit_global = 7;
-  string discount_type = 8;
-  string usage_type = 9;
-  double discount_val = 10;
-  double max_discount = 11;
-  google.protobuf.Timestamp start_time = 12;
-  google.protobuf.Timestamp end_time = 13;
+  int32 usage_limit_per_user = 6 [(validate.rules).int32.gte = 0];
+  int32 usage_limit_global = 7 [(validate.rules).int32.gte = 0];
+  int32 usage_global = 20 [(validate.rules).int32.gte = 0];
+  int32 reserved_global = 21 [(validate.rules).int32.gte = 0];
+  string discount_type = 8 [(validate.rules).string = {in: ["PERCENT", "FIXED", "FIXED_PRICE"]}];
+  string usage_type = 9 [(validate.rules).string = {in: ["MANUAL", "AUTO"]}];
+  double discount_val = 10 [(validate.rules).double.gt = 0];
+  double max_discount = 11 [(validate.rules).double.gte = 0];
+  google.protobuf.Timestamp start_time = 12 [(validate.rules).timestamp.required = true];
+  google.protobuf.Timestamp end_time = 13 [(validate.rules).timestamp.required = true];
 }
 message UpdateCouponResponse {
   Coupon coupon = 1;
   string error = 2;
 }
 message DeleteCouponRequest {
-  string id = 1;
+  string id = 1 [(validate.rules).string.uuid = true];
 }
 
 message DeleteCouponResponse {
@@ -80,9 +87,9 @@ message DeleteCouponResponse {
   string error = 2;
 }
 message ListCouponsRequest {
-  int32 page = 1;
-  int32 page_size = 2;
-  string filter = 3;
+  int32 page = 1 [(validate.rules).int32 = {gte: 1, lte: 1000}];
+  int32 page_size = 2 [(validate.rules).int32 = {gte: 1, lte: 100}];
+  string filter = 3 [(validate.rules).string.max_len = 100];
 }
 message ListCouponsResponse {
   repeated Coupon coupons = 1;
@@ -93,8 +100,8 @@ message ListCouponsResponse {
 }
 message GetCouponRequest {
   oneof identifier {
-    string id = 1;
-    string code = 2;
+    string id = 1 [(validate.rules).string.uuid = true];
+    string code = 2 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[A-Z0-9_-]+$"}];
   }
 }
 message GetCouponResponse {
@@ -103,9 +110,9 @@ message GetCouponResponse {
 }
 
 message ReserveCouponRequest {
-  string user_id     = 1;
-  string coupon_id   = 2;
-  double cart_total  = 3;
+  string user_id     = 1 [(validate.rules).string.uuid = true];
+  string coupon_id   = 2 [(validate.rules).string.uuid = true];
+  double cart_total  = 3 [(validate.rules).double.gt = 0];
 }
 message ReserveCouponResponse {
   bool   ok             = 1;
@@ -117,10 +124,10 @@ message ReserveCouponResponse {
   int32  ttl_seconds    = 5;
 }
 message CalculateDiscountRequest {
-  string coupon_code = 1;
-  double amount = 2;
-  string user_id = 3;
-  google.protobuf.Timestamp order_time = 4;
+  string coupon_code = 1 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[A-Z0-9_-]+$"}];
+  double amount = 2 [(validate.rules).double.gt = 0];
+  string user_id = 3 [(validate.rules).string.uuid = true];
+  google.protobuf.Timestamp order_time = 4 [(validate.rules).timestamp.required = true];
 }
 
 message CalculateDiscountResponse {

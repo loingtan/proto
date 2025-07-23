@@ -7,6 +7,7 @@
 package v1
 
 import (
+	_ "github.com/loingtan/proto/gen/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -842,24 +843,28 @@ var File_auth_v1_auth_proto protoreflect.FileDescriptor
 
 const file_auth_v1_auth_proto_rawDesc = "" +
 	"\n" +
-	"\x12auth/v1/auth.proto\x12\x04auth\x1a\x1fgoogle/protobuf/timestamp.proto\"F\n" +
-	"\fLoginRequest\x12\x1a\n" +
-	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"\x80\x01\n" +
+	"\x12auth/v1/auth.proto\x12\x04auth\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"p\n" +
+	"\fLoginRequest\x128\n" +
+	"\busername\x18\x01 \x01(\tB\x1c\xfaB\x19r\x17\x10\x03\x1822\x11^[a-zA-Z0-9_.-]+$R\busername\x12&\n" +
+	"\bpassword\x18\x02 \x01(\tB\n" +
+	"\xfaB\ar\x05\x10\b\x18\x80\x01R\bpassword\"\x80\x01\n" +
 	"\rLoginResponse\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12#\n" +
 	"\rrefresh_token\x18\x02 \x01(\tR\frefreshToken\x12\x1e\n" +
 	"\x04user\x18\x03 \x01(\v2\n" +
 	".auth.UserR\x04user\x12\x14\n" +
-	"\x05error\x18\x04 \x01(\tR\x05error\"_\n" +
-	"\x0fRegisterRequest\x12\x1a\n" +
-	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x14\n" +
-	"\x05roles\x18\x03 \x03(\tR\x05roles\"[\n" +
-	"\x10ListUsersRequest\x12\x12\n" +
-	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x16\n" +
-	"\x06filter\x18\x03 \x01(\tR\x06filter\"\x92\x01\n" +
+	"\x05error\x18\x04 \x01(\tR\x05error\"\x9d\x01\n" +
+	"\x0fRegisterRequest\x128\n" +
+	"\busername\x18\x01 \x01(\tB\x1c\xfaB\x19r\x17\x10\x03\x1822\x11^[a-zA-Z0-9_.-]+$R\busername\x12&\n" +
+	"\bpassword\x18\x02 \x01(\tB\n" +
+	"\xfaB\ar\x05\x10\b\x18\x80\x01R\bpassword\x12(\n" +
+	"\x05roles\x18\x03 \x03(\tB\x12\xfaB\x0f\x92\x01\f\b\x01\x10\n" +
+	"\"\x06r\x04\x10\x01\x182R\x05roles\"{\n" +
+	"\x10ListUsersRequest\x12\x1e\n" +
+	"\x04page\x18\x01 \x01(\x05B\n" +
+	"\xfaB\a\x1a\x05\x18\xe8\a(\x01R\x04page\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xfaB\x06\x1a\x04\x18d(\x01R\bpageSize\x12\x1f\n" +
+	"\x06filter\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x18dR\x06filter\"\x92\x01\n" +
 	"\x11ListUsersResponse\x12 \n" +
 	"\x05users\x18\x01 \x03(\v2\n" +
 	".auth.UserR\x05users\x12\x14\n" +
@@ -870,36 +875,39 @@ const file_auth_v1_auth_proto_rawDesc = "" +
 	"\x10RegisterResponse\x12\x1e\n" +
 	"\x04user\x18\x01 \x01(\v2\n" +
 	".auth.UserR\x04user\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\",\n" +
-	"\x14ValidateTokenRequest\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\"c\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"8\n" +
+	"\x14ValidateTokenRequest\x12 \n" +
+	"\x05token\x18\x01 \x01(\tB\n" +
+	"\xfaB\ar\x05\x10\x01\x18\x80\x10R\x05token\"c\n" +
 	"\x15ValidateTokenResponse\x12\x14\n" +
 	"\x05valid\x18\x01 \x01(\bR\x05valid\x12\x1e\n" +
 	"\x04user\x18\x02 \x01(\v2\n" +
 	".auth.UserR\x04user\x12\x14\n" +
-	"\x05error\x18\x03 \x01(\tR\x05error\":\n" +
-	"\x13RefreshTokenRequest\x12#\n" +
-	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\"g\n" +
+	"\x05error\x18\x03 \x01(\tR\x05error\"F\n" +
+	"\x13RefreshTokenRequest\x12/\n" +
+	"\rrefresh_token\x18\x01 \x01(\tB\n" +
+	"\xfaB\ar\x05\x10\x01\x18\x80\x10R\frefreshToken\"g\n" +
 	"\x14RefreshTokenResponse\x12\x14\n" +
 	"\x05token\x18\x01 \x01(\tR\x05token\x12#\n" +
 	"\rrefresh_token\x18\x02 \x01(\tR\frefreshToken\x12\x14\n" +
-	"\x05error\x18\x03 \x01(\tR\x05error\"%\n" +
-	"\rLogoutRequest\x12\x14\n" +
-	"\x05token\x18\x01 \x01(\tR\x05token\"@\n" +
+	"\x05error\x18\x03 \x01(\tR\x05error\"1\n" +
+	"\rLogoutRequest\x12 \n" +
+	"\x05token\x18\x01 \x01(\tB\n" +
+	"\xfaB\ar\x05\x10\x01\x18\x80\x10R\x05token\"@\n" +
 	"\x0eLogoutResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"\xce\x01\n" +
-	"\x04User\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
-	"\busername\x18\x02 \x01(\tR\busername\x12$\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\xf6\x01\n" +
+	"\x04User\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\x128\n" +
+	"\busername\x18\x02 \x01(\tB\x1c\xfaB\x19r\x17\x10\x03\x1822\x11^[a-zA-Z0-9_.-]+$R\busername\x12$\n" +
 	"\x05roles\x18\x03 \x03(\v2\x0e.auth.UserRoleR\x05roles\x129\n" +
 	"\n" +
 	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xa4\x01\n" +
-	"\bUserRole\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04role\x18\x02 \x01(\tR\x04role\x129\n" +
+	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xc4\x01\n" +
+	"\bUserRole\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\x12(\n" +
+	"\x04role\x18\x02 \x01(\tB\x14\xfaB\x11r\x0f\x10\x01\x1822\t^[A-Z_]+$R\x04role\x129\n" +
 	"\n" +
 	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +

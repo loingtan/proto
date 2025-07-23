@@ -5,6 +5,7 @@ package Order;
 option go_package = "github.com/loingtan/proto/Order";
 
 import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
 service OrderService {
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
   rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
@@ -15,11 +16,11 @@ service OrderService {
 }
 
 message CreateOrderRequest {
-  string user_id = 1;
-  string coupon_id = 2;
-  double amount = 3;
-  double discount = 4;
-  string status = 5;
+  string user_id = 1 [(validate.rules).string.uuid = true];
+  string coupon_id = 2 [(validate.rules).string.uuid = true];
+  double amount = 3 [(validate.rules).double.gt = 0];
+  double discount = 4 [(validate.rules).double.gte = 0];
+  string status = 5 [(validate.rules).string = {in: ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"]}];
 }
 
 message CreateOrderResponse {
@@ -28,7 +29,7 @@ message CreateOrderResponse {
 }
 
 message GetOrderRequest {
-  string id = 1;
+  string id = 1 [(validate.rules).string.uuid = true];
 }
 
 message GetOrderResponse {
@@ -37,9 +38,9 @@ message GetOrderResponse {
 }
 
 message ListOrdersRequest {
-  int32 page = 1;
-  int32 page_size = 2;
-  string filter = 3;
+  int32 page = 1 [(validate.rules).int32 = {gte: 1, lte: 1000}];
+  int32 page_size = 2 [(validate.rules).int32 = {gte: 1, lte: 100}];
+  string filter = 3 [(validate.rules).string.max_len = 100];
 }
 
 message ListOrdersResponse {
@@ -51,8 +52,8 @@ message ListOrdersResponse {
 }
 
 message UpdateOrderStatusRequest {
-  string id = 1;
-  string status = 2;
+  string id = 1 [(validate.rules).string.uuid = true];
+  string status = 2 [(validate.rules).string = {in: ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"]}];
 }
 
 message UpdateOrderStatusResponse {
@@ -61,9 +62,9 @@ message UpdateOrderStatusResponse {
 }
 
 message GetUserOrdersRequest {
-  string user_id = 1;
-  int32 page = 2;
-  int32 page_size = 3;
+  string user_id = 1 [(validate.rules).string.uuid = true];
+  int32 page = 2 [(validate.rules).int32 = {gte: 1, lte: 1000}];
+  int32 page_size = 3 [(validate.rules).int32 = {gte: 1, lte: 100}];
 }
 
 message GetUserOrdersResponse {
@@ -73,9 +74,9 @@ message GetUserOrdersResponse {
 }
 
 message GetCouponOrdersRequest {
-  string coupon_id = 1;
-  int32 page = 2;
-  int32 page_size = 3;
+  string coupon_id = 1 [(validate.rules).string.uuid = true];
+  int32 page = 2 [(validate.rules).int32 = {gte: 1, lte: 1000}];
+  int32 page_size = 3 [(validate.rules).int32 = {gte: 1, lte: 100}];
 }
 
 message GetCouponOrdersResponse {
@@ -88,12 +89,12 @@ message GetCouponOrdersResponse {
 
 
 message Order {
-  string id = 1;
-  string user_id = 2;
-  string coupon_id = 3;
-  double amount = 4;
-  double discount = 5;
-  string status = 6;
+  string id = 1 [(validate.rules).string.uuid = true];
+  string user_id = 2 [(validate.rules).string.uuid = true];
+  string coupon_id = 3 [(validate.rules).string.uuid = true];
+  double amount = 4 [(validate.rules).double.gt = 0];
+  double discount = 5 [(validate.rules).double.gte = 0];
+  string status = 6 [(validate.rules).string = {in: ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"]}];
   google.protobuf.Timestamp created_at = 7;
   google.protobuf.Timestamp updated_at = 8;
 }

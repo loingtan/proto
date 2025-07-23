@@ -7,6 +7,7 @@
 package v1
 
 import (
+	_ "github.com/loingtan/proto/gen/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -32,6 +33,8 @@ type Coupon struct {
 	FirstTimeUserOnly bool                   `protobuf:"varint,6,opt,name=first_time_user_only,json=firstTimeUserOnly,proto3" json:"first_time_user_only,omitempty"`
 	UsageLimitPerUser int32                  `protobuf:"varint,7,opt,name=usage_limit_per_user,json=usageLimitPerUser,proto3" json:"usage_limit_per_user,omitempty"`
 	UsageLimitGlobal  int32                  `protobuf:"varint,8,opt,name=usage_limit_global,json=usageLimitGlobal,proto3" json:"usage_limit_global,omitempty"`
+	UsageGlobal       int32                  `protobuf:"varint,20,opt,name=usage_global,json=usageGlobal,proto3" json:"usage_global,omitempty"`
+	ReservedGlobal    int32                  `protobuf:"varint,21,opt,name=reserved_global,json=reservedGlobal,proto3" json:"reserved_global,omitempty"`
 	DiscountType      string                 `protobuf:"bytes,9,opt,name=discount_type,json=discountType,proto3" json:"discount_type,omitempty"`
 	UsageType         string                 `protobuf:"bytes,10,opt,name=usage_type,json=usageType,proto3" json:"usage_type,omitempty"`
 	DiscountVal       float64                `protobuf:"fixed64,11,opt,name=discount_val,json=discountVal,proto3" json:"discount_val,omitempty"`
@@ -130,6 +133,20 @@ func (x *Coupon) GetUsageLimitGlobal() int32 {
 	return 0
 }
 
+func (x *Coupon) GetUsageGlobal() int32 {
+	if x != nil {
+		return x.UsageGlobal
+	}
+	return 0
+}
+
+func (x *Coupon) GetReservedGlobal() int32 {
+	if x != nil {
+		return x.ReservedGlobal
+	}
+	return 0
+}
+
 func (x *Coupon) GetDiscountType() string {
 	if x != nil {
 		return x.DiscountType
@@ -195,6 +212,8 @@ type CreateCouponRequest struct {
 	FirstTimeUserOnly bool                   `protobuf:"varint,5,opt,name=first_time_user_only,json=firstTimeUserOnly,proto3" json:"first_time_user_only,omitempty"`
 	UsageLimitPerUser int32                  `protobuf:"varint,6,opt,name=usage_limit_per_user,json=usageLimitPerUser,proto3" json:"usage_limit_per_user,omitempty"`
 	UsageLimitGlobal  int32                  `protobuf:"varint,7,opt,name=usage_limit_global,json=usageLimitGlobal,proto3" json:"usage_limit_global,omitempty"`
+	UsageGlobal       int32                  `protobuf:"varint,20,opt,name=usage_global,json=usageGlobal,proto3" json:"usage_global,omitempty"`
+	ReservedGlobal    int32                  `protobuf:"varint,21,opt,name=reserved_global,json=reservedGlobal,proto3" json:"reserved_global,omitempty"`
 	DiscountType      string                 `protobuf:"bytes,8,opt,name=discount_type,json=discountType,proto3" json:"discount_type,omitempty"`
 	UsageType         string                 `protobuf:"bytes,9,opt,name=usage_type,json=usageType,proto3" json:"usage_type,omitempty"`
 	DiscountVal       float64                `protobuf:"fixed64,10,opt,name=discount_val,json=discountVal,proto3" json:"discount_val,omitempty"`
@@ -280,6 +299,20 @@ func (x *CreateCouponRequest) GetUsageLimitPerUser() int32 {
 func (x *CreateCouponRequest) GetUsageLimitGlobal() int32 {
 	if x != nil {
 		return x.UsageLimitGlobal
+	}
+	return 0
+}
+
+func (x *CreateCouponRequest) GetUsageGlobal() int32 {
+	if x != nil {
+		return x.UsageGlobal
+	}
+	return 0
+}
+
+func (x *CreateCouponRequest) GetReservedGlobal() int32 {
+	if x != nil {
+		return x.ReservedGlobal
 	}
 	return 0
 }
@@ -387,6 +420,8 @@ type UpdateCouponRequest struct {
 	FirstTimeUserOnly bool                   `protobuf:"varint,5,opt,name=first_time_user_only,json=firstTimeUserOnly,proto3" json:"first_time_user_only,omitempty"`
 	UsageLimitPerUser int32                  `protobuf:"varint,6,opt,name=usage_limit_per_user,json=usageLimitPerUser,proto3" json:"usage_limit_per_user,omitempty"`
 	UsageLimitGlobal  int32                  `protobuf:"varint,7,opt,name=usage_limit_global,json=usageLimitGlobal,proto3" json:"usage_limit_global,omitempty"`
+	UsageGlobal       int32                  `protobuf:"varint,20,opt,name=usage_global,json=usageGlobal,proto3" json:"usage_global,omitempty"`
+	ReservedGlobal    int32                  `protobuf:"varint,21,opt,name=reserved_global,json=reservedGlobal,proto3" json:"reserved_global,omitempty"`
 	DiscountType      string                 `protobuf:"bytes,8,opt,name=discount_type,json=discountType,proto3" json:"discount_type,omitempty"`
 	UsageType         string                 `protobuf:"bytes,9,opt,name=usage_type,json=usageType,proto3" json:"usage_type,omitempty"`
 	DiscountVal       float64                `protobuf:"fixed64,10,opt,name=discount_val,json=discountVal,proto3" json:"discount_val,omitempty"`
@@ -472,6 +507,20 @@ func (x *UpdateCouponRequest) GetUsageLimitPerUser() int32 {
 func (x *UpdateCouponRequest) GetUsageLimitGlobal() int32 {
 	if x != nil {
 		return x.UsageLimitGlobal
+	}
+	return 0
+}
+
+func (x *UpdateCouponRequest) GetUsageGlobal() int32 {
+	if x != nil {
+		return x.UsageGlobal
+	}
+	return 0
+}
+
+func (x *UpdateCouponRequest) GetReservedGlobal() int32 {
+	if x != nil {
+		return x.ReservedGlobal
 	}
 	return 0
 }
@@ -1228,97 +1277,104 @@ var File_coupon_v1_coupon_proto protoreflect.FileDescriptor
 
 const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\n" +
-	"\x16coupon/v1/coupon.proto\x12\x06coupon\x1a\x1fgoogle/protobuf/timestamp.proto\"\x83\x05\n" +
-	"\x06Coupon\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04code\x18\x02 \x01(\tR\x04code\x12\x14\n" +
-	"\x05title\x18\x03 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1b\n" +
-	"\tmin_spend\x18\x05 \x01(\x01R\bminSpend\x12/\n" +
-	"\x14first_time_user_only\x18\x06 \x01(\bR\x11firstTimeUserOnly\x12/\n" +
-	"\x14usage_limit_per_user\x18\a \x01(\x05R\x11usageLimitPerUser\x12,\n" +
-	"\x12usage_limit_global\x18\b \x01(\x05R\x10usageLimitGlobal\x12#\n" +
-	"\rdiscount_type\x18\t \x01(\tR\fdiscountType\x12\x1d\n" +
+	"\x16coupon/v1/coupon.proto\x12\x06coupon\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\xa9\a\n" +
+	"\x06Coupon\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\x12,\n" +
+	"\x04code\x18\x02 \x01(\tB\x18\xfaB\x15r\x13\x10\x03\x1822\r^[A-Z0-9_-]+$R\x04code\x12\x1f\n" +
+	"\x05title\x18\x03 \x01(\tB\t\xfaB\x06r\x04\x10\x01\x18dR\x05title\x12*\n" +
+	"\vdescription\x18\x04 \x01(\tB\b\xfaB\x05r\x03\x18\xf4\x03R\vdescription\x12+\n" +
+	"\tmin_spend\x18\x05 \x01(\x01B\x0e\xfaB\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\bminSpend\x12/\n" +
+	"\x14first_time_user_only\x18\x06 \x01(\bR\x11firstTimeUserOnly\x128\n" +
+	"\x14usage_limit_per_user\x18\a \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x11usageLimitPerUser\x125\n" +
+	"\x12usage_limit_global\x18\b \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x10usageLimitGlobal\x12*\n" +
+	"\fusage_global\x18\x14 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\vusageGlobal\x120\n" +
+	"\x0freserved_global\x18\x15 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x0ereservedGlobal\x12G\n" +
+	"\rdiscount_type\x18\t \x01(\tB\"\xfaB\x1fr\x1dR\aPERCENTR\x05FIXEDR\vFIXED_PRICER\fdiscountType\x122\n" +
 	"\n" +
 	"usage_type\x18\n" +
-	" \x01(\tR\tusageType\x12!\n" +
-	"\fdiscount_val\x18\v \x01(\x01R\vdiscountVal\x12!\n" +
-	"\fmax_discount\x18\f \x01(\x01R\vmaxDiscount\x129\n" +
+	" \x01(\tB\x13\xfaB\x10r\x0eR\x06MANUALR\x04AUTOR\tusageType\x121\n" +
+	"\fdiscount_val\x18\v \x01(\x01B\x0e\xfaB\v\x12\t!\x00\x00\x00\x00\x00\x00\x00\x00R\vdiscountVal\x121\n" +
+	"\fmax_discount\x18\f \x01(\x01B\x0e\xfaB\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\vmaxDiscount\x12C\n" +
 	"\n" +
-	"start_time\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
-	"\bend_time\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x129\n" +
+	"start_time\x18\r \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\tstartTime\x12?\n" +
+	"\bend_time\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\aendTime\x129\n" +
 	"\n" +
 	"created_at\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\x8a\x04\n" +
-	"\x13CreateCouponRequest\x12\x12\n" +
-	"\x04code\x18\x01 \x01(\tR\x04code\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1b\n" +
-	"\tmin_spend\x18\x04 \x01(\x01R\bminSpend\x12/\n" +
-	"\x14first_time_user_only\x18\x05 \x01(\bR\x11firstTimeUserOnly\x12/\n" +
-	"\x14usage_limit_per_user\x18\x06 \x01(\x05R\x11usageLimitPerUser\x12,\n" +
-	"\x12usage_limit_global\x18\a \x01(\x05R\x10usageLimitGlobal\x12#\n" +
-	"\rdiscount_type\x18\b \x01(\tR\fdiscountType\x12\x1d\n" +
+	"updated_at\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xa6\x06\n" +
+	"\x13CreateCouponRequest\x12,\n" +
+	"\x04code\x18\x01 \x01(\tB\x18\xfaB\x15r\x13\x10\x03\x1822\r^[A-Z0-9_-]+$R\x04code\x12\x1f\n" +
+	"\x05title\x18\x02 \x01(\tB\t\xfaB\x06r\x04\x10\x01\x18dR\x05title\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xfaB\x05r\x03\x18\xf4\x03R\vdescription\x12+\n" +
+	"\tmin_spend\x18\x04 \x01(\x01B\x0e\xfaB\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\bminSpend\x12/\n" +
+	"\x14first_time_user_only\x18\x05 \x01(\bR\x11firstTimeUserOnly\x128\n" +
+	"\x14usage_limit_per_user\x18\x06 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x11usageLimitPerUser\x125\n" +
+	"\x12usage_limit_global\x18\a \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x10usageLimitGlobal\x12*\n" +
+	"\fusage_global\x18\x14 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\vusageGlobal\x120\n" +
+	"\x0freserved_global\x18\x15 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x0ereservedGlobal\x12G\n" +
+	"\rdiscount_type\x18\b \x01(\tB\"\xfaB\x1fr\x1dR\aPERCENTR\x05FIXEDR\vFIXED_PRICER\fdiscountType\x122\n" +
 	"\n" +
-	"usage_type\x18\t \x01(\tR\tusageType\x12!\n" +
+	"usage_type\x18\t \x01(\tB\x13\xfaB\x10r\x0eR\x06MANUALR\x04AUTOR\tusageType\x121\n" +
 	"\fdiscount_val\x18\n" +
-	" \x01(\x01R\vdiscountVal\x12!\n" +
-	"\fmax_discount\x18\v \x01(\x01R\vmaxDiscount\x129\n" +
+	" \x01(\x01B\x0e\xfaB\v\x12\t!\x00\x00\x00\x00\x00\x00\x00\x00R\vdiscountVal\x121\n" +
+	"\fmax_discount\x18\v \x01(\x01B\x0e\xfaB\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\vmaxDiscount\x12C\n" +
 	"\n" +
-	"start_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
-	"\bend_time\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\"T\n" +
+	"start_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\tstartTime\x12?\n" +
+	"\bend_time\x18\r \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\aendTime\"T\n" +
 	"\x14CreateCouponResponse\x12&\n" +
 	"\x06coupon\x18\x01 \x01(\v2\x0e.coupon.CouponR\x06coupon\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"\x86\x04\n" +
-	"\x13UpdateCouponRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
-	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x1b\n" +
-	"\tmin_spend\x18\x04 \x01(\x01R\bminSpend\x12/\n" +
-	"\x14first_time_user_only\x18\x05 \x01(\bR\x11firstTimeUserOnly\x12/\n" +
-	"\x14usage_limit_per_user\x18\x06 \x01(\x05R\x11usageLimitPerUser\x12,\n" +
-	"\x12usage_limit_global\x18\a \x01(\x05R\x10usageLimitGlobal\x12#\n" +
-	"\rdiscount_type\x18\b \x01(\tR\fdiscountType\x12\x1d\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\x92\x06\n" +
+	"\x13UpdateCouponRequest\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\x12\x1f\n" +
+	"\x05title\x18\x02 \x01(\tB\t\xfaB\x06r\x04\x10\x01\x18dR\x05title\x12*\n" +
+	"\vdescription\x18\x03 \x01(\tB\b\xfaB\x05r\x03\x18\xf4\x03R\vdescription\x12+\n" +
+	"\tmin_spend\x18\x04 \x01(\x01B\x0e\xfaB\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\bminSpend\x12/\n" +
+	"\x14first_time_user_only\x18\x05 \x01(\bR\x11firstTimeUserOnly\x128\n" +
+	"\x14usage_limit_per_user\x18\x06 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x11usageLimitPerUser\x125\n" +
+	"\x12usage_limit_global\x18\a \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x10usageLimitGlobal\x12*\n" +
+	"\fusage_global\x18\x14 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\vusageGlobal\x120\n" +
+	"\x0freserved_global\x18\x15 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x0ereservedGlobal\x12G\n" +
+	"\rdiscount_type\x18\b \x01(\tB\"\xfaB\x1fr\x1dR\aPERCENTR\x05FIXEDR\vFIXED_PRICER\fdiscountType\x122\n" +
 	"\n" +
-	"usage_type\x18\t \x01(\tR\tusageType\x12!\n" +
+	"usage_type\x18\t \x01(\tB\x13\xfaB\x10r\x0eR\x06MANUALR\x04AUTOR\tusageType\x121\n" +
 	"\fdiscount_val\x18\n" +
-	" \x01(\x01R\vdiscountVal\x12!\n" +
-	"\fmax_discount\x18\v \x01(\x01R\vmaxDiscount\x129\n" +
+	" \x01(\x01B\x0e\xfaB\v\x12\t!\x00\x00\x00\x00\x00\x00\x00\x00R\vdiscountVal\x121\n" +
+	"\fmax_discount\x18\v \x01(\x01B\x0e\xfaB\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\vmaxDiscount\x12C\n" +
 	"\n" +
-	"start_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tstartTime\x125\n" +
-	"\bend_time\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\"T\n" +
+	"start_time\x18\f \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\tstartTime\x12?\n" +
+	"\bend_time\x18\r \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\aendTime\"T\n" +
 	"\x14UpdateCouponResponse\x12&\n" +
 	"\x06coupon\x18\x01 \x01(\v2\x0e.coupon.CouponR\x06coupon\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"%\n" +
-	"\x13DeleteCouponRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"F\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"/\n" +
+	"\x13DeleteCouponRequest\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\"F\n" +
 	"\x14DeleteCouponResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"]\n" +
-	"\x12ListCouponsRequest\x12\x12\n" +
-	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x16\n" +
-	"\x06filter\x18\x03 \x01(\tR\x06filter\"\x9c\x01\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"}\n" +
+	"\x12ListCouponsRequest\x12\x1e\n" +
+	"\x04page\x18\x01 \x01(\x05B\n" +
+	"\xfaB\a\x1a\x05\x18\xe8\a(\x01R\x04page\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xfaB\x06\x1a\x04\x18d(\x01R\bpageSize\x12\x1f\n" +
+	"\x06filter\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x18dR\x06filter\"\x9c\x01\n" +
 	"\x13ListCouponsResponse\x12(\n" +
 	"\acoupons\x18\x01 \x03(\v2\x0e.coupon.CouponR\acoupons\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
 	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\x12\x14\n" +
-	"\x05error\x18\x05 \x01(\tR\x05error\"H\n" +
-	"\x10GetCouponRequest\x12\x10\n" +
-	"\x02id\x18\x01 \x01(\tH\x00R\x02id\x12\x14\n" +
-	"\x04code\x18\x02 \x01(\tH\x00R\x04codeB\f\n" +
+	"\x05error\x18\x05 \x01(\tR\x05error\"l\n" +
+	"\x10GetCouponRequest\x12\x1a\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01H\x00R\x02id\x12.\n" +
+	"\x04code\x18\x02 \x01(\tB\x18\xfaB\x15r\x13\x10\x03\x1822\r^[A-Z0-9_-]+$H\x00R\x04codeB\f\n" +
 	"\n" +
 	"identifier\"Q\n" +
 	"\x11GetCouponResponse\x12&\n" +
 	"\x06coupon\x18\x01 \x01(\v2\x0e.coupon.CouponR\x06coupon\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"k\n" +
-	"\x14ReserveCouponRequest\x12\x17\n" +
-	"\auser_id\x18\x01 \x01(\tR\x06userId\x12\x1b\n" +
-	"\tcoupon_id\x18\x02 \x01(\tR\bcouponId\x12\x1d\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\x8f\x01\n" +
+	"\x14ReserveCouponRequest\x12!\n" +
+	"\auser_id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x06userId\x12%\n" +
+	"\tcoupon_id\x18\x02 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\bcouponId\x12-\n" +
 	"\n" +
-	"cart_total\x18\x03 \x01(\x01R\tcartTotal\"\xe3\x01\n" +
+	"cart_total\x18\x03 \x01(\x01B\x0e\xfaB\v\x12\t!\x00\x00\x00\x00\x00\x00\x00\x00R\tcartTotal\"\xe3\x01\n" +
 	"\x15ReserveCouponResponse\x12\x0e\n" +
 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x1a\n" +
 	"\bdiscount\x18\x02 \x01(\x01R\bdiscount\x12!\n" +
@@ -1327,14 +1383,14 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\tcoupon_id\x18\x06 \x01(\tR\bcouponId\x12\x16\n" +
 	"\x06reason\x18\x04 \x01(\tR\x06reason\x12\x1f\n" +
 	"\vttl_seconds\x18\x05 \x01(\x05R\n" +
-	"ttlSeconds\"\xa7\x01\n" +
-	"\x18CalculateDiscountRequest\x12\x1f\n" +
-	"\vcoupon_code\x18\x01 \x01(\tR\n" +
-	"couponCode\x12\x16\n" +
-	"\x06amount\x18\x02 \x01(\x01R\x06amount\x12\x17\n" +
-	"\auser_id\x18\x03 \x01(\tR\x06userId\x129\n" +
+	"ttlSeconds\"\xe5\x01\n" +
+	"\x18CalculateDiscountRequest\x129\n" +
+	"\vcoupon_code\x18\x01 \x01(\tB\x18\xfaB\x15r\x13\x10\x03\x1822\r^[A-Z0-9_-]+$R\n" +
+	"couponCode\x12&\n" +
+	"\x06amount\x18\x02 \x01(\x01B\x0e\xfaB\v\x12\t!\x00\x00\x00\x00\x00\x00\x00\x00R\x06amount\x12!\n" +
+	"\auser_id\x18\x03 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x06userId\x12C\n" +
 	"\n" +
-	"order_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\torderTime\"\x9a\x01\n" +
+	"order_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampB\b\xfaB\x05\xb2\x01\x02\b\x01R\torderTime\"\x9a\x01\n" +
 	"\x19CalculateDiscountResponse\x12'\n" +
 	"\x0fdiscount_amount\x18\x01 \x01(\x01R\x0ediscountAmount\x12!\n" +
 	"\ffinal_amount\x18\x02 \x01(\x01R\vfinalAmount\x12\x1b\n" +

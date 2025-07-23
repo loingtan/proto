@@ -5,6 +5,7 @@ package user;
 option go_package = "github.com/loingtan/proto/user";
 
 import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
 service UserProfileService {
   rpc CreateUserProfile(CreateUserProfileRequest) returns (CreateUserProfileResponse);
   rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
@@ -14,9 +15,9 @@ service UserProfileService {
 
 
 message UpdateUserProfileRequest {
-  string id = 1;
-  string username = 2;
-  repeated string roles = 3;
+  string id = 1 [(validate.rules).string.uuid = true];
+  string username = 2 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[a-zA-Z0-9_.-]+$"}];
+  repeated string roles = 3 [(validate.rules).repeated = {max_items: 10, items: {string: {min_len: 1, max_len: 50}}}];
 }
 
 message UpdateUserProfileResponse {
@@ -27,9 +28,9 @@ message UpdateUserProfileResponse {
 
 
 message ListUserProfilesRequest {
-  int32 page = 1;
-  int32 page_size = 2;
-  string filter = 3;
+  int32 page = 1 [(validate.rules).int32 = {gte: 1, lte: 1000}];
+  int32 page_size = 2 [(validate.rules).int32 = {gte: 1, lte: 100}];
+  string filter = 3 [(validate.rules).string.max_len = 100];
 }
 
 message ListUserProfilesResponse {
@@ -42,7 +43,7 @@ message ListUserProfilesResponse {
 
 
 message GetUserProfileRequest {
-  string id = 1;
+  string id = 1 [(validate.rules).string.uuid = true];
 }
 
 message GetUserProfileResponse {
@@ -51,7 +52,7 @@ message GetUserProfileResponse {
 }
 
 message CreateUserProfileRequest {
-  string username = 1; 
+  string username = 1 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[a-zA-Z0-9_.-]+$"}];
 }
 
 message CreateUserProfileResponse {
@@ -61,18 +62,18 @@ message CreateUserProfileResponse {
 
 
 message UserProfile {
-  string id = 1;
-  string username = 2;
-  string email = 7;
-  string status = 8;
-  string full_name = 3;
+  string id = 1 [(validate.rules).string.uuid = true];
+  string username = 2 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[a-zA-Z0-9_.-]+$"}];
+  string email = 7 [(validate.rules).string.email = true];
+  string status = 8 [(validate.rules).string = {in: ["ACTIVE", "INACTIVE", "SUSPENDED", "PENDING"]}];
+  string full_name = 3 [(validate.rules).string = {min_len: 1, max_len: 100}];
   google.protobuf.Timestamp created_at = 4;
   google.protobuf.Timestamp updated_at = 5;
   UserStats stats = 6;
 }
 
 message UserStats {
-  int32 total_transactions = 1;
-  double total_savings = 2;
-  int32 coupons_used = 3;
+  int32 total_transactions = 1 [(validate.rules).int32.gte = 0];
+  double total_savings = 2 [(validate.rules).double.gte = 0];
+  int32 coupons_used = 3 [(validate.rules).int32.gte = 0];
 }

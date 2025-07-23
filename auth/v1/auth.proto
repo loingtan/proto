@@ -5,6 +5,7 @@ package auth;
 option go_package = "github.com/loingtan/proto/auth";
 
 import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
 
 service AuthService {
   rpc Login(LoginRequest) returns (LoginResponse);
@@ -16,8 +17,8 @@ service AuthService {
 }
 
 message LoginRequest {
-  string username = 1;
-  string password = 2;
+  string username = 1 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[a-zA-Z0-9_.-]+$"}];
+  string password = 2 [(validate.rules).string = {min_len: 8, max_len: 128}];
 }
 
 message LoginResponse {
@@ -28,15 +29,15 @@ message LoginResponse {
 }
 
 message RegisterRequest {
-  string username = 1;
-  string password = 2;
-  repeated string roles = 3;
+  string username = 1 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[a-zA-Z0-9_.-]+$"}];
+  string password = 2 [(validate.rules).string = {min_len: 8, max_len: 128}];
+  repeated string roles = 3 [(validate.rules).repeated = {min_items: 1, max_items: 10, items: {string: {min_len: 1, max_len: 50}}}];
 }
 
 message ListUsersRequest {
-  int32 page = 1;
-  int32 page_size = 2;
-  string filter = 3; 
+  int32 page = 1 [(validate.rules).int32 = {gte: 1, lte: 1000}];
+  int32 page_size = 2 [(validate.rules).int32 = {gte: 1, lte: 100}];
+  string filter = 3 [(validate.rules).string.max_len = 100];
 }
 message ListUsersResponse {
   repeated User users = 1;
@@ -52,7 +53,7 @@ message RegisterResponse {
 }
 
 message ValidateTokenRequest {
-  string token = 1;
+  string token = 1 [(validate.rules).string = {min_len: 1, max_len: 2048}];
 }
 
 message ValidateTokenResponse {
@@ -62,7 +63,7 @@ message ValidateTokenResponse {
 }
 
 message RefreshTokenRequest {
-  string refresh_token = 1;
+  string refresh_token = 1 [(validate.rules).string = {min_len: 1, max_len: 2048}];
 }
 
 message RefreshTokenResponse {
@@ -72,7 +73,7 @@ message RefreshTokenResponse {
 }
 
 message LogoutRequest {
-  string token = 1;
+  string token = 1 [(validate.rules).string = {min_len: 1, max_len: 2048}];
 }
 
 message LogoutResponse {
@@ -81,16 +82,16 @@ message LogoutResponse {
 }
 
 message User {
-  string id = 1;
-  string username = 2;
+  string id = 1 [(validate.rules).string.uuid = true];
+  string username = 2 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[a-zA-Z0-9_.-]+$"}];
   repeated UserRole roles = 3;
   google.protobuf.Timestamp created_at = 4;
   google.protobuf.Timestamp updated_at = 5;
 }
 
 message UserRole {
-  string id = 1;
-  string role = 2;
+  string id = 1 [(validate.rules).string.uuid = true];
+  string role = 2 [(validate.rules).string = {min_len: 1, max_len: 50, pattern: "^[A-Z_]+$"}];
   google.protobuf.Timestamp created_at = 3;
   google.protobuf.Timestamp updated_at = 4;
 }

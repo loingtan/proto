@@ -7,6 +7,7 @@
 package v1
 
 import (
+	_ "github.com/loingtan/proto/gen/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -626,49 +627,52 @@ var File_user_profile_v1_user_profile_proto protoreflect.FileDescriptor
 
 const file_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\n" +
-	"\"user_profile/v1/user_profile.proto\x12\x04user\x1a\x1fgoogle/protobuf/timestamp.proto\"\\\n" +
-	"\x18UpdateUserProfileRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
-	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
-	"\x05roles\x18\x03 \x03(\tR\x05roles\"g\n" +
+	"\"user_profile/v1/user_profile.proto\x12\x04user\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\x96\x01\n" +
+	"\x18UpdateUserProfileRequest\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\x128\n" +
+	"\busername\x18\x02 \x01(\tB\x1c\xfaB\x19r\x17\x10\x03\x1822\x11^[a-zA-Z0-9_.-]+$R\busername\x12&\n" +
+	"\x05roles\x18\x03 \x03(\tB\x10\xfaB\r\x92\x01\n" +
+	"\x10\n" +
+	"\"\x06r\x04\x10\x01\x182R\x05roles\"g\n" +
 	"\x19UpdateUserProfileResponse\x124\n" +
 	"\fuser_profile\x18\x01 \x01(\v2\x11.user.UserProfileR\vuserProfile\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"b\n" +
-	"\x17ListUserProfilesRequest\x12\x12\n" +
-	"\x04page\x18\x01 \x01(\x05R\x04page\x12\x1b\n" +
-	"\tpage_size\x18\x02 \x01(\x05R\bpageSize\x12\x16\n" +
-	"\x06filter\x18\x03 \x01(\tR\x06filter\"\xa0\x01\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\x82\x01\n" +
+	"\x17ListUserProfilesRequest\x12\x1e\n" +
+	"\x04page\x18\x01 \x01(\x05B\n" +
+	"\xfaB\a\x1a\x05\x18\xe8\a(\x01R\x04page\x12&\n" +
+	"\tpage_size\x18\x02 \x01(\x05B\t\xfaB\x06\x1a\x04\x18d(\x01R\bpageSize\x12\x1f\n" +
+	"\x06filter\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x18dR\x06filter\"\xa0\x01\n" +
 	"\x18ListUserProfilesResponse\x12'\n" +
 	"\x05users\x18\x01 \x03(\v2\x11.user.UserProfileR\x05users\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
 	"\x04page\x18\x03 \x01(\x05R\x04page\x12\x1b\n" +
 	"\tpage_size\x18\x04 \x01(\x05R\bpageSize\x12\x14\n" +
-	"\x05error\x18\x05 \x01(\tR\x05error\"'\n" +
-	"\x15GetUserProfileRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"d\n" +
+	"\x05error\x18\x05 \x01(\tR\x05error\"1\n" +
+	"\x15GetUserProfileRequest\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\"d\n" +
 	"\x16GetUserProfileResponse\x124\n" +
 	"\fuser_profile\x18\x01 \x01(\v2\x11.user.UserProfileR\vuserProfile\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"6\n" +
-	"\x18CreateUserProfileRequest\x12\x1a\n" +
-	"\busername\x18\x01 \x01(\tR\busername\"g\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"T\n" +
+	"\x18CreateUserProfileRequest\x128\n" +
+	"\busername\x18\x01 \x01(\tB\x1c\xfaB\x19r\x17\x10\x03\x1822\x11^[a-zA-Z0-9_.-]+$R\busername\"g\n" +
 	"\x19CreateUserProfileResponse\x124\n" +
 	"\fuser_profile\x18\x01 \x01(\v2\x11.user.UserProfileR\vuserProfile\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"\xa1\x02\n" +
-	"\vUserProfile\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
-	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
-	"\x05email\x18\a \x01(\tR\x05email\x12\x16\n" +
-	"\x06status\x18\b \x01(\tR\x06status\x12\x1b\n" +
-	"\tfull_name\x18\x03 \x01(\tR\bfullName\x129\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\x8a\x03\n" +
+	"\vUserProfile\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\x128\n" +
+	"\busername\x18\x02 \x01(\tB\x1c\xfaB\x19r\x17\x10\x03\x1822\x11^[a-zA-Z0-9_.-]+$R\busername\x12\x1d\n" +
+	"\x05email\x18\a \x01(\tB\a\xfaB\x04r\x02`\x01R\x05email\x12C\n" +
+	"\x06status\x18\b \x01(\tB+\xfaB(r&R\x06ACTIVER\bINACTIVER\tSUSPENDEDR\aPENDINGR\x06status\x12&\n" +
+	"\tfull_name\x18\x03 \x01(\tB\t\xfaB\x06r\x04\x10\x01\x18dR\bfullName\x129\n" +
 	"\n" +
 	"created_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
 	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x12%\n" +
-	"\x05stats\x18\x06 \x01(\v2\x0f.user.UserStatsR\x05stats\"\x82\x01\n" +
-	"\tUserStats\x12-\n" +
-	"\x12total_transactions\x18\x01 \x01(\x05R\x11totalTransactions\x12#\n" +
-	"\rtotal_savings\x18\x02 \x01(\x01R\ftotalSavings\x12!\n" +
-	"\fcoupons_used\x18\x03 \x01(\x05R\vcouponsUsed2\xe0\x02\n" +
+	"\x05stats\x18\x06 \x01(\v2\x0f.user.UserStatsR\x05stats\"\xa4\x01\n" +
+	"\tUserStats\x126\n" +
+	"\x12total_transactions\x18\x01 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\x11totalTransactions\x123\n" +
+	"\rtotal_savings\x18\x02 \x01(\x01B\x0e\xfaB\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\ftotalSavings\x12*\n" +
+	"\fcoupons_used\x18\x03 \x01(\x05B\a\xfaB\x04\x1a\x02(\x00R\vcouponsUsed2\xe0\x02\n" +
 	"\x12UserProfileService\x12T\n" +
 	"\x11CreateUserProfile\x12\x1e.user.CreateUserProfileRequest\x1a\x1f.user.CreateUserProfileResponse\x12T\n" +
 	"\x11UpdateUserProfile\x12\x1e.user.UpdateUserProfileRequest\x1a\x1f.user.UpdateUserProfileResponse\x12Q\n" +

@@ -1308,6 +1308,7 @@ func (x *CalculateDiscountResponse) GetError() string {
 type ListClaimCouponRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserId        string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	CartTotal     float64                `protobuf:"fixed64,4,opt,name=cart_total,json=cartTotal,proto3" json:"cart_total,omitempty"`
 	Page          int32                  `protobuf:"varint,2,opt,name=page,proto3" json:"page,omitempty"`
 	PageSize      int32                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -1349,6 +1350,13 @@ func (x *ListClaimCouponRequest) GetUserId() string {
 		return x.UserId
 	}
 	return ""
+}
+
+func (x *ListClaimCouponRequest) GetCartTotal() float64 {
+	if x != nil {
+		return x.CartTotal
+	}
+	return 0
 }
 
 func (x *ListClaimCouponRequest) GetPage() int32 {
@@ -1544,9 +1552,11 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x0fdiscount_amount\x18\x01 \x01(\x01R\x0ediscountAmount\x12!\n" +
 	"\ffinal_amount\x18\x02 \x01(\x01R\vfinalAmount\x12\x1b\n" +
 	"\tcoupon_id\x18\x03 \x01(\tR\bcouponId\x12\x14\n" +
-	"\x05error\x18\x04 \x01(\tR\x05error\"\x83\x01\n" +
+	"\x05error\x18\x04 \x01(\tR\x05error\"\xb2\x01\n" +
 	"\x16ListClaimCouponRequest\x12!\n" +
-	"\auser_id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x06userId\x12\x1e\n" +
+	"\auser_id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x06userId\x12-\n" +
+	"\n" +
+	"cart_total\x18\x04 \x01(\x01B\x0e\xfaB\v\x12\t!\x00\x00\x00\x00\x00\x00\x00\x00R\tcartTotal\x12\x1e\n" +
 	"\x04page\x18\x02 \x01(\x05B\n" +
 	"\xfaB\a\x1a\x05\x18\xe8\a(\x01R\x04page\x12&\n" +
 	"\tpage_size\x18\x03 \x01(\x05B\t\xfaB\x06\x1a\x04\x18d(\x01R\bpageSize\"Y\n" +

@@ -2671,6 +2671,17 @@ func (m *ListClaimCouponRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if m.GetCartTotal() <= 0 {
+		err := ListClaimCouponRequestValidationError{
+			field:  "CartTotal",
+			reason: "value must be greater than 0",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if val := m.GetPage(); val < 1 || val > 1000 {
 		err := ListClaimCouponRequestValidationError{
 			field:  "Page",

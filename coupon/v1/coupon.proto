@@ -143,6 +143,7 @@ message CalculateDiscountResponse {
 }
 message ListClaimCouponRequest {
   string user_id = 1 [(validate.rules).string.uuid = true];
+  double cart_total = 4 [(validate.rules).double.gt = 0];
   int32 page = 2 [(validate.rules).int32 = {gte: 1, lte: 1000}];
   int32 page_size = 3 [(validate.rules).int32 = {gte: 1, lte: 100}];
 }

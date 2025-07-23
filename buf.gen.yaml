@@ -15,5 +15,9 @@ plugins:
   - remote: buf.build/grpc/go
     out: gen
     opt: paths=source_relative
+  - remote: buf.build/bufbuild/validate-go
+    out: gen
+    opt: paths=source_relative
 inputs:
   - directory: ./
+  - module: buf.build/envoyproxy/protoc-gen-validate

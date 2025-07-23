@@ -1503,6 +1503,50 @@ func (m *ListCouponsRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	if utf8.RuneCountInString(m.GetSearch()) > 100 {
+		err := ListCouponsRequestValidationError{
+			field:  "Search",
+			reason: "value length must be at most 100 runes",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if _, ok := _ListCouponsRequest_Status_InLookup[m.GetStatus()]; !ok {
+		err := ListCouponsRequestValidationError{
+			field:  "Status",
+			reason: "value must be in list [ACTIVE INACTIVE EXPIRED USED_UP ]",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if _, ok := _ListCouponsRequest_DiscountType_InLookup[m.GetDiscountType()]; !ok {
+		err := ListCouponsRequestValidationError{
+			field:  "DiscountType",
+			reason: "value must be in list [PERCENT FIXED FIXED_PRICE ]",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if _, ok := _ListCouponsRequest_UsageType_InLookup[m.GetUsageType()]; !ok {
+		err := ListCouponsRequestValidationError{
+			field:  "UsageType",
+			reason: "value must be in list [MANUAL AUTO ]",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
 	if len(errors) > 0 {
 		return ListCouponsRequestMultiError(errors)
 	}
@@ -1582,6 +1626,27 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ListCouponsRequestValidationError{}
+
+var _ListCouponsRequest_Status_InLookup = map[string]struct{}{
+	"ACTIVE":   {},
+	"INACTIVE": {},
+	"EXPIRED":  {},
+	"USED_UP":  {},
+	"":         {},
+}
+
+var _ListCouponsRequest_DiscountType_InLookup = map[string]struct{}{
+	"PERCENT":     {},
+	"FIXED":       {},
+	"FIXED_PRICE": {},
+	"":            {},
+}
+
+var _ListCouponsRequest_UsageType_InLookup = map[string]struct{}{
+	"MANUAL": {},
+	"AUTO":   {},
+	"":       {},
+}
 
 // Validate checks the field values on ListCouponsResponse with the rules
 // defined in the proto definition for this message. If any rules are
@@ -2571,3 +2636,285 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CalculateDiscountResponseValidationError{}
+
+// Validate checks the field values on ListClaimCouponRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListClaimCouponRequest) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListClaimCouponRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListClaimCouponRequestMultiError, or nil if none found.
+func (m *ListClaimCouponRequest) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListClaimCouponRequest) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if err := m._validateUuid(m.GetUserId()); err != nil {
+		err = ListClaimCouponRequestValidationError{
+			field:  "UserId",
+			reason: "value must be a valid UUID",
+			cause:  err,
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if val := m.GetPage(); val < 1 || val > 1000 {
+		err := ListClaimCouponRequestValidationError{
+			field:  "Page",
+			reason: "value must be inside range [1, 1000]",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if val := m.GetPageSize(); val < 1 || val > 100 {
+		err := ListClaimCouponRequestValidationError{
+			field:  "PageSize",
+			reason: "value must be inside range [1, 100]",
+		}
+		if !all {
+			return err
+		}
+		errors = append(errors, err)
+	}
+
+	if len(errors) > 0 {
+		return ListClaimCouponRequestMultiError(errors)
+	}
+
+	return nil
+}
+
+func (m *ListClaimCouponRequest) _validateUuid(uuid string) error {
+	if matched := _coupon_uuidPattern.MatchString(uuid); !matched {
+		return errors.New("invalid uuid format")
+	}
+
+	return nil
+}
+
+// ListClaimCouponRequestMultiError is an error wrapping multiple validation
+// errors returned by ListClaimCouponRequest.ValidateAll() if the designated
+// constraints aren't met.
+type ListClaimCouponRequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListClaimCouponRequestMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListClaimCouponRequestMultiError) AllErrors() []error { return m }
+
+// ListClaimCouponRequestValidationError is the validation error returned by
+// ListClaimCouponRequest.Validate if the designated constraints aren't met.
+type ListClaimCouponRequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListClaimCouponRequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListClaimCouponRequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListClaimCouponRequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListClaimCouponRequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListClaimCouponRequestValidationError) ErrorName() string {
+	return "ListClaimCouponRequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListClaimCouponRequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListClaimCouponRequest.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListClaimCouponRequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListClaimCouponRequestValidationError{}
+
+// Validate checks the field values on ListClaimCouponResponse with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *ListClaimCouponResponse) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on ListClaimCouponResponse with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// ListClaimCouponResponseMultiError, or nil if none found.
+func (m *ListClaimCouponResponse) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *ListClaimCouponResponse) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	for idx, item := range m.GetCoupons() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, ListClaimCouponResponseValidationError{
+						field:  fmt.Sprintf("Coupons[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, ListClaimCouponResponseValidationError{
+						field:  fmt.Sprintf("Coupons[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return ListClaimCouponResponseValidationError{
+					field:  fmt.Sprintf("Coupons[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	// no validation rules for Error
+
+	if len(errors) > 0 {
+		return ListClaimCouponResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// ListClaimCouponResponseMultiError is an error wrapping multiple validation
+// errors returned by ListClaimCouponResponse.ValidateAll() if the designated
+// constraints aren't met.
+type ListClaimCouponResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m ListClaimCouponResponseMultiError) Error() string {
+	msgs := make([]string, 0, len(m))
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m ListClaimCouponResponseMultiError) AllErrors() []error { return m }
+
+// ListClaimCouponResponseValidationError is the validation error returned by
+// ListClaimCouponResponse.Validate if the designated constraints aren't met.
+type ListClaimCouponResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e ListClaimCouponResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e ListClaimCouponResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e ListClaimCouponResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e ListClaimCouponResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e ListClaimCouponResponseValidationError) ErrorName() string {
+	return "ListClaimCouponResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e ListClaimCouponResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sListClaimCouponResponse.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = ListClaimCouponResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = ListClaimCouponResponseValidationError{}

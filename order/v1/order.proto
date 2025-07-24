@@ -17,10 +17,11 @@ service OrderService {
 
 message CreateOrderRequest {
   string user_id = 1 [(validate.rules).string.uuid = true];
-  string coupon_id = 2 [(validate.rules).string.uuid = true];
-  double amount = 3 [(validate.rules).double.gt = 0];
-  double discount = 4 [(validate.rules).double.gte = 0];
-  string status = 5 [(validate.rules).string = {in: ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"]}];
+  string coupon_id = 2; // Optional - empty if no coupon selected
+  string reservation_id = 3; // Optional - empty if no coupon selected
+  double amount = 4 [(validate.rules).double.gt = 0];
+  double discount = 5 [(validate.rules).double.gte = 0];
+  string status = 6 [(validate.rules).string = {in: ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"]}];
 }
 
 message CreateOrderResponse {
@@ -91,10 +92,11 @@ message GetCouponOrdersResponse {
 message Order {
   string id = 1 [(validate.rules).string.uuid = true];
   string user_id = 2 [(validate.rules).string.uuid = true];
-  string coupon_id = 3 [(validate.rules).string.uuid = true];
-  double amount = 4 [(validate.rules).double.gt = 0];
-  double discount = 5 [(validate.rules).double.gte = 0];
-  string status = 6 [(validate.rules).string = {in: ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"]}];
-  google.protobuf.Timestamp created_at = 7;
-  google.protobuf.Timestamp updated_at = 8;
+  string coupon_id = 3; // Optional - empty if no coupon used
+  string reservation_id = 4; // Optional - empty if no coupon used
+  double amount = 5 [(validate.rules).double.gt = 0];
+  double discount = 6 [(validate.rules).double.gte = 0];
+  string status = 7 [(validate.rules).string = {in: ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED", "REFUNDED"]}];
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
 }

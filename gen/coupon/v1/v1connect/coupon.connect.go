@@ -47,9 +47,15 @@ const (
 	// CouponServiceDeleteCouponProcedure is the fully-qualified name of the CouponService's
 	// DeleteCoupon RPC.
 	CouponServiceDeleteCouponProcedure = "/coupon.CouponService/DeleteCoupon"
+	// CouponServiceClaimCouponProcedure is the fully-qualified name of the CouponService's ClaimCoupon
+	// RPC.
+	CouponServiceClaimCouponProcedure = "/coupon.CouponService/ClaimCoupon"
 	// CouponServiceReserveCouponProcedure is the fully-qualified name of the CouponService's
 	// ReserveCoupon RPC.
 	CouponServiceReserveCouponProcedure = "/coupon.CouponService/ReserveCoupon"
+	// CouponServiceValidateReservationProcedure is the fully-qualified name of the CouponService's
+	// ValidateReservation RPC.
+	CouponServiceValidateReservationProcedure = "/coupon.CouponService/ValidateReservation"
 	// CouponServiceListClaimCouponProcedure is the fully-qualified name of the CouponService's
 	// ListClaimCoupon RPC.
 	CouponServiceListClaimCouponProcedure = "/coupon.CouponService/ListClaimCoupon"
@@ -65,7 +71,9 @@ type CouponServiceClient interface {
 	CreateCoupon(context.Context, *connect.Request[v1.CreateCouponRequest]) (*connect.Response[v1.CreateCouponResponse], error)
 	UpdateCoupon(context.Context, *connect.Request[v1.UpdateCouponRequest]) (*connect.Response[v1.UpdateCouponResponse], error)
 	DeleteCoupon(context.Context, *connect.Request[v1.DeleteCouponRequest]) (*connect.Response[v1.DeleteCouponResponse], error)
+	ClaimCoupon(context.Context, *connect.Request[v1.ClaimCouponRequest]) (*connect.Response[v1.ClaimCouponResponse], error)
 	ReserveCoupon(context.Context, *connect.Request[v1.ReserveCouponRequest]) (*connect.Response[v1.ReserveCouponResponse], error)
+	ValidateReservation(context.Context, *connect.Request[v1.ValidateReservationRequest]) (*connect.Response[v1.ValidateReservationResponse], error)
 	ListClaimCoupon(context.Context, *connect.Request[v1.ListClaimCouponRequest]) (*connect.Response[v1.ListClaimCouponResponse], error)
 	CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error)
 }
@@ -111,10 +119,22 @@ func NewCouponServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(couponServiceMethods.ByName("DeleteCoupon")),
 			connect.WithClientOptions(opts...),
 		),
+		claimCoupon: connect.NewClient[v1.ClaimCouponRequest, v1.ClaimCouponResponse](
+			httpClient,
+			baseURL+CouponServiceClaimCouponProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("ClaimCoupon")),
+			connect.WithClientOptions(opts...),
+		),
 		reserveCoupon: connect.NewClient[v1.ReserveCouponRequest, v1.ReserveCouponResponse](
 			httpClient,
 			baseURL+CouponServiceReserveCouponProcedure,
 			connect.WithSchema(couponServiceMethods.ByName("ReserveCoupon")),
+			connect.WithClientOptions(opts...),
+		),
+		validateReservation: connect.NewClient[v1.ValidateReservationRequest, v1.ValidateReservationResponse](
+			httpClient,
+			baseURL+CouponServiceValidateReservationProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("ValidateReservation")),
 			connect.WithClientOptions(opts...),
 		),
 		listClaimCoupon: connect.NewClient[v1.ListClaimCouponRequest, v1.ListClaimCouponResponse](
@@ -134,14 +154,16 @@ func NewCouponServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 
 // couponServiceClient implements CouponServiceClient.
 type couponServiceClient struct {
-	getCoupon         *connect.Client[v1.GetCouponRequest, v1.GetCouponResponse]
-	listCoupons       *connect.Client[v1.ListCouponsRequest, v1.ListCouponsResponse]
-	createCoupon      *connect.Client[v1.CreateCouponRequest, v1.CreateCouponResponse]
-	updateCoupon      *connect.Client[v1.UpdateCouponRequest, v1.UpdateCouponResponse]
-	deleteCoupon      *connect.Client[v1.DeleteCouponRequest, v1.DeleteCouponResponse]
-	reserveCoupon     *connect.Client[v1.ReserveCouponRequest, v1.ReserveCouponResponse]
-	listClaimCoupon   *connect.Client[v1.ListClaimCouponRequest, v1.ListClaimCouponResponse]
-	calculateDiscount *connect.Client[v1.CalculateDiscountRequest, v1.CalculateDiscountResponse]
+	getCoupon           *connect.Client[v1.GetCouponRequest, v1.GetCouponResponse]
+	listCoupons         *connect.Client[v1.ListCouponsRequest, v1.ListCouponsResponse]
+	createCoupon        *connect.Client[v1.CreateCouponRequest, v1.CreateCouponResponse]
+	updateCoupon        *connect.Client[v1.UpdateCouponRequest, v1.UpdateCouponResponse]
+	deleteCoupon        *connect.Client[v1.DeleteCouponRequest, v1.DeleteCouponResponse]
+	claimCoupon         *connect.Client[v1.ClaimCouponRequest, v1.ClaimCouponResponse]
+	reserveCoupon       *connect.Client[v1.ReserveCouponRequest, v1.ReserveCouponResponse]
+	validateReservation *connect.Client[v1.ValidateReservationRequest, v1.ValidateReservationResponse]
+	listClaimCoupon     *connect.Client[v1.ListClaimCouponRequest, v1.ListClaimCouponResponse]
+	calculateDiscount   *connect.Client[v1.CalculateDiscountRequest, v1.CalculateDiscountResponse]
 }
 
 // GetCoupon calls coupon.CouponService.GetCoupon.
@@ -169,9 +191,19 @@ func (c *couponServiceClient) DeleteCoupon(ctx context.Context, req *connect.Req
 	return c.deleteCoupon.CallUnary(ctx, req)
 }
 
+// ClaimCoupon calls coupon.CouponService.ClaimCoupon.
+func (c *couponServiceClient) ClaimCoupon(ctx context.Context, req *connect.Request[v1.ClaimCouponRequest]) (*connect.Response[v1.ClaimCouponResponse], error) {
+	return c.claimCoupon.CallUnary(ctx, req)
+}
+
 // ReserveCoupon calls coupon.CouponService.ReserveCoupon.
 func (c *couponServiceClient) ReserveCoupon(ctx context.Context, req *connect.Request[v1.ReserveCouponRequest]) (*connect.Response[v1.ReserveCouponResponse], error) {
 	return c.reserveCoupon.CallUnary(ctx, req)
+}
+
+// ValidateReservation calls coupon.CouponService.ValidateReservation.
+func (c *couponServiceClient) ValidateReservation(ctx context.Context, req *connect.Request[v1.ValidateReservationRequest]) (*connect.Response[v1.ValidateReservationResponse], error) {
+	return c.validateReservation.CallUnary(ctx, req)
 }
 
 // ListClaimCoupon calls coupon.CouponService.ListClaimCoupon.
@@ -191,7 +223,9 @@ type CouponServiceHandler interface {
 	CreateCoupon(context.Context, *connect.Request[v1.CreateCouponRequest]) (*connect.Response[v1.CreateCouponResponse], error)
 	UpdateCoupon(context.Context, *connect.Request[v1.UpdateCouponRequest]) (*connect.Response[v1.UpdateCouponResponse], error)
 	DeleteCoupon(context.Context, *connect.Request[v1.DeleteCouponRequest]) (*connect.Response[v1.DeleteCouponResponse], error)
+	ClaimCoupon(context.Context, *connect.Request[v1.ClaimCouponRequest]) (*connect.Response[v1.ClaimCouponResponse], error)
 	ReserveCoupon(context.Context, *connect.Request[v1.ReserveCouponRequest]) (*connect.Response[v1.ReserveCouponResponse], error)
+	ValidateReservation(context.Context, *connect.Request[v1.ValidateReservationRequest]) (*connect.Response[v1.ValidateReservationResponse], error)
 	ListClaimCoupon(context.Context, *connect.Request[v1.ListClaimCouponRequest]) (*connect.Response[v1.ListClaimCouponResponse], error)
 	CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error)
 }
@@ -233,10 +267,22 @@ func NewCouponServiceHandler(svc CouponServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(couponServiceMethods.ByName("DeleteCoupon")),
 		connect.WithHandlerOptions(opts...),
 	)
+	couponServiceClaimCouponHandler := connect.NewUnaryHandler(
+		CouponServiceClaimCouponProcedure,
+		svc.ClaimCoupon,
+		connect.WithSchema(couponServiceMethods.ByName("ClaimCoupon")),
+		connect.WithHandlerOptions(opts...),
+	)
 	couponServiceReserveCouponHandler := connect.NewUnaryHandler(
 		CouponServiceReserveCouponProcedure,
 		svc.ReserveCoupon,
 		connect.WithSchema(couponServiceMethods.ByName("ReserveCoupon")),
+		connect.WithHandlerOptions(opts...),
+	)
+	couponServiceValidateReservationHandler := connect.NewUnaryHandler(
+		CouponServiceValidateReservationProcedure,
+		svc.ValidateReservation,
+		connect.WithSchema(couponServiceMethods.ByName("ValidateReservation")),
 		connect.WithHandlerOptions(opts...),
 	)
 	couponServiceListClaimCouponHandler := connect.NewUnaryHandler(
@@ -263,8 +309,12 @@ func NewCouponServiceHandler(svc CouponServiceHandler, opts ...connect.HandlerOp
 			couponServiceUpdateCouponHandler.ServeHTTP(w, r)
 		case CouponServiceDeleteCouponProcedure:
 			couponServiceDeleteCouponHandler.ServeHTTP(w, r)
+		case CouponServiceClaimCouponProcedure:
+			couponServiceClaimCouponHandler.ServeHTTP(w, r)
 		case CouponServiceReserveCouponProcedure:
 			couponServiceReserveCouponHandler.ServeHTTP(w, r)
+		case CouponServiceValidateReservationProcedure:
+			couponServiceValidateReservationHandler.ServeHTTP(w, r)
 		case CouponServiceListClaimCouponProcedure:
 			couponServiceListClaimCouponHandler.ServeHTTP(w, r)
 		case CouponServiceCalculateDiscountProcedure:
@@ -298,8 +348,16 @@ func (UnimplementedCouponServiceHandler) DeleteCoupon(context.Context, *connect.
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.DeleteCoupon is not implemented"))
 }
 
+func (UnimplementedCouponServiceHandler) ClaimCoupon(context.Context, *connect.Request[v1.ClaimCouponRequest]) (*connect.Response[v1.ClaimCouponResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.ClaimCoupon is not implemented"))
+}
+
 func (UnimplementedCouponServiceHandler) ReserveCoupon(context.Context, *connect.Request[v1.ReserveCouponRequest]) (*connect.Response[v1.ReserveCouponResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.ReserveCoupon is not implemented"))
+}
+
+func (UnimplementedCouponServiceHandler) ValidateReservation(context.Context, *connect.Request[v1.ValidateReservationRequest]) (*connect.Response[v1.ValidateReservationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.ValidateReservation is not implemented"))
 }
 
 func (UnimplementedCouponServiceHandler) ListClaimCoupon(context.Context, *connect.Request[v1.ListClaimCouponRequest]) (*connect.Response[v1.ListClaimCouponResponse], error) {

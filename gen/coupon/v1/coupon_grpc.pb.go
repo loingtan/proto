@@ -19,14 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CouponService_GetCoupon_FullMethodName         = "/coupon.CouponService/GetCoupon"
-	CouponService_ListCoupons_FullMethodName       = "/coupon.CouponService/ListCoupons"
-	CouponService_CreateCoupon_FullMethodName      = "/coupon.CouponService/CreateCoupon"
-	CouponService_UpdateCoupon_FullMethodName      = "/coupon.CouponService/UpdateCoupon"
-	CouponService_DeleteCoupon_FullMethodName      = "/coupon.CouponService/DeleteCoupon"
-	CouponService_ReserveCoupon_FullMethodName     = "/coupon.CouponService/ReserveCoupon"
-	CouponService_ListClaimCoupon_FullMethodName   = "/coupon.CouponService/ListClaimCoupon"
-	CouponService_CalculateDiscount_FullMethodName = "/coupon.CouponService/CalculateDiscount"
+	CouponService_GetCoupon_FullMethodName           = "/coupon.CouponService/GetCoupon"
+	CouponService_ListCoupons_FullMethodName         = "/coupon.CouponService/ListCoupons"
+	CouponService_CreateCoupon_FullMethodName        = "/coupon.CouponService/CreateCoupon"
+	CouponService_UpdateCoupon_FullMethodName        = "/coupon.CouponService/UpdateCoupon"
+	CouponService_DeleteCoupon_FullMethodName        = "/coupon.CouponService/DeleteCoupon"
+	CouponService_ClaimCoupon_FullMethodName         = "/coupon.CouponService/ClaimCoupon"
+	CouponService_ReserveCoupon_FullMethodName       = "/coupon.CouponService/ReserveCoupon"
+	CouponService_ValidateReservation_FullMethodName = "/coupon.CouponService/ValidateReservation"
+	CouponService_ListClaimCoupon_FullMethodName     = "/coupon.CouponService/ListClaimCoupon"
+	CouponService_CalculateDiscount_FullMethodName   = "/coupon.CouponService/CalculateDiscount"
 )
 
 // CouponServiceClient is the client API for CouponService service.
@@ -38,7 +40,9 @@ type CouponServiceClient interface {
 	CreateCoupon(ctx context.Context, in *CreateCouponRequest, opts ...grpc.CallOption) (*CreateCouponResponse, error)
 	UpdateCoupon(ctx context.Context, in *UpdateCouponRequest, opts ...grpc.CallOption) (*UpdateCouponResponse, error)
 	DeleteCoupon(ctx context.Context, in *DeleteCouponRequest, opts ...grpc.CallOption) (*DeleteCouponResponse, error)
+	ClaimCoupon(ctx context.Context, in *ClaimCouponRequest, opts ...grpc.CallOption) (*ClaimCouponResponse, error)
 	ReserveCoupon(ctx context.Context, in *ReserveCouponRequest, opts ...grpc.CallOption) (*ReserveCouponResponse, error)
+	ValidateReservation(ctx context.Context, in *ValidateReservationRequest, opts ...grpc.CallOption) (*ValidateReservationResponse, error)
 	ListClaimCoupon(ctx context.Context, in *ListClaimCouponRequest, opts ...grpc.CallOption) (*ListClaimCouponResponse, error)
 	CalculateDiscount(ctx context.Context, in *CalculateDiscountRequest, opts ...grpc.CallOption) (*CalculateDiscountResponse, error)
 }
@@ -101,10 +105,30 @@ func (c *couponServiceClient) DeleteCoupon(ctx context.Context, in *DeleteCoupon
 	return out, nil
 }
 
+func (c *couponServiceClient) ClaimCoupon(ctx context.Context, in *ClaimCouponRequest, opts ...grpc.CallOption) (*ClaimCouponResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ClaimCouponResponse)
+	err := c.cc.Invoke(ctx, CouponService_ClaimCoupon_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *couponServiceClient) ReserveCoupon(ctx context.Context, in *ReserveCouponRequest, opts ...grpc.CallOption) (*ReserveCouponResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ReserveCouponResponse)
 	err := c.cc.Invoke(ctx, CouponService_ReserveCoupon_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponServiceClient) ValidateReservation(ctx context.Context, in *ValidateReservationRequest, opts ...grpc.CallOption) (*ValidateReservationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ValidateReservationResponse)
+	err := c.cc.Invoke(ctx, CouponService_ValidateReservation_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -140,7 +164,9 @@ type CouponServiceServer interface {
 	CreateCoupon(context.Context, *CreateCouponRequest) (*CreateCouponResponse, error)
 	UpdateCoupon(context.Context, *UpdateCouponRequest) (*UpdateCouponResponse, error)
 	DeleteCoupon(context.Context, *DeleteCouponRequest) (*DeleteCouponResponse, error)
+	ClaimCoupon(context.Context, *ClaimCouponRequest) (*ClaimCouponResponse, error)
 	ReserveCoupon(context.Context, *ReserveCouponRequest) (*ReserveCouponResponse, error)
+	ValidateReservation(context.Context, *ValidateReservationRequest) (*ValidateReservationResponse, error)
 	ListClaimCoupon(context.Context, *ListClaimCouponRequest) (*ListClaimCouponResponse, error)
 	CalculateDiscount(context.Context, *CalculateDiscountRequest) (*CalculateDiscountResponse, error)
 	mustEmbedUnimplementedCouponServiceServer()
@@ -168,8 +194,14 @@ func (UnimplementedCouponServiceServer) UpdateCoupon(context.Context, *UpdateCou
 func (UnimplementedCouponServiceServer) DeleteCoupon(context.Context, *DeleteCouponRequest) (*DeleteCouponResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCoupon not implemented")
 }
+func (UnimplementedCouponServiceServer) ClaimCoupon(context.Context, *ClaimCouponRequest) (*ClaimCouponResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ClaimCoupon not implemented")
+}
 func (UnimplementedCouponServiceServer) ReserveCoupon(context.Context, *ReserveCouponRequest) (*ReserveCouponResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReserveCoupon not implemented")
+}
+func (UnimplementedCouponServiceServer) ValidateReservation(context.Context, *ValidateReservationRequest) (*ValidateReservationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateReservation not implemented")
 }
 func (UnimplementedCouponServiceServer) ListClaimCoupon(context.Context, *ListClaimCouponRequest) (*ListClaimCouponResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListClaimCoupon not implemented")
@@ -288,6 +320,24 @@ func _CouponService_DeleteCoupon_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CouponService_ClaimCoupon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ClaimCouponRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).ClaimCoupon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_ClaimCoupon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).ClaimCoupon(ctx, req.(*ClaimCouponRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _CouponService_ReserveCoupon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ReserveCouponRequest)
 	if err := dec(in); err != nil {
@@ -302,6 +352,24 @@ func _CouponService_ReserveCoupon_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CouponServiceServer).ReserveCoupon(ctx, req.(*ReserveCouponRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CouponService_ValidateReservation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateReservationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).ValidateReservation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_ValidateReservation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).ValidateReservation(ctx, req.(*ValidateReservationRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -370,8 +438,16 @@ var CouponService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _CouponService_DeleteCoupon_Handler,
 		},
 		{
+			MethodName: "ClaimCoupon",
+			Handler:    _CouponService_ClaimCoupon_Handler,
+		},
+		{
 			MethodName: "ReserveCoupon",
 			Handler:    _CouponService_ReserveCoupon_Handler,
+		},
+		{
+			MethodName: "ValidateReservation",
+			Handler:    _CouponService_ValidateReservation_Handler,
 		},
 		{
 			MethodName: "ListClaimCoupon",

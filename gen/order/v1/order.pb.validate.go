@@ -72,17 +72,9 @@ func (m *CreateOrderRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if err := m._validateUuid(m.GetCouponId()); err != nil {
-		err = CreateOrderRequestValidationError{
-			field:  "CouponId",
-			reason: "value must be a valid UUID",
-			cause:  err,
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for CouponId
+
+	// no validation rules for ReservationId
 
 	if m.GetAmount() <= 0 {
 		err := CreateOrderRequestValidationError{
@@ -1767,17 +1759,9 @@ func (m *Order) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
-	if err := m._validateUuid(m.GetCouponId()); err != nil {
-		err = OrderValidationError{
-			field:  "CouponId",
-			reason: "value must be a valid UUID",
-			cause:  err,
-		}
-		if !all {
-			return err
-		}
-		errors = append(errors, err)
-	}
+	// no validation rules for CouponId
+
+	// no validation rules for ReservationId
 
 	if m.GetAmount() <= 0 {
 		err := OrderValidationError{

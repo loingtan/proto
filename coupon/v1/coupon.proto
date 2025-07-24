@@ -11,7 +11,9 @@ service CouponService {
   rpc CreateCoupon(CreateCouponRequest) returns (CreateCouponResponse);
   rpc UpdateCoupon(UpdateCouponRequest) returns (UpdateCouponResponse);
   rpc DeleteCoupon(DeleteCouponRequest) returns (DeleteCouponResponse);
+  rpc ClaimCoupon(ClaimCouponRequest) returns (ClaimCouponResponse);
   rpc ReserveCoupon (ReserveCouponRequest) returns (ReserveCouponResponse);
+  rpc ValidateReservation(ValidateReservationRequest) returns (ValidateReservationResponse);
   rpc ListClaimCoupon(ListClaimCouponRequest) returns (ListClaimCouponResponse);
   rpc CalculateDiscount(CalculateDiscountRequest) returns (CalculateDiscountResponse);
 }
@@ -95,6 +97,17 @@ message ListCouponsRequest {
   string status = 5 [(validate.rules).string = {in: ["ACTIVE", "INACTIVE", "EXPIRED", "USED_UP", ""]}];
   string discount_type = 6 [(validate.rules).string = {in: ["PERCENT", "FIXED", "FIXED_PRICE", ""]}];
   string usage_type = 7 [(validate.rules).string = {in: ["MANUAL", "AUTO", ""]}];
+
+  // New filter fields
+  optional bool first_time_user_only = 8;
+  optional int32 min_usage_global = 9 [(validate.rules).int32 = {gte: 0}];
+  optional int32 max_usage_global = 10 [(validate.rules).int32 = {gte: 0}];
+  optional int32 min_usage_limit_per_user = 11 [(validate.rules).int32 = {gte: 0}];
+  optional int32 max_usage_limit_per_user = 12 [(validate.rules).int32 = {gte: 0}];
+  optional string start_date_from = 13 [(validate.rules).string.max_len = 30];
+  optional string start_date_to = 14 [(validate.rules).string.max_len = 30];
+  optional string end_date_from = 15 [(validate.rules).string.max_len = 30];
+  optional string end_date_to = 16 [(validate.rules).string.max_len = 30];
 }
 message ListCouponsResponse {
   repeated Coupon coupons = 1;
@@ -150,4 +163,25 @@ message ListClaimCouponRequest {
 message ListClaimCouponResponse {
   repeated Coupon coupons = 1;
   string error = 5;
+}
+
+message ValidateReservationRequest {
+  string reservation_id = 1 [(validate.rules).string.uuid = true];
+  string user_id = 2 [(validate.rules).string.uuid = true];
+}
+
+message ValidateReservationResponse {
+  bool valid = 1;
+  string error = 2;
+  string coupon_id = 3;
+}
+
+message ClaimCouponRequest {
+  string coupon_id = 1[(validate.rules).string.uuid = true];
+  string user_id = 2 [(validate.rules).string.uuid = true];
+}
+
+message ClaimCouponResponse {
+  bool ok = 1;
+  string error = 2;
 }

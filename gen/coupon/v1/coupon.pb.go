@@ -716,16 +716,26 @@ func (x *DeleteCouponResponse) GetError() string {
 }
 
 type ListCouponsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Page          int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
-	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	Filter        string                 `protobuf:"bytes,3,opt,name=filter,proto3" json:"filter,omitempty"`
-	Search        string                 `protobuf:"bytes,4,opt,name=search,proto3" json:"search,omitempty"`
-	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
-	DiscountType  string                 `protobuf:"bytes,6,opt,name=discount_type,json=discountType,proto3" json:"discount_type,omitempty"`
-	UsageType     string                 `protobuf:"bytes,7,opt,name=usage_type,json=usageType,proto3" json:"usage_type,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	Page         int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize     int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Filter       string                 `protobuf:"bytes,3,opt,name=filter,proto3" json:"filter,omitempty"`
+	Search       string                 `protobuf:"bytes,4,opt,name=search,proto3" json:"search,omitempty"`
+	Status       string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	DiscountType string                 `protobuf:"bytes,6,opt,name=discount_type,json=discountType,proto3" json:"discount_type,omitempty"`
+	UsageType    string                 `protobuf:"bytes,7,opt,name=usage_type,json=usageType,proto3" json:"usage_type,omitempty"`
+	// New filter fields
+	FirstTimeUserOnly    *bool   `protobuf:"varint,8,opt,name=first_time_user_only,json=firstTimeUserOnly,proto3,oneof" json:"first_time_user_only,omitempty"`
+	MinUsageGlobal       *int32  `protobuf:"varint,9,opt,name=min_usage_global,json=minUsageGlobal,proto3,oneof" json:"min_usage_global,omitempty"`
+	MaxUsageGlobal       *int32  `protobuf:"varint,10,opt,name=max_usage_global,json=maxUsageGlobal,proto3,oneof" json:"max_usage_global,omitempty"`
+	MinUsageLimitPerUser *int32  `protobuf:"varint,11,opt,name=min_usage_limit_per_user,json=minUsageLimitPerUser,proto3,oneof" json:"min_usage_limit_per_user,omitempty"`
+	MaxUsageLimitPerUser *int32  `protobuf:"varint,12,opt,name=max_usage_limit_per_user,json=maxUsageLimitPerUser,proto3,oneof" json:"max_usage_limit_per_user,omitempty"`
+	StartDateFrom        *string `protobuf:"bytes,13,opt,name=start_date_from,json=startDateFrom,proto3,oneof" json:"start_date_from,omitempty"`
+	StartDateTo          *string `protobuf:"bytes,14,opt,name=start_date_to,json=startDateTo,proto3,oneof" json:"start_date_to,omitempty"`
+	EndDateFrom          *string `protobuf:"bytes,15,opt,name=end_date_from,json=endDateFrom,proto3,oneof" json:"end_date_from,omitempty"`
+	EndDateTo            *string `protobuf:"bytes,16,opt,name=end_date_to,json=endDateTo,proto3,oneof" json:"end_date_to,omitempty"`
+	unknownFields        protoimpl.UnknownFields
+	sizeCache            protoimpl.SizeCache
 }
 
 func (x *ListCouponsRequest) Reset() {
@@ -803,6 +813,69 @@ func (x *ListCouponsRequest) GetDiscountType() string {
 func (x *ListCouponsRequest) GetUsageType() string {
 	if x != nil {
 		return x.UsageType
+	}
+	return ""
+}
+
+func (x *ListCouponsRequest) GetFirstTimeUserOnly() bool {
+	if x != nil && x.FirstTimeUserOnly != nil {
+		return *x.FirstTimeUserOnly
+	}
+	return false
+}
+
+func (x *ListCouponsRequest) GetMinUsageGlobal() int32 {
+	if x != nil && x.MinUsageGlobal != nil {
+		return *x.MinUsageGlobal
+	}
+	return 0
+}
+
+func (x *ListCouponsRequest) GetMaxUsageGlobal() int32 {
+	if x != nil && x.MaxUsageGlobal != nil {
+		return *x.MaxUsageGlobal
+	}
+	return 0
+}
+
+func (x *ListCouponsRequest) GetMinUsageLimitPerUser() int32 {
+	if x != nil && x.MinUsageLimitPerUser != nil {
+		return *x.MinUsageLimitPerUser
+	}
+	return 0
+}
+
+func (x *ListCouponsRequest) GetMaxUsageLimitPerUser() int32 {
+	if x != nil && x.MaxUsageLimitPerUser != nil {
+		return *x.MaxUsageLimitPerUser
+	}
+	return 0
+}
+
+func (x *ListCouponsRequest) GetStartDateFrom() string {
+	if x != nil && x.StartDateFrom != nil {
+		return *x.StartDateFrom
+	}
+	return ""
+}
+
+func (x *ListCouponsRequest) GetStartDateTo() string {
+	if x != nil && x.StartDateTo != nil {
+		return *x.StartDateTo
+	}
+	return ""
+}
+
+func (x *ListCouponsRequest) GetEndDateFrom() string {
+	if x != nil && x.EndDateFrom != nil {
+		return *x.EndDateFrom
+	}
+	return ""
+}
+
+func (x *ListCouponsRequest) GetEndDateTo() string {
+	if x != nil && x.EndDateTo != nil {
+		return *x.EndDateTo
 	}
 	return ""
 }
@@ -1425,6 +1498,222 @@ func (x *ListClaimCouponResponse) GetError() string {
 	return ""
 }
 
+type ValidateReservationRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ReservationId string                 `protobuf:"bytes,1,opt,name=reservation_id,json=reservationId,proto3" json:"reservation_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateReservationRequest) Reset() {
+	*x = ValidateReservationRequest{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateReservationRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateReservationRequest) ProtoMessage() {}
+
+func (x *ValidateReservationRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateReservationRequest.ProtoReflect.Descriptor instead.
+func (*ValidateReservationRequest) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *ValidateReservationRequest) GetReservationId() string {
+	if x != nil {
+		return x.ReservationId
+	}
+	return ""
+}
+
+func (x *ValidateReservationRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type ValidateReservationResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Valid         bool                   `protobuf:"varint,1,opt,name=valid,proto3" json:"valid,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	CouponId      string                 `protobuf:"bytes,3,opt,name=coupon_id,json=couponId,proto3" json:"coupon_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateReservationResponse) Reset() {
+	*x = ValidateReservationResponse{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateReservationResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateReservationResponse) ProtoMessage() {}
+
+func (x *ValidateReservationResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateReservationResponse.ProtoReflect.Descriptor instead.
+func (*ValidateReservationResponse) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *ValidateReservationResponse) GetValid() bool {
+	if x != nil {
+		return x.Valid
+	}
+	return false
+}
+
+func (x *ValidateReservationResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
+func (x *ValidateReservationResponse) GetCouponId() string {
+	if x != nil {
+		return x.CouponId
+	}
+	return ""
+}
+
+type ClaimCouponRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CouponId      string                 `protobuf:"bytes,1,opt,name=coupon_id,json=couponId,proto3" json:"coupon_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ClaimCouponRequest) Reset() {
+	*x = ClaimCouponRequest{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[19]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ClaimCouponRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClaimCouponRequest) ProtoMessage() {}
+
+func (x *ClaimCouponRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[19]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClaimCouponRequest.ProtoReflect.Descriptor instead.
+func (*ClaimCouponRequest) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{19}
+}
+
+func (x *ClaimCouponRequest) GetCouponId() string {
+	if x != nil {
+		return x.CouponId
+	}
+	return ""
+}
+
+func (x *ClaimCouponRequest) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+type ClaimCouponResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
+	Error         string                 `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ClaimCouponResponse) Reset() {
+	*x = ClaimCouponResponse{}
+	mi := &file_coupon_v1_coupon_proto_msgTypes[20]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ClaimCouponResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ClaimCouponResponse) ProtoMessage() {}
+
+func (x *ClaimCouponResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_coupon_v1_coupon_proto_msgTypes[20]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ClaimCouponResponse.ProtoReflect.Descriptor instead.
+func (*ClaimCouponResponse) Descriptor() ([]byte, []int) {
+	return file_coupon_v1_coupon_proto_rawDescGZIP(), []int{20}
+}
+
+func (x *ClaimCouponResponse) GetOk() bool {
+	if x != nil {
+		return x.Ok
+	}
+	return false
+}
+
+func (x *ClaimCouponResponse) GetError() string {
+	if x != nil {
+		return x.Error
+	}
+	return ""
+}
+
 var File_coupon_v1_coupon_proto protoreflect.FileDescriptor
 
 const file_coupon_v1_coupon_proto_rawDesc = "" +
@@ -1502,7 +1791,7 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\"F\n" +
 	"\x14DeleteCouponResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"\xe4\x02\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\xa3\b\n" +
 	"\x12ListCouponsRequest\x12\x1e\n" +
 	"\x04page\x18\x01 \x01(\x05B\n" +
 	"\xfaB\a\x1a\x05\x18\xe8\a(\x01R\x04page\x12&\n" +
@@ -1512,7 +1801,26 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x06status\x18\x05 \x01(\tB+\xfaB(r&R\x06ACTIVER\bINACTIVER\aEXPIREDR\aUSED_UPR\x00R\x06status\x12I\n" +
 	"\rdiscount_type\x18\x06 \x01(\tB$\xfaB!r\x1fR\aPERCENTR\x05FIXEDR\vFIXED_PRICER\x00R\fdiscountType\x124\n" +
 	"\n" +
-	"usage_type\x18\a \x01(\tB\x15\xfaB\x12r\x10R\x06MANUALR\x04AUTOR\x00R\tusageType\"\x9c\x01\n" +
+	"usage_type\x18\a \x01(\tB\x15\xfaB\x12r\x10R\x06MANUALR\x04AUTOR\x00R\tusageType\x124\n" +
+	"\x14first_time_user_only\x18\b \x01(\bH\x00R\x11firstTimeUserOnly\x88\x01\x01\x126\n" +
+	"\x10min_usage_global\x18\t \x01(\x05B\a\xfaB\x04\x1a\x02(\x00H\x01R\x0eminUsageGlobal\x88\x01\x01\x126\n" +
+	"\x10max_usage_global\x18\n" +
+	" \x01(\x05B\a\xfaB\x04\x1a\x02(\x00H\x02R\x0emaxUsageGlobal\x88\x01\x01\x12D\n" +
+	"\x18min_usage_limit_per_user\x18\v \x01(\x05B\a\xfaB\x04\x1a\x02(\x00H\x03R\x14minUsageLimitPerUser\x88\x01\x01\x12D\n" +
+	"\x18max_usage_limit_per_user\x18\f \x01(\x05B\a\xfaB\x04\x1a\x02(\x00H\x04R\x14maxUsageLimitPerUser\x88\x01\x01\x124\n" +
+	"\x0fstart_date_from\x18\r \x01(\tB\a\xfaB\x04r\x02\x18\x1eH\x05R\rstartDateFrom\x88\x01\x01\x120\n" +
+	"\rstart_date_to\x18\x0e \x01(\tB\a\xfaB\x04r\x02\x18\x1eH\x06R\vstartDateTo\x88\x01\x01\x120\n" +
+	"\rend_date_from\x18\x0f \x01(\tB\a\xfaB\x04r\x02\x18\x1eH\aR\vendDateFrom\x88\x01\x01\x12,\n" +
+	"\vend_date_to\x18\x10 \x01(\tB\a\xfaB\x04r\x02\x18\x1eH\bR\tendDateTo\x88\x01\x01B\x17\n" +
+	"\x15_first_time_user_onlyB\x13\n" +
+	"\x11_min_usage_globalB\x13\n" +
+	"\x11_max_usage_globalB\x1b\n" +
+	"\x19_min_usage_limit_per_userB\x1b\n" +
+	"\x19_max_usage_limit_per_userB\x12\n" +
+	"\x10_start_date_fromB\x10\n" +
+	"\x0e_start_date_toB\x10\n" +
+	"\x0e_end_date_fromB\x0e\n" +
+	"\f_end_date_to\"\x9c\x01\n" +
 	"\x13ListCouponsResponse\x12(\n" +
 	"\acoupons\x18\x01 \x03(\v2\x0e.coupon.CouponR\acoupons\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +
@@ -1562,14 +1870,29 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\tpage_size\x18\x03 \x01(\x05B\t\xfaB\x06\x1a\x04\x18d(\x01R\bpageSize\"Y\n" +
 	"\x17ListClaimCouponResponse\x12(\n" +
 	"\acoupons\x18\x01 \x03(\v2\x0e.coupon.CouponR\acoupons\x12\x14\n" +
-	"\x05error\x18\x05 \x01(\tR\x05error2\xf6\x04\n" +
+	"\x05error\x18\x05 \x01(\tR\x05error\"p\n" +
+	"\x1aValidateReservationRequest\x12/\n" +
+	"\x0ereservation_id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\rreservationId\x12!\n" +
+	"\auser_id\x18\x02 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x06userId\"f\n" +
+	"\x1bValidateReservationResponse\x12\x14\n" +
+	"\x05valid\x18\x01 \x01(\bR\x05valid\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\x12\x1b\n" +
+	"\tcoupon_id\x18\x03 \x01(\tR\bcouponId\"^\n" +
+	"\x12ClaimCouponRequest\x12%\n" +
+	"\tcoupon_id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\bcouponId\x12!\n" +
+	"\auser_id\x18\x02 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x06userId\";\n" +
+	"\x13ClaimCouponResponse\x12\x0e\n" +
+	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x14\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error2\x9e\x06\n" +
 	"\rCouponService\x12@\n" +
 	"\tGetCoupon\x12\x18.coupon.GetCouponRequest\x1a\x19.coupon.GetCouponResponse\x12F\n" +
 	"\vListCoupons\x12\x1a.coupon.ListCouponsRequest\x1a\x1b.coupon.ListCouponsResponse\x12I\n" +
 	"\fCreateCoupon\x12\x1b.coupon.CreateCouponRequest\x1a\x1c.coupon.CreateCouponResponse\x12I\n" +
 	"\fUpdateCoupon\x12\x1b.coupon.UpdateCouponRequest\x1a\x1c.coupon.UpdateCouponResponse\x12I\n" +
-	"\fDeleteCoupon\x12\x1b.coupon.DeleteCouponRequest\x1a\x1c.coupon.DeleteCouponResponse\x12L\n" +
-	"\rReserveCoupon\x12\x1c.coupon.ReserveCouponRequest\x1a\x1d.coupon.ReserveCouponResponse\x12R\n" +
+	"\fDeleteCoupon\x12\x1b.coupon.DeleteCouponRequest\x1a\x1c.coupon.DeleteCouponResponse\x12F\n" +
+	"\vClaimCoupon\x12\x1a.coupon.ClaimCouponRequest\x1a\x1b.coupon.ClaimCouponResponse\x12L\n" +
+	"\rReserveCoupon\x12\x1c.coupon.ReserveCouponRequest\x1a\x1d.coupon.ReserveCouponResponse\x12^\n" +
+	"\x13ValidateReservation\x12\".coupon.ValidateReservationRequest\x1a#.coupon.ValidateReservationResponse\x12R\n" +
 	"\x0fListClaimCoupon\x12\x1e.coupon.ListClaimCouponRequest\x1a\x1f.coupon.ListClaimCouponResponse\x12X\n" +
 	"\x11CalculateDiscount\x12 .coupon.CalculateDiscountRequest\x1a!.coupon.CalculateDiscountResponseBz\n" +
 	"\n" +
@@ -1587,60 +1910,68 @@ func file_coupon_v1_coupon_proto_rawDescGZIP() []byte {
 	return file_coupon_v1_coupon_proto_rawDescData
 }
 
-var file_coupon_v1_coupon_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_coupon_v1_coupon_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
 var file_coupon_v1_coupon_proto_goTypes = []any{
-	(*Coupon)(nil),                    // 0: coupon.Coupon
-	(*CreateCouponRequest)(nil),       // 1: coupon.CreateCouponRequest
-	(*CreateCouponResponse)(nil),      // 2: coupon.CreateCouponResponse
-	(*UpdateCouponRequest)(nil),       // 3: coupon.UpdateCouponRequest
-	(*UpdateCouponResponse)(nil),      // 4: coupon.UpdateCouponResponse
-	(*DeleteCouponRequest)(nil),       // 5: coupon.DeleteCouponRequest
-	(*DeleteCouponResponse)(nil),      // 6: coupon.DeleteCouponResponse
-	(*ListCouponsRequest)(nil),        // 7: coupon.ListCouponsRequest
-	(*ListCouponsResponse)(nil),       // 8: coupon.ListCouponsResponse
-	(*GetCouponRequest)(nil),          // 9: coupon.GetCouponRequest
-	(*GetCouponResponse)(nil),         // 10: coupon.GetCouponResponse
-	(*ReserveCouponRequest)(nil),      // 11: coupon.ReserveCouponRequest
-	(*ReserveCouponResponse)(nil),     // 12: coupon.ReserveCouponResponse
-	(*CalculateDiscountRequest)(nil),  // 13: coupon.CalculateDiscountRequest
-	(*CalculateDiscountResponse)(nil), // 14: coupon.CalculateDiscountResponse
-	(*ListClaimCouponRequest)(nil),    // 15: coupon.ListClaimCouponRequest
-	(*ListClaimCouponResponse)(nil),   // 16: coupon.ListClaimCouponResponse
-	(*timestamppb.Timestamp)(nil),     // 17: google.protobuf.Timestamp
+	(*Coupon)(nil),                      // 0: coupon.Coupon
+	(*CreateCouponRequest)(nil),         // 1: coupon.CreateCouponRequest
+	(*CreateCouponResponse)(nil),        // 2: coupon.CreateCouponResponse
+	(*UpdateCouponRequest)(nil),         // 3: coupon.UpdateCouponRequest
+	(*UpdateCouponResponse)(nil),        // 4: coupon.UpdateCouponResponse
+	(*DeleteCouponRequest)(nil),         // 5: coupon.DeleteCouponRequest
+	(*DeleteCouponResponse)(nil),        // 6: coupon.DeleteCouponResponse
+	(*ListCouponsRequest)(nil),          // 7: coupon.ListCouponsRequest
+	(*ListCouponsResponse)(nil),         // 8: coupon.ListCouponsResponse
+	(*GetCouponRequest)(nil),            // 9: coupon.GetCouponRequest
+	(*GetCouponResponse)(nil),           // 10: coupon.GetCouponResponse
+	(*ReserveCouponRequest)(nil),        // 11: coupon.ReserveCouponRequest
+	(*ReserveCouponResponse)(nil),       // 12: coupon.ReserveCouponResponse
+	(*CalculateDiscountRequest)(nil),    // 13: coupon.CalculateDiscountRequest
+	(*CalculateDiscountResponse)(nil),   // 14: coupon.CalculateDiscountResponse
+	(*ListClaimCouponRequest)(nil),      // 15: coupon.ListClaimCouponRequest
+	(*ListClaimCouponResponse)(nil),     // 16: coupon.ListClaimCouponResponse
+	(*ValidateReservationRequest)(nil),  // 17: coupon.ValidateReservationRequest
+	(*ValidateReservationResponse)(nil), // 18: coupon.ValidateReservationResponse
+	(*ClaimCouponRequest)(nil),          // 19: coupon.ClaimCouponRequest
+	(*ClaimCouponResponse)(nil),         // 20: coupon.ClaimCouponResponse
+	(*timestamppb.Timestamp)(nil),       // 21: google.protobuf.Timestamp
 }
 var file_coupon_v1_coupon_proto_depIdxs = []int32{
-	17, // 0: coupon.Coupon.start_time:type_name -> google.protobuf.Timestamp
-	17, // 1: coupon.Coupon.end_time:type_name -> google.protobuf.Timestamp
-	17, // 2: coupon.Coupon.created_at:type_name -> google.protobuf.Timestamp
-	17, // 3: coupon.Coupon.updated_at:type_name -> google.protobuf.Timestamp
-	17, // 4: coupon.CreateCouponRequest.start_time:type_name -> google.protobuf.Timestamp
-	17, // 5: coupon.CreateCouponRequest.end_time:type_name -> google.protobuf.Timestamp
+	21, // 0: coupon.Coupon.start_time:type_name -> google.protobuf.Timestamp
+	21, // 1: coupon.Coupon.end_time:type_name -> google.protobuf.Timestamp
+	21, // 2: coupon.Coupon.created_at:type_name -> google.protobuf.Timestamp
+	21, // 3: coupon.Coupon.updated_at:type_name -> google.protobuf.Timestamp
+	21, // 4: coupon.CreateCouponRequest.start_time:type_name -> google.protobuf.Timestamp
+	21, // 5: coupon.CreateCouponRequest.end_time:type_name -> google.protobuf.Timestamp
 	0,  // 6: coupon.CreateCouponResponse.coupon:type_name -> coupon.Coupon
-	17, // 7: coupon.UpdateCouponRequest.start_time:type_name -> google.protobuf.Timestamp
-	17, // 8: coupon.UpdateCouponRequest.end_time:type_name -> google.protobuf.Timestamp
+	21, // 7: coupon.UpdateCouponRequest.start_time:type_name -> google.protobuf.Timestamp
+	21, // 8: coupon.UpdateCouponRequest.end_time:type_name -> google.protobuf.Timestamp
 	0,  // 9: coupon.UpdateCouponResponse.coupon:type_name -> coupon.Coupon
 	0,  // 10: coupon.ListCouponsResponse.coupons:type_name -> coupon.Coupon
 	0,  // 11: coupon.GetCouponResponse.coupon:type_name -> coupon.Coupon
-	17, // 12: coupon.CalculateDiscountRequest.order_time:type_name -> google.protobuf.Timestamp
+	21, // 12: coupon.CalculateDiscountRequest.order_time:type_name -> google.protobuf.Timestamp
 	0,  // 13: coupon.ListClaimCouponResponse.coupons:type_name -> coupon.Coupon
 	9,  // 14: coupon.CouponService.GetCoupon:input_type -> coupon.GetCouponRequest
 	7,  // 15: coupon.CouponService.ListCoupons:input_type -> coupon.ListCouponsRequest
 	1,  // 16: coupon.CouponService.CreateCoupon:input_type -> coupon.CreateCouponRequest
 	3,  // 17: coupon.CouponService.UpdateCoupon:input_type -> coupon.UpdateCouponRequest
 	5,  // 18: coupon.CouponService.DeleteCoupon:input_type -> coupon.DeleteCouponRequest
-	11, // 19: coupon.CouponService.ReserveCoupon:input_type -> coupon.ReserveCouponRequest
-	15, // 20: coupon.CouponService.ListClaimCoupon:input_type -> coupon.ListClaimCouponRequest
-	13, // 21: coupon.CouponService.CalculateDiscount:input_type -> coupon.CalculateDiscountRequest
-	10, // 22: coupon.CouponService.GetCoupon:output_type -> coupon.GetCouponResponse
-	8,  // 23: coupon.CouponService.ListCoupons:output_type -> coupon.ListCouponsResponse
-	2,  // 24: coupon.CouponService.CreateCoupon:output_type -> coupon.CreateCouponResponse
-	4,  // 25: coupon.CouponService.UpdateCoupon:output_type -> coupon.UpdateCouponResponse
-	6,  // 26: coupon.CouponService.DeleteCoupon:output_type -> coupon.DeleteCouponResponse
-	12, // 27: coupon.CouponService.ReserveCoupon:output_type -> coupon.ReserveCouponResponse
-	16, // 28: coupon.CouponService.ListClaimCoupon:output_type -> coupon.ListClaimCouponResponse
-	14, // 29: coupon.CouponService.CalculateDiscount:output_type -> coupon.CalculateDiscountResponse
-	22, // [22:30] is the sub-list for method output_type
-	14, // [14:22] is the sub-list for method input_type
+	19, // 19: coupon.CouponService.ClaimCoupon:input_type -> coupon.ClaimCouponRequest
+	11, // 20: coupon.CouponService.ReserveCoupon:input_type -> coupon.ReserveCouponRequest
+	17, // 21: coupon.CouponService.ValidateReservation:input_type -> coupon.ValidateReservationRequest
+	15, // 22: coupon.CouponService.ListClaimCoupon:input_type -> coupon.ListClaimCouponRequest
+	13, // 23: coupon.CouponService.CalculateDiscount:input_type -> coupon.CalculateDiscountRequest
+	10, // 24: coupon.CouponService.GetCoupon:output_type -> coupon.GetCouponResponse
+	8,  // 25: coupon.CouponService.ListCoupons:output_type -> coupon.ListCouponsResponse
+	2,  // 26: coupon.CouponService.CreateCoupon:output_type -> coupon.CreateCouponResponse
+	4,  // 27: coupon.CouponService.UpdateCoupon:output_type -> coupon.UpdateCouponResponse
+	6,  // 28: coupon.CouponService.DeleteCoupon:output_type -> coupon.DeleteCouponResponse
+	20, // 29: coupon.CouponService.ClaimCoupon:output_type -> coupon.ClaimCouponResponse
+	12, // 30: coupon.CouponService.ReserveCoupon:output_type -> coupon.ReserveCouponResponse
+	18, // 31: coupon.CouponService.ValidateReservation:output_type -> coupon.ValidateReservationResponse
+	16, // 32: coupon.CouponService.ListClaimCoupon:output_type -> coupon.ListClaimCouponResponse
+	14, // 33: coupon.CouponService.CalculateDiscount:output_type -> coupon.CalculateDiscountResponse
+	24, // [24:34] is the sub-list for method output_type
+	14, // [14:24] is the sub-list for method input_type
 	14, // [14:14] is the sub-list for extension type_name
 	14, // [14:14] is the sub-list for extension extendee
 	0,  // [0:14] is the sub-list for field type_name
@@ -1651,6 +1982,7 @@ func file_coupon_v1_coupon_proto_init() {
 	if File_coupon_v1_coupon_proto != nil {
 		return
 	}
+	file_coupon_v1_coupon_proto_msgTypes[7].OneofWrappers = []any{}
 	file_coupon_v1_coupon_proto_msgTypes[9].OneofWrappers = []any{
 		(*GetCouponRequest_Id)(nil),
 		(*GetCouponRequest_Code)(nil),
@@ -1661,7 +1993,7 @@ func file_coupon_v1_coupon_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_coupon_v1_coupon_proto_rawDesc), len(file_coupon_v1_coupon_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   21,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -716,14 +716,15 @@ func (x *DeleteCouponResponse) GetError() string {
 }
 
 type ListCouponsRequest struct {
-	state        protoimpl.MessageState `protogen:"open.v1"`
-	Page         int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
-	PageSize     int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
-	Filter       string                 `protobuf:"bytes,3,opt,name=filter,proto3" json:"filter,omitempty"`
-	Search       string                 `protobuf:"bytes,4,opt,name=search,proto3" json:"search,omitempty"`
-	Status       string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
-	DiscountType string                 `protobuf:"bytes,6,opt,name=discount_type,json=discountType,proto3" json:"discount_type,omitempty"`
-	UsageType    string                 `protobuf:"bytes,7,opt,name=usage_type,json=usageType,proto3" json:"usage_type,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Page          int32                  `protobuf:"varint,1,opt,name=page,proto3" json:"page,omitempty"`
+	PageSize      int32                  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Filter        string                 `protobuf:"bytes,3,opt,name=filter,proto3" json:"filter,omitempty"`
+	Search        string                 `protobuf:"bytes,4,opt,name=search,proto3" json:"search,omitempty"`
+	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	DiscountType  string                 `protobuf:"bytes,6,opt,name=discount_type,json=discountType,proto3" json:"discount_type,omitempty"`
+	DiscountTypes []string               `protobuf:"bytes,17,rep,name=discount_types,json=discountTypes,proto3" json:"discount_types,omitempty"`
+	UsageType     string                 `protobuf:"bytes,7,opt,name=usage_type,json=usageType,proto3" json:"usage_type,omitempty"`
 	// New filter fields
 	FirstTimeUserOnly    *bool   `protobuf:"varint,8,opt,name=first_time_user_only,json=firstTimeUserOnly,proto3,oneof" json:"first_time_user_only,omitempty"`
 	MinUsageGlobal       *int32  `protobuf:"varint,9,opt,name=min_usage_global,json=minUsageGlobal,proto3,oneof" json:"min_usage_global,omitempty"`
@@ -808,6 +809,13 @@ func (x *ListCouponsRequest) GetDiscountType() string {
 		return x.DiscountType
 	}
 	return ""
+}
+
+func (x *ListCouponsRequest) GetDiscountTypes() []string {
+	if x != nil {
+		return x.DiscountTypes
+	}
+	return nil
 }
 
 func (x *ListCouponsRequest) GetUsageType() string {
@@ -1791,7 +1799,7 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\"F\n" +
 	"\x14DeleteCouponResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"\xa3\b\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\xf3\b\n" +
 	"\x12ListCouponsRequest\x12\x1e\n" +
 	"\x04page\x18\x01 \x01(\x05B\n" +
 	"\xfaB\a\x1a\x05\x18\xe8\a(\x01R\x04page\x12&\n" +
@@ -1799,7 +1807,8 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x06filter\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x18dR\x06filter\x12\x1f\n" +
 	"\x06search\x18\x04 \x01(\tB\a\xfaB\x04r\x02\x18dR\x06search\x12C\n" +
 	"\x06status\x18\x05 \x01(\tB+\xfaB(r&R\x06ACTIVER\bINACTIVER\aEXPIREDR\aUSED_UPR\x00R\x06status\x12I\n" +
-	"\rdiscount_type\x18\x06 \x01(\tB$\xfaB!r\x1fR\aPERCENTR\x05FIXEDR\vFIXED_PRICER\x00R\fdiscountType\x124\n" +
+	"\rdiscount_type\x18\x06 \x01(\tB$\xfaB!r\x1fR\aPERCENTR\x05FIXEDR\vFIXED_PRICER\x00R\fdiscountType\x12N\n" +
+	"\x0ediscount_types\x18\x11 \x03(\tB'\xfaB$\x92\x01!\"\x1fr\x1dR\aPERCENTR\x05FIXEDR\vFIXED_PRICER\rdiscountTypes\x124\n" +
 	"\n" +
 	"usage_type\x18\a \x01(\tB\x15\xfaB\x12r\x10R\x06MANUALR\x04AUTOR\x00R\tusageType\x124\n" +
 	"\x14first_time_user_only\x18\b \x01(\bH\x00R\x11firstTimeUserOnly\x88\x01\x01\x126\n" +

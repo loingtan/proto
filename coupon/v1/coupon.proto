@@ -96,6 +96,7 @@ message ListCouponsRequest {
   string search = 4 [(validate.rules).string.max_len = 100];
   string status = 5 [(validate.rules).string = {in: ["ACTIVE", "INACTIVE", "EXPIRED", "USED_UP", ""]}];
   string discount_type = 6 [(validate.rules).string = {in: ["PERCENT", "FIXED", "FIXED_PRICE", ""]}];
+  repeated string discount_types = 17 [(validate.rules).repeated.items.string = {in: ["PERCENT", "FIXED", "FIXED_PRICE"]}];
   string usage_type = 7 [(validate.rules).string = {in: ["MANUAL", "AUTO", ""]}];
 
   // New filter fields

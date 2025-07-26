@@ -1536,6 +1536,22 @@ func (m *ListCouponsRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	for idx, item := range m.GetDiscountTypes() {
+		_, _ = idx, item
+
+		if _, ok := _ListCouponsRequest_DiscountTypes_InLookup[item]; !ok {
+			err := ListCouponsRequestValidationError{
+				field:  fmt.Sprintf("DiscountTypes[%v]", idx),
+				reason: "value must be in list [PERCENT FIXED FIXED_PRICE]",
+			}
+			if !all {
+				return err
+			}
+			errors = append(errors, err)
+		}
+
+	}
+
 	if _, ok := _ListCouponsRequest_UsageType_InLookup[m.GetUsageType()]; !ok {
 		err := ListCouponsRequestValidationError{
 			field:  "UsageType",
@@ -1764,6 +1780,12 @@ var _ListCouponsRequest_DiscountType_InLookup = map[string]struct{}{
 	"FIXED":       {},
 	"FIXED_PRICE": {},
 	"":            {},
+}
+
+var _ListCouponsRequest_DiscountTypes_InLookup = map[string]struct{}{
+	"PERCENT":     {},
+	"FIXED":       {},
+	"FIXED_PRICE": {},
 }
 
 var _ListCouponsRequest_UsageType_InLookup = map[string]struct{}{

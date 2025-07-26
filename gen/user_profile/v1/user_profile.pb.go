@@ -28,6 +28,8 @@ type UpdateUserProfileRequest struct {
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
 	Roles         []string               `protobuf:"bytes,3,rep,name=roles,proto3" json:"roles,omitempty"`
+	Email         string                 `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
+	FullName      string                 `protobuf:"bytes,5,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -81,6 +83,20 @@ func (x *UpdateUserProfileRequest) GetRoles() []string {
 		return x.Roles
 	}
 	return nil
+}
+
+func (x *UpdateUserProfileRequest) GetEmail() string {
+	if x != nil {
+		return x.Email
+	}
+	return ""
+}
+
+func (x *UpdateUserProfileRequest) GetFullName() string {
+	if x != nil {
+		return x.FullName
+	}
+	return ""
 }
 
 type UpdateUserProfileResponse struct {
@@ -627,13 +643,15 @@ var File_user_profile_v1_user_profile_proto protoreflect.FileDescriptor
 
 const file_user_profile_v1_user_profile_proto_rawDesc = "" +
 	"\n" +
-	"\"user_profile/v1/user_profile.proto\x12\x04user\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\x96\x01\n" +
+	"\"user_profile/v1/user_profile.proto\x12\x04user\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\xdd\x01\n" +
 	"\x18UpdateUserProfileRequest\x12\x18\n" +
 	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\x128\n" +
 	"\busername\x18\x02 \x01(\tB\x1c\xfaB\x19r\x17\x10\x03\x1822\x11^[a-zA-Z0-9_.-]+$R\busername\x12&\n" +
 	"\x05roles\x18\x03 \x03(\tB\x10\xfaB\r\x92\x01\n" +
 	"\x10\n" +
-	"\"\x06r\x04\x10\x01\x182R\x05roles\"g\n" +
+	"\"\x06r\x04\x10\x01\x182R\x05roles\x12\x1d\n" +
+	"\x05email\x18\x04 \x01(\tB\a\xfaB\x04r\x02`\x01R\x05email\x12&\n" +
+	"\tfull_name\x18\x05 \x01(\tB\t\xfaB\x06r\x04\x10\x01\x18dR\bfullName\"g\n" +
 	"\x19UpdateUserProfileResponse\x124\n" +
 	"\fuser_profile\x18\x01 \x01(\v2\x11.user.UserProfileR\vuserProfile\x12\x14\n" +
 	"\x05error\x18\x02 \x01(\tR\x05error\"\x82\x01\n" +

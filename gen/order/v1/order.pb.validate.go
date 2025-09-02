@@ -74,8 +74,6 @@ func (m *CreateOrderRequest) validate(all bool) error {
 
 	// no validation rules for CouponId
 
-	// no validation rules for ReservationId
-
 	if m.GetAmount() <= 0 {
 		err := CreateOrderRequestValidationError{
 			field:  "Amount",
@@ -1764,8 +1762,6 @@ func (m *Order) validate(all bool) error {
 	}
 
 	// no validation rules for CouponId
-
-	// no validation rules for ReservationId
 
 	if m.GetAmount() <= 0 {
 		err := OrderValidationError{

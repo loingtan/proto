@@ -26,8 +26,7 @@ const (
 type CreateOrderRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	UserId         string                 `protobuf:"bytes,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	CouponId       string                 `protobuf:"bytes,2,opt,name=coupon_id,json=couponId,proto3" json:"coupon_id,omitempty"`                // Optional - empty if no coupon selected
-	ReservationId  string                 `protobuf:"bytes,3,opt,name=reservation_id,json=reservationId,proto3" json:"reservation_id,omitempty"` // Optional - empty if no coupon selected
+	CouponId       string                 `protobuf:"bytes,2,opt,name=coupon_id,json=couponId,proto3" json:"coupon_id,omitempty"` // Optional - empty if no coupon selected
 	Amount         float64                `protobuf:"fixed64,4,opt,name=amount,proto3" json:"amount,omitempty"`
 	Discount       float64                `protobuf:"fixed64,5,opt,name=discount,proto3" json:"discount,omitempty"`
 	Status         string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
@@ -77,13 +76,6 @@ func (x *CreateOrderRequest) GetUserId() string {
 func (x *CreateOrderRequest) GetCouponId() string {
 	if x != nil {
 		return x.CouponId
-	}
-	return ""
-}
-
-func (x *CreateOrderRequest) GetReservationId() string {
-	if x != nil {
-		return x.ReservationId
 	}
 	return ""
 }
@@ -755,8 +747,7 @@ type Order struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	UserId         string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	CouponId       string                 `protobuf:"bytes,3,opt,name=coupon_id,json=couponId,proto3" json:"coupon_id,omitempty"`                // Optional - empty if no coupon used
-	ReservationId  string                 `protobuf:"bytes,4,opt,name=reservation_id,json=reservationId,proto3" json:"reservation_id,omitempty"` // Optional - empty if no coupon used
+	CouponId       string                 `protobuf:"bytes,3,opt,name=coupon_id,json=couponId,proto3" json:"coupon_id,omitempty"` // Optional - empty if no coupon used
 	Amount         float64                `protobuf:"fixed64,5,opt,name=amount,proto3" json:"amount,omitempty"`
 	Discount       float64                `protobuf:"fixed64,6,opt,name=discount,proto3" json:"discount,omitempty"`
 	Status         string                 `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty"`
@@ -819,13 +810,6 @@ func (x *Order) GetCouponId() string {
 	return ""
 }
 
-func (x *Order) GetReservationId() string {
-	if x != nil {
-		return x.ReservationId
-	}
-	return ""
-}
-
 func (x *Order) GetAmount() float64 {
 	if x != nil {
 		return x.Amount
@@ -879,11 +863,10 @@ var File_order_v1_order_proto protoreflect.FileDescriptor
 
 const file_order_v1_order_proto_rawDesc = "" +
 	"\n" +
-	"\x14order/v1/order.proto\x12\x05Order\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\x81\x03\n" +
+	"\x14order/v1/order.proto\x12\x05Order\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x17validate/validate.proto\"\xda\x02\n" +
 	"\x12CreateOrderRequest\x12!\n" +
 	"\auser_id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x06userId\x12\x1b\n" +
-	"\tcoupon_id\x18\x02 \x01(\tR\bcouponId\x12%\n" +
-	"\x0ereservation_id\x18\x03 \x01(\tR\rreservationId\x12&\n" +
+	"\tcoupon_id\x18\x02 \x01(\tR\bcouponId\x12&\n" +
 	"\x06amount\x18\x04 \x01(\x01B\x0e\xfaB\v\x12\t!\x00\x00\x00\x00\x00\x00\x00\x00R\x06amount\x12*\n" +
 	"\bdiscount\x18\x05 \x01(\x01B\x0e\xfaB\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\bdiscount\x12f\n" +
 	"\x06status\x18\x06 \x01(\tBN\xfaBKrIR\aPENDINGR\tCONFIRMEDR\n" +
@@ -934,12 +917,11 @@ const file_order_v1_order_proto_rawDesc = "" +
 	"\x17GetCouponOrdersResponse\x12$\n" +
 	"\x06Orders\x18\x01 \x03(\v2\f.Order.OrderR\x06Orders\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x14\n" +
-	"\x05error\x18\x03 \x01(\tR\x05error\"\x84\x04\n" +
+	"\x05error\x18\x03 \x01(\tR\x05error\"\xdd\x03\n" +
 	"\x05Order\x12\x18\n" +
 	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\x12!\n" +
 	"\auser_id\x18\x02 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x06userId\x12\x1b\n" +
-	"\tcoupon_id\x18\x03 \x01(\tR\bcouponId\x12%\n" +
-	"\x0ereservation_id\x18\x04 \x01(\tR\rreservationId\x12&\n" +
+	"\tcoupon_id\x18\x03 \x01(\tR\bcouponId\x12&\n" +
 	"\x06amount\x18\x05 \x01(\x01B\x0e\xfaB\v\x12\t!\x00\x00\x00\x00\x00\x00\x00\x00R\x06amount\x12*\n" +
 	"\bdiscount\x18\x06 \x01(\x01B\x0e\xfaB\v\x12\t)\x00\x00\x00\x00\x00\x00\x00\x00R\bdiscount\x12f\n" +
 	"\x06status\x18\a \x01(\tBN\xfaBKrIR\aPENDINGR\tCONFIRMEDR\n" +

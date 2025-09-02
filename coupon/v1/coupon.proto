@@ -16,6 +16,30 @@ service CouponService {
   rpc ValidateReservation(ValidateReservationRequest) returns (ValidateReservationResponse);
   rpc ListClaimCoupon(ListClaimCouponRequest) returns (ListClaimCouponResponse);
   rpc CalculateDiscount(CalculateDiscountRequest) returns (CalculateDiscountResponse);
+
+  // ApplyCoupon mints a short‑lived JWT coupon token after validating
+  // policy (time window, min spend, merchant/payment constraints, etc.).
+  // Use this for FE -> API -> coupon-service path to get {token, exp}.
+  rpc ApplyCoupon(ApplyCouponRequest) returns (ApplyCouponResponse);
+
+  // VerifyCouponToken verifies RS256 token and returns parsed claims for
+  // defense-in-depth checks by the caller. Optional for strong callers.
+  rpc VerifyCouponToken(VerifyCouponTokenRequest) returns (VerifyCouponTokenResponse);
+
+  // ConsumeCoupon commits a coupon redemption idempotently. Caller passes
+  // order_id, transaction_id, amount, and the JWT token. The service enforces
+  // uniqueness by (transaction_id) and (coupon_id, user_id, order_id).
+  rpc ConsumeCoupon(ConsumeCouponRequest) returns (ConsumeCouponResponse);
+
+  // Reconciliation endpoints for admin/monitoring purposes
+  rpc TriggerReconciliation(TriggerReconciliationRequest) returns (TriggerReconciliationResponse);
+  rpc ReconcileCoupon(ReconcileCouponRequest) returns (ReconcileCouponResponse);
+  rpc GetReconciliationStats(GetReconciliationStatsRequest) returns (GetReconciliationStatsResponse);
+  rpc CompensateUsage(CompensateUsageRequest) returns (CompensateUsageResponse);
+
+  // Merchant and Payment Channel reference data
+  rpc ListMerchants(ListMerchantsRequest) returns (ListMerchantsResponse);
+  rpc ListPaymentChannels(ListPaymentChannelsRequest) returns (ListPaymentChannelsResponse);
 }
 
 
@@ -29,7 +53,6 @@ message Coupon {
   int32 usage_limit_per_user = 7 [(validate.rules).int32.gte = 0];
   int32 usage_limit_global = 8 [(validate.rules).int32.gte = 0];
   int32 usage_global = 20 [(validate.rules).int32.gte = 0];
-  int32 reserved_global = 21 [(validate.rules).int32.gte = 0];
   string discount_type = 9 [(validate.rules).string = {in: ["PERCENT", "FIXED", "FIXED_PRICE"]}];
   string usage_type = 10 [(validate.rules).string = {in: ["MANUAL", "AUTO"]}];
   double discount_val = 11 [(validate.rules).double.gt = 0];
@@ -38,6 +61,9 @@ message Coupon {
   google.protobuf.Timestamp end_time = 14 [(validate.rules).timestamp.required = true];
   google.protobuf.Timestamp created_at = 15;
   google.protobuf.Timestamp updated_at = 16;
+  // Usage constraints for payment and merchant
+  repeated int32 allowed_payment_channels = 22; // empty = allow all
+  uint32 merchant_id = 23; // 0 = any merchant
 }
 message CreateCouponRequest {
   string code = 1 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[A-Z0-9_-]+$"}];
@@ -48,13 +74,15 @@ message CreateCouponRequest {
   int32 usage_limit_per_user = 6 [(validate.rules).int32.gte = 0];
   int32 usage_limit_global = 7 [(validate.rules).int32.gte = 0];
   int32 usage_global = 20 [(validate.rules).int32.gte = 0];
-  int32 reserved_global = 21 [(validate.rules).int32.gte = 0];
   string discount_type = 8 [(validate.rules).string = {in: ["PERCENT", "FIXED", "FIXED_PRICE"]}];
   string usage_type = 9 [(validate.rules).string = {in: ["MANUAL", "AUTO"]}];
   double discount_val = 10 [(validate.rules).double.gt = 0];
   double max_discount = 11 [(validate.rules).double.gte = 0];
   google.protobuf.Timestamp start_time = 12 [(validate.rules).timestamp.required = true];
   google.protobuf.Timestamp end_time = 13 [(validate.rules).timestamp.required = true];
+  repeated int32 allowed_payment_channels = 22; // optional
+  uint32 merchant_id = 23; // optional, 0 = any
+  string award_user_id = 24; // optional, when set also claim for user
 }
 message CreateCouponResponse {
   Coupon coupon = 1;
@@ -69,13 +97,14 @@ message UpdateCouponRequest {
   int32 usage_limit_per_user = 6 [(validate.rules).int32.gte = 0];
   int32 usage_limit_global = 7 [(validate.rules).int32.gte = 0];
   int32 usage_global = 20 [(validate.rules).int32.gte = 0];
-  int32 reserved_global = 21 [(validate.rules).int32.gte = 0];
   string discount_type = 8 [(validate.rules).string = {in: ["PERCENT", "FIXED", "FIXED_PRICE"]}];
   string usage_type = 9 [(validate.rules).string = {in: ["MANUAL", "AUTO"]}];
   double discount_val = 10 [(validate.rules).double.gt = 0];
   double max_discount = 11 [(validate.rules).double.gte = 0];
   google.protobuf.Timestamp start_time = 12 [(validate.rules).timestamp.required = true];
   google.protobuf.Timestamp end_time = 13 [(validate.rules).timestamp.required = true];
+  repeated int32 allowed_payment_channels = 22; // optional
+  uint32 merchant_id = 23; // optional
 }
 message UpdateCouponResponse {
   Coupon coupon = 1;
@@ -147,6 +176,9 @@ message CalculateDiscountRequest {
   double amount = 2 [(validate.rules).double.gt = 0];
   string user_id = 3 [(validate.rules).string.uuid = true];
   google.protobuf.Timestamp order_time = 4 [(validate.rules).timestamp.required = true];
+  int32 payment_channel = 5; // optional for usage policy
+  uint32 merchant_id = 6; // optional for usage policy
+  string coupon_token = 7; // optional JWT to re-verify
 }
 
 message CalculateDiscountResponse {
@@ -154,6 +186,66 @@ message CalculateDiscountResponse {
   double final_amount = 2;
   string coupon_id = 3;
   string error = 4;
+}
+
+// ApplyCouponRequest triggers coupon validation and returns a signed JWT token.
+// The token’s claims (JWT body) are expected to include:
+// { sub=user_id, cid=coupon_id, mid?, oid?, typ="coupon", val=discount,
+//   cur?, min?, max_discount?, cond_v, jti, exp }
+message ApplyCouponRequest {
+  string idempotency_key = 1 [(validate.rules).string.min_len = 1];
+  string user_id = 2 [(validate.rules).string.uuid = true];
+  string order_id = 3 [(validate.rules).string.min_len = 1];
+  oneof coupon_ref {
+    string coupon_code = 4 [(validate.rules).string = {min_len: 3, max_len: 50, pattern: "^[A-Z0-9_-]+$"}];
+    string coupon_id   = 5 [(validate.rules).string.uuid = true];
+  }
+  double amount = 6 [(validate.rules).double.gt = 0];
+  int32 payment_channel = 7; // optional for usage policy
+  uint32 merchant_id = 8;    // optional for usage policy
+}
+
+message ApplyCouponResponse {
+  string token = 1;           // RS256 JWT
+  int64 exp = 2;              // unix seconds
+  string coupon_id = 3;
+  double discount_amount = 4;
+  double final_amount = 5;
+  string error = 6;
+}
+
+message VerifyCouponTokenRequest {
+  string token = 1 [(validate.rules).string.min_len = 20];
+}
+
+message VerifyCouponTokenResponse {
+  bool valid = 1;
+  string error = 2;
+  // Selected claims exposed for callers’ policy checks
+  string user_id = 3;
+  string coupon_id = 4;
+  string order_id = 5;
+  int32 payment_channel = 6;
+  uint32 merchant_id = 7;
+  int64 exp = 8;
+  string jti = 9;
+}
+
+// ConsumeCouponRequest performs idempotent redemption commit.
+message ConsumeCouponRequest {
+  string user_id = 1 [(validate.rules).string.uuid = true];
+  string order_id = 2 [(validate.rules).string.min_len = 1];
+  string transaction_id = 3 [(validate.rules).string.min_len = 1];
+  double amount = 4 [(validate.rules).double.gt = 0];
+  string coupon_token = 5 [(validate.rules).string.min_len = 20];
+}
+
+message ConsumeCouponResponse {
+  bool ok = 1;                 // true when redemption is recorded or replayed idempotently
+  string coupon_id = 2;
+  double discount_amount = 3;
+  double final_amount = 4;
+  string error = 5;
 }
 message ListClaimCouponRequest {
   string user_id = 1 [(validate.rules).string.uuid = true];
@@ -184,5 +276,100 @@ message ClaimCouponRequest {
 
 message ClaimCouponResponse {
   bool ok = 1;
+  string error = 2;
+}
+
+// Reconciliation message definitions
+message TriggerReconciliationRequest {
+  // No fields needed - triggers reconciliation for all coupons
+}
+
+message ReconciliationReport {
+  string coupon_id = 1;
+  string coupon_code = 2;
+  int32 database_usage = 3;
+  int64 redis_usage = 4;
+  int64 redis_reservations = 5;
+  int64 total_redis_usage = 6;
+  int64 discrepancy = 7;
+  string action = 8;
+  google.protobuf.Timestamp timestamp = 9;
+}
+
+message TriggerReconciliationResponse {
+  string status = 1;
+  int32 total_coupons = 2;
+  int32 discrepancies_found = 3;
+  int32 discrepancies_fixed = 4;
+  int64 total_discrepancy = 5;
+  repeated ReconciliationReport reports = 6;
+  string error = 7;
+}
+
+message ReconcileCouponRequest {
+  string coupon_id = 1 [(validate.rules).string.uuid = true];
+}
+
+message ReconcileCouponResponse {
+  string status = 1;
+  ReconciliationReport report = 2;
+  string error = 3;
+}
+
+message GetReconciliationStatsRequest {
+  // No fields needed - returns current stats
+}
+
+message GetReconciliationStatsResponse {
+  int32 total_coupons = 1;
+  int32 discrepancies_found = 2;
+  int64 total_discrepancy = 3;
+  google.protobuf.Timestamp last_checked = 4;
+  string error = 5;
+}
+
+message CompensateUsageRequest {
+  string coupon_id = 1 [(validate.rules).string.uuid = true];
+  int32 amount = 2 [(validate.rules).int32.gt = 0];
+  string reason = 3 [(validate.rules).string = {min_len: 1, max_len: 255}];
+}
+
+message CompensateUsageResponse {
+  string status = 1;
+  string coupon_id = 2;
+  int32 compensated = 3;
+  string reason = 4;
+  string error = 5;
+}
+
+// Merchant and Payment Channel message definitions
+message Merchant {
+  uint32 id = 1;
+  string name = 2 [(validate.rules).string = {min_len: 1, max_len: 255}];
+  string category = 3 [(validate.rules).string = {min_len: 1, max_len: 100}];
+  string description = 4 [(validate.rules).string.max_len = 500];
+}
+
+message PaymentChannel {
+  uint32 id = 1;
+  string name = 2 [(validate.rules).string = {min_len: 1, max_len: 255}];
+  string category = 3 [(validate.rules).string = {min_len: 1, max_len: 100}];
+}
+
+message ListMerchantsRequest {
+  // Empty for now, could add filters later if needed
+}
+
+message ListMerchantsResponse {
+  repeated Merchant merchants = 1;
+  string error = 2;
+}
+
+message ListPaymentChannelsRequest {
+  // Empty for now, could add filters later if needed
+}
+
+message ListPaymentChannelsResponse {
+  repeated PaymentChannel payment_channels = 1;
   string error = 2;
 }

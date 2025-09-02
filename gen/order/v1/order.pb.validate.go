@@ -109,6 +109,10 @@ func (m *CreateOrderRequest) validate(all bool) error {
 		errors = append(errors, err)
 	}
 
+	// no validation rules for PaymentChannel
+
+	// no validation rules for MerchantId
+
 	if len(errors) > 0 {
 		return CreateOrderRequestMultiError(errors)
 	}
@@ -1853,6 +1857,10 @@ func (m *Order) validate(all bool) error {
 			}
 		}
 	}
+
+	// no validation rules for PaymentChannel
+
+	// no validation rules for MerchantId
 
 	if len(errors) > 0 {
 		return OrderMultiError(errors)

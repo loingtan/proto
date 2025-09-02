@@ -19,16 +19,25 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CouponService_GetCoupon_FullMethodName           = "/coupon.CouponService/GetCoupon"
-	CouponService_ListCoupons_FullMethodName         = "/coupon.CouponService/ListCoupons"
-	CouponService_CreateCoupon_FullMethodName        = "/coupon.CouponService/CreateCoupon"
-	CouponService_UpdateCoupon_FullMethodName        = "/coupon.CouponService/UpdateCoupon"
-	CouponService_DeleteCoupon_FullMethodName        = "/coupon.CouponService/DeleteCoupon"
-	CouponService_ClaimCoupon_FullMethodName         = "/coupon.CouponService/ClaimCoupon"
-	CouponService_ReserveCoupon_FullMethodName       = "/coupon.CouponService/ReserveCoupon"
-	CouponService_ValidateReservation_FullMethodName = "/coupon.CouponService/ValidateReservation"
-	CouponService_ListClaimCoupon_FullMethodName     = "/coupon.CouponService/ListClaimCoupon"
-	CouponService_CalculateDiscount_FullMethodName   = "/coupon.CouponService/CalculateDiscount"
+	CouponService_GetCoupon_FullMethodName              = "/coupon.CouponService/GetCoupon"
+	CouponService_ListCoupons_FullMethodName            = "/coupon.CouponService/ListCoupons"
+	CouponService_CreateCoupon_FullMethodName           = "/coupon.CouponService/CreateCoupon"
+	CouponService_UpdateCoupon_FullMethodName           = "/coupon.CouponService/UpdateCoupon"
+	CouponService_DeleteCoupon_FullMethodName           = "/coupon.CouponService/DeleteCoupon"
+	CouponService_ClaimCoupon_FullMethodName            = "/coupon.CouponService/ClaimCoupon"
+	CouponService_ReserveCoupon_FullMethodName          = "/coupon.CouponService/ReserveCoupon"
+	CouponService_ValidateReservation_FullMethodName    = "/coupon.CouponService/ValidateReservation"
+	CouponService_ListClaimCoupon_FullMethodName        = "/coupon.CouponService/ListClaimCoupon"
+	CouponService_CalculateDiscount_FullMethodName      = "/coupon.CouponService/CalculateDiscount"
+	CouponService_ApplyCoupon_FullMethodName            = "/coupon.CouponService/ApplyCoupon"
+	CouponService_VerifyCouponToken_FullMethodName      = "/coupon.CouponService/VerifyCouponToken"
+	CouponService_ConsumeCoupon_FullMethodName          = "/coupon.CouponService/ConsumeCoupon"
+	CouponService_TriggerReconciliation_FullMethodName  = "/coupon.CouponService/TriggerReconciliation"
+	CouponService_ReconcileCoupon_FullMethodName        = "/coupon.CouponService/ReconcileCoupon"
+	CouponService_GetReconciliationStats_FullMethodName = "/coupon.CouponService/GetReconciliationStats"
+	CouponService_CompensateUsage_FullMethodName        = "/coupon.CouponService/CompensateUsage"
+	CouponService_ListMerchants_FullMethodName          = "/coupon.CouponService/ListMerchants"
+	CouponService_ListPaymentChannels_FullMethodName    = "/coupon.CouponService/ListPaymentChannels"
 )
 
 // CouponServiceClient is the client API for CouponService service.
@@ -45,6 +54,25 @@ type CouponServiceClient interface {
 	ValidateReservation(ctx context.Context, in *ValidateReservationRequest, opts ...grpc.CallOption) (*ValidateReservationResponse, error)
 	ListClaimCoupon(ctx context.Context, in *ListClaimCouponRequest, opts ...grpc.CallOption) (*ListClaimCouponResponse, error)
 	CalculateDiscount(ctx context.Context, in *CalculateDiscountRequest, opts ...grpc.CallOption) (*CalculateDiscountResponse, error)
+	// ApplyCoupon mints a short‑lived JWT coupon token after validating
+	// policy (time window, min spend, merchant/payment constraints, etc.).
+	// Use this for FE -> API -> coupon-service path to get {token, exp}.
+	ApplyCoupon(ctx context.Context, in *ApplyCouponRequest, opts ...grpc.CallOption) (*ApplyCouponResponse, error)
+	// VerifyCouponToken verifies RS256 token and returns parsed claims for
+	// defense-in-depth checks by the caller. Optional for strong callers.
+	VerifyCouponToken(ctx context.Context, in *VerifyCouponTokenRequest, opts ...grpc.CallOption) (*VerifyCouponTokenResponse, error)
+	// ConsumeCoupon commits a coupon redemption idempotently. Caller passes
+	// order_id, transaction_id, amount, and the JWT token. The service enforces
+	// uniqueness by (transaction_id) and (coupon_id, user_id, order_id).
+	ConsumeCoupon(ctx context.Context, in *ConsumeCouponRequest, opts ...grpc.CallOption) (*ConsumeCouponResponse, error)
+	// Reconciliation endpoints for admin/monitoring purposes
+	TriggerReconciliation(ctx context.Context, in *TriggerReconciliationRequest, opts ...grpc.CallOption) (*TriggerReconciliationResponse, error)
+	ReconcileCoupon(ctx context.Context, in *ReconcileCouponRequest, opts ...grpc.CallOption) (*ReconcileCouponResponse, error)
+	GetReconciliationStats(ctx context.Context, in *GetReconciliationStatsRequest, opts ...grpc.CallOption) (*GetReconciliationStatsResponse, error)
+	CompensateUsage(ctx context.Context, in *CompensateUsageRequest, opts ...grpc.CallOption) (*CompensateUsageResponse, error)
+	// Merchant and Payment Channel reference data
+	ListMerchants(ctx context.Context, in *ListMerchantsRequest, opts ...grpc.CallOption) (*ListMerchantsResponse, error)
+	ListPaymentChannels(ctx context.Context, in *ListPaymentChannelsRequest, opts ...grpc.CallOption) (*ListPaymentChannelsResponse, error)
 }
 
 type couponServiceClient struct {
@@ -155,6 +183,96 @@ func (c *couponServiceClient) CalculateDiscount(ctx context.Context, in *Calcula
 	return out, nil
 }
 
+func (c *couponServiceClient) ApplyCoupon(ctx context.Context, in *ApplyCouponRequest, opts ...grpc.CallOption) (*ApplyCouponResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ApplyCouponResponse)
+	err := c.cc.Invoke(ctx, CouponService_ApplyCoupon_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponServiceClient) VerifyCouponToken(ctx context.Context, in *VerifyCouponTokenRequest, opts ...grpc.CallOption) (*VerifyCouponTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(VerifyCouponTokenResponse)
+	err := c.cc.Invoke(ctx, CouponService_VerifyCouponToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponServiceClient) ConsumeCoupon(ctx context.Context, in *ConsumeCouponRequest, opts ...grpc.CallOption) (*ConsumeCouponResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ConsumeCouponResponse)
+	err := c.cc.Invoke(ctx, CouponService_ConsumeCoupon_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponServiceClient) TriggerReconciliation(ctx context.Context, in *TriggerReconciliationRequest, opts ...grpc.CallOption) (*TriggerReconciliationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TriggerReconciliationResponse)
+	err := c.cc.Invoke(ctx, CouponService_TriggerReconciliation_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponServiceClient) ReconcileCoupon(ctx context.Context, in *ReconcileCouponRequest, opts ...grpc.CallOption) (*ReconcileCouponResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReconcileCouponResponse)
+	err := c.cc.Invoke(ctx, CouponService_ReconcileCoupon_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponServiceClient) GetReconciliationStats(ctx context.Context, in *GetReconciliationStatsRequest, opts ...grpc.CallOption) (*GetReconciliationStatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetReconciliationStatsResponse)
+	err := c.cc.Invoke(ctx, CouponService_GetReconciliationStats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponServiceClient) CompensateUsage(ctx context.Context, in *CompensateUsageRequest, opts ...grpc.CallOption) (*CompensateUsageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CompensateUsageResponse)
+	err := c.cc.Invoke(ctx, CouponService_CompensateUsage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponServiceClient) ListMerchants(ctx context.Context, in *ListMerchantsRequest, opts ...grpc.CallOption) (*ListMerchantsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListMerchantsResponse)
+	err := c.cc.Invoke(ctx, CouponService_ListMerchants_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *couponServiceClient) ListPaymentChannels(ctx context.Context, in *ListPaymentChannelsRequest, opts ...grpc.CallOption) (*ListPaymentChannelsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListPaymentChannelsResponse)
+	err := c.cc.Invoke(ctx, CouponService_ListPaymentChannels_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CouponServiceServer is the server API for CouponService service.
 // All implementations must embed UnimplementedCouponServiceServer
 // for forward compatibility.
@@ -169,6 +287,25 @@ type CouponServiceServer interface {
 	ValidateReservation(context.Context, *ValidateReservationRequest) (*ValidateReservationResponse, error)
 	ListClaimCoupon(context.Context, *ListClaimCouponRequest) (*ListClaimCouponResponse, error)
 	CalculateDiscount(context.Context, *CalculateDiscountRequest) (*CalculateDiscountResponse, error)
+	// ApplyCoupon mints a short‑lived JWT coupon token after validating
+	// policy (time window, min spend, merchant/payment constraints, etc.).
+	// Use this for FE -> API -> coupon-service path to get {token, exp}.
+	ApplyCoupon(context.Context, *ApplyCouponRequest) (*ApplyCouponResponse, error)
+	// VerifyCouponToken verifies RS256 token and returns parsed claims for
+	// defense-in-depth checks by the caller. Optional for strong callers.
+	VerifyCouponToken(context.Context, *VerifyCouponTokenRequest) (*VerifyCouponTokenResponse, error)
+	// ConsumeCoupon commits a coupon redemption idempotently. Caller passes
+	// order_id, transaction_id, amount, and the JWT token. The service enforces
+	// uniqueness by (transaction_id) and (coupon_id, user_id, order_id).
+	ConsumeCoupon(context.Context, *ConsumeCouponRequest) (*ConsumeCouponResponse, error)
+	// Reconciliation endpoints for admin/monitoring purposes
+	TriggerReconciliation(context.Context, *TriggerReconciliationRequest) (*TriggerReconciliationResponse, error)
+	ReconcileCoupon(context.Context, *ReconcileCouponRequest) (*ReconcileCouponResponse, error)
+	GetReconciliationStats(context.Context, *GetReconciliationStatsRequest) (*GetReconciliationStatsResponse, error)
+	CompensateUsage(context.Context, *CompensateUsageRequest) (*CompensateUsageResponse, error)
+	// Merchant and Payment Channel reference data
+	ListMerchants(context.Context, *ListMerchantsRequest) (*ListMerchantsResponse, error)
+	ListPaymentChannels(context.Context, *ListPaymentChannelsRequest) (*ListPaymentChannelsResponse, error)
 	mustEmbedUnimplementedCouponServiceServer()
 }
 
@@ -208,6 +345,33 @@ func (UnimplementedCouponServiceServer) ListClaimCoupon(context.Context, *ListCl
 }
 func (UnimplementedCouponServiceServer) CalculateDiscount(context.Context, *CalculateDiscountRequest) (*CalculateDiscountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CalculateDiscount not implemented")
+}
+func (UnimplementedCouponServiceServer) ApplyCoupon(context.Context, *ApplyCouponRequest) (*ApplyCouponResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApplyCoupon not implemented")
+}
+func (UnimplementedCouponServiceServer) VerifyCouponToken(context.Context, *VerifyCouponTokenRequest) (*VerifyCouponTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyCouponToken not implemented")
+}
+func (UnimplementedCouponServiceServer) ConsumeCoupon(context.Context, *ConsumeCouponRequest) (*ConsumeCouponResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConsumeCoupon not implemented")
+}
+func (UnimplementedCouponServiceServer) TriggerReconciliation(context.Context, *TriggerReconciliationRequest) (*TriggerReconciliationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TriggerReconciliation not implemented")
+}
+func (UnimplementedCouponServiceServer) ReconcileCoupon(context.Context, *ReconcileCouponRequest) (*ReconcileCouponResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReconcileCoupon not implemented")
+}
+func (UnimplementedCouponServiceServer) GetReconciliationStats(context.Context, *GetReconciliationStatsRequest) (*GetReconciliationStatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetReconciliationStats not implemented")
+}
+func (UnimplementedCouponServiceServer) CompensateUsage(context.Context, *CompensateUsageRequest) (*CompensateUsageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CompensateUsage not implemented")
+}
+func (UnimplementedCouponServiceServer) ListMerchants(context.Context, *ListMerchantsRequest) (*ListMerchantsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListMerchants not implemented")
+}
+func (UnimplementedCouponServiceServer) ListPaymentChannels(context.Context, *ListPaymentChannelsRequest) (*ListPaymentChannelsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListPaymentChannels not implemented")
 }
 func (UnimplementedCouponServiceServer) mustEmbedUnimplementedCouponServiceServer() {}
 func (UnimplementedCouponServiceServer) testEmbeddedByValue()                       {}
@@ -410,6 +574,168 @@ func _CouponService_CalculateDiscount_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CouponService_ApplyCoupon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApplyCouponRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).ApplyCoupon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_ApplyCoupon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).ApplyCoupon(ctx, req.(*ApplyCouponRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CouponService_VerifyCouponToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyCouponTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).VerifyCouponToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_VerifyCouponToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).VerifyCouponToken(ctx, req.(*VerifyCouponTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CouponService_ConsumeCoupon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConsumeCouponRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).ConsumeCoupon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_ConsumeCoupon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).ConsumeCoupon(ctx, req.(*ConsumeCouponRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CouponService_TriggerReconciliation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TriggerReconciliationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).TriggerReconciliation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_TriggerReconciliation_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).TriggerReconciliation(ctx, req.(*TriggerReconciliationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CouponService_ReconcileCoupon_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReconcileCouponRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).ReconcileCoupon(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_ReconcileCoupon_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).ReconcileCoupon(ctx, req.(*ReconcileCouponRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CouponService_GetReconciliationStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetReconciliationStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).GetReconciliationStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_GetReconciliationStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).GetReconciliationStats(ctx, req.(*GetReconciliationStatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CouponService_CompensateUsage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompensateUsageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).CompensateUsage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_CompensateUsage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).CompensateUsage(ctx, req.(*CompensateUsageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CouponService_ListMerchants_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListMerchantsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).ListMerchants(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_ListMerchants_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).ListMerchants(ctx, req.(*ListMerchantsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CouponService_ListPaymentChannels_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListPaymentChannelsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CouponServiceServer).ListPaymentChannels(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CouponService_ListPaymentChannels_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CouponServiceServer).ListPaymentChannels(ctx, req.(*ListPaymentChannelsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CouponService_ServiceDesc is the grpc.ServiceDesc for CouponService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -456,6 +782,42 @@ var CouponService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CalculateDiscount",
 			Handler:    _CouponService_CalculateDiscount_Handler,
+		},
+		{
+			MethodName: "ApplyCoupon",
+			Handler:    _CouponService_ApplyCoupon_Handler,
+		},
+		{
+			MethodName: "VerifyCouponToken",
+			Handler:    _CouponService_VerifyCouponToken_Handler,
+		},
+		{
+			MethodName: "ConsumeCoupon",
+			Handler:    _CouponService_ConsumeCoupon_Handler,
+		},
+		{
+			MethodName: "TriggerReconciliation",
+			Handler:    _CouponService_TriggerReconciliation_Handler,
+		},
+		{
+			MethodName: "ReconcileCoupon",
+			Handler:    _CouponService_ReconcileCoupon_Handler,
+		},
+		{
+			MethodName: "GetReconciliationStats",
+			Handler:    _CouponService_GetReconciliationStats_Handler,
+		},
+		{
+			MethodName: "CompensateUsage",
+			Handler:    _CouponService_CompensateUsage_Handler,
+		},
+		{
+			MethodName: "ListMerchants",
+			Handler:    _CouponService_ListMerchants_Handler,
+		},
+		{
+			MethodName: "ListPaymentChannels",
+			Handler:    _CouponService_ListPaymentChannels_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

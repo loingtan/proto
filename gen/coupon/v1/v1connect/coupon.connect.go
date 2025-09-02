@@ -62,6 +62,33 @@ const (
 	// CouponServiceCalculateDiscountProcedure is the fully-qualified name of the CouponService's
 	// CalculateDiscount RPC.
 	CouponServiceCalculateDiscountProcedure = "/coupon.CouponService/CalculateDiscount"
+	// CouponServiceApplyCouponProcedure is the fully-qualified name of the CouponService's ApplyCoupon
+	// RPC.
+	CouponServiceApplyCouponProcedure = "/coupon.CouponService/ApplyCoupon"
+	// CouponServiceVerifyCouponTokenProcedure is the fully-qualified name of the CouponService's
+	// VerifyCouponToken RPC.
+	CouponServiceVerifyCouponTokenProcedure = "/coupon.CouponService/VerifyCouponToken"
+	// CouponServiceConsumeCouponProcedure is the fully-qualified name of the CouponService's
+	// ConsumeCoupon RPC.
+	CouponServiceConsumeCouponProcedure = "/coupon.CouponService/ConsumeCoupon"
+	// CouponServiceTriggerReconciliationProcedure is the fully-qualified name of the CouponService's
+	// TriggerReconciliation RPC.
+	CouponServiceTriggerReconciliationProcedure = "/coupon.CouponService/TriggerReconciliation"
+	// CouponServiceReconcileCouponProcedure is the fully-qualified name of the CouponService's
+	// ReconcileCoupon RPC.
+	CouponServiceReconcileCouponProcedure = "/coupon.CouponService/ReconcileCoupon"
+	// CouponServiceGetReconciliationStatsProcedure is the fully-qualified name of the CouponService's
+	// GetReconciliationStats RPC.
+	CouponServiceGetReconciliationStatsProcedure = "/coupon.CouponService/GetReconciliationStats"
+	// CouponServiceCompensateUsageProcedure is the fully-qualified name of the CouponService's
+	// CompensateUsage RPC.
+	CouponServiceCompensateUsageProcedure = "/coupon.CouponService/CompensateUsage"
+	// CouponServiceListMerchantsProcedure is the fully-qualified name of the CouponService's
+	// ListMerchants RPC.
+	CouponServiceListMerchantsProcedure = "/coupon.CouponService/ListMerchants"
+	// CouponServiceListPaymentChannelsProcedure is the fully-qualified name of the CouponService's
+	// ListPaymentChannels RPC.
+	CouponServiceListPaymentChannelsProcedure = "/coupon.CouponService/ListPaymentChannels"
 )
 
 // CouponServiceClient is a client for the coupon.CouponService service.
@@ -76,6 +103,25 @@ type CouponServiceClient interface {
 	ValidateReservation(context.Context, *connect.Request[v1.ValidateReservationRequest]) (*connect.Response[v1.ValidateReservationResponse], error)
 	ListClaimCoupon(context.Context, *connect.Request[v1.ListClaimCouponRequest]) (*connect.Response[v1.ListClaimCouponResponse], error)
 	CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error)
+	// ApplyCoupon mints a short‑lived JWT coupon token after validating
+	// policy (time window, min spend, merchant/payment constraints, etc.).
+	// Use this for FE -> API -> coupon-service path to get {token, exp}.
+	ApplyCoupon(context.Context, *connect.Request[v1.ApplyCouponRequest]) (*connect.Response[v1.ApplyCouponResponse], error)
+	// VerifyCouponToken verifies RS256 token and returns parsed claims for
+	// defense-in-depth checks by the caller. Optional for strong callers.
+	VerifyCouponToken(context.Context, *connect.Request[v1.VerifyCouponTokenRequest]) (*connect.Response[v1.VerifyCouponTokenResponse], error)
+	// ConsumeCoupon commits a coupon redemption idempotently. Caller passes
+	// order_id, transaction_id, amount, and the JWT token. The service enforces
+	// uniqueness by (transaction_id) and (coupon_id, user_id, order_id).
+	ConsumeCoupon(context.Context, *connect.Request[v1.ConsumeCouponRequest]) (*connect.Response[v1.ConsumeCouponResponse], error)
+	// Reconciliation endpoints for admin/monitoring purposes
+	TriggerReconciliation(context.Context, *connect.Request[v1.TriggerReconciliationRequest]) (*connect.Response[v1.TriggerReconciliationResponse], error)
+	ReconcileCoupon(context.Context, *connect.Request[v1.ReconcileCouponRequest]) (*connect.Response[v1.ReconcileCouponResponse], error)
+	GetReconciliationStats(context.Context, *connect.Request[v1.GetReconciliationStatsRequest]) (*connect.Response[v1.GetReconciliationStatsResponse], error)
+	CompensateUsage(context.Context, *connect.Request[v1.CompensateUsageRequest]) (*connect.Response[v1.CompensateUsageResponse], error)
+	// Merchant and Payment Channel reference data
+	ListMerchants(context.Context, *connect.Request[v1.ListMerchantsRequest]) (*connect.Response[v1.ListMerchantsResponse], error)
+	ListPaymentChannels(context.Context, *connect.Request[v1.ListPaymentChannelsRequest]) (*connect.Response[v1.ListPaymentChannelsResponse], error)
 }
 
 // NewCouponServiceClient constructs a client for the coupon.CouponService service. By default, it
@@ -149,21 +195,84 @@ func NewCouponServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			connect.WithSchema(couponServiceMethods.ByName("CalculateDiscount")),
 			connect.WithClientOptions(opts...),
 		),
+		applyCoupon: connect.NewClient[v1.ApplyCouponRequest, v1.ApplyCouponResponse](
+			httpClient,
+			baseURL+CouponServiceApplyCouponProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("ApplyCoupon")),
+			connect.WithClientOptions(opts...),
+		),
+		verifyCouponToken: connect.NewClient[v1.VerifyCouponTokenRequest, v1.VerifyCouponTokenResponse](
+			httpClient,
+			baseURL+CouponServiceVerifyCouponTokenProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("VerifyCouponToken")),
+			connect.WithClientOptions(opts...),
+		),
+		consumeCoupon: connect.NewClient[v1.ConsumeCouponRequest, v1.ConsumeCouponResponse](
+			httpClient,
+			baseURL+CouponServiceConsumeCouponProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("ConsumeCoupon")),
+			connect.WithClientOptions(opts...),
+		),
+		triggerReconciliation: connect.NewClient[v1.TriggerReconciliationRequest, v1.TriggerReconciliationResponse](
+			httpClient,
+			baseURL+CouponServiceTriggerReconciliationProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("TriggerReconciliation")),
+			connect.WithClientOptions(opts...),
+		),
+		reconcileCoupon: connect.NewClient[v1.ReconcileCouponRequest, v1.ReconcileCouponResponse](
+			httpClient,
+			baseURL+CouponServiceReconcileCouponProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("ReconcileCoupon")),
+			connect.WithClientOptions(opts...),
+		),
+		getReconciliationStats: connect.NewClient[v1.GetReconciliationStatsRequest, v1.GetReconciliationStatsResponse](
+			httpClient,
+			baseURL+CouponServiceGetReconciliationStatsProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("GetReconciliationStats")),
+			connect.WithClientOptions(opts...),
+		),
+		compensateUsage: connect.NewClient[v1.CompensateUsageRequest, v1.CompensateUsageResponse](
+			httpClient,
+			baseURL+CouponServiceCompensateUsageProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("CompensateUsage")),
+			connect.WithClientOptions(opts...),
+		),
+		listMerchants: connect.NewClient[v1.ListMerchantsRequest, v1.ListMerchantsResponse](
+			httpClient,
+			baseURL+CouponServiceListMerchantsProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("ListMerchants")),
+			connect.WithClientOptions(opts...),
+		),
+		listPaymentChannels: connect.NewClient[v1.ListPaymentChannelsRequest, v1.ListPaymentChannelsResponse](
+			httpClient,
+			baseURL+CouponServiceListPaymentChannelsProcedure,
+			connect.WithSchema(couponServiceMethods.ByName("ListPaymentChannels")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // couponServiceClient implements CouponServiceClient.
 type couponServiceClient struct {
-	getCoupon           *connect.Client[v1.GetCouponRequest, v1.GetCouponResponse]
-	listCoupons         *connect.Client[v1.ListCouponsRequest, v1.ListCouponsResponse]
-	createCoupon        *connect.Client[v1.CreateCouponRequest, v1.CreateCouponResponse]
-	updateCoupon        *connect.Client[v1.UpdateCouponRequest, v1.UpdateCouponResponse]
-	deleteCoupon        *connect.Client[v1.DeleteCouponRequest, v1.DeleteCouponResponse]
-	claimCoupon         *connect.Client[v1.ClaimCouponRequest, v1.ClaimCouponResponse]
-	reserveCoupon       *connect.Client[v1.ReserveCouponRequest, v1.ReserveCouponResponse]
-	validateReservation *connect.Client[v1.ValidateReservationRequest, v1.ValidateReservationResponse]
-	listClaimCoupon     *connect.Client[v1.ListClaimCouponRequest, v1.ListClaimCouponResponse]
-	calculateDiscount   *connect.Client[v1.CalculateDiscountRequest, v1.CalculateDiscountResponse]
+	getCoupon              *connect.Client[v1.GetCouponRequest, v1.GetCouponResponse]
+	listCoupons            *connect.Client[v1.ListCouponsRequest, v1.ListCouponsResponse]
+	createCoupon           *connect.Client[v1.CreateCouponRequest, v1.CreateCouponResponse]
+	updateCoupon           *connect.Client[v1.UpdateCouponRequest, v1.UpdateCouponResponse]
+	deleteCoupon           *connect.Client[v1.DeleteCouponRequest, v1.DeleteCouponResponse]
+	claimCoupon            *connect.Client[v1.ClaimCouponRequest, v1.ClaimCouponResponse]
+	reserveCoupon          *connect.Client[v1.ReserveCouponRequest, v1.ReserveCouponResponse]
+	validateReservation    *connect.Client[v1.ValidateReservationRequest, v1.ValidateReservationResponse]
+	listClaimCoupon        *connect.Client[v1.ListClaimCouponRequest, v1.ListClaimCouponResponse]
+	calculateDiscount      *connect.Client[v1.CalculateDiscountRequest, v1.CalculateDiscountResponse]
+	applyCoupon            *connect.Client[v1.ApplyCouponRequest, v1.ApplyCouponResponse]
+	verifyCouponToken      *connect.Client[v1.VerifyCouponTokenRequest, v1.VerifyCouponTokenResponse]
+	consumeCoupon          *connect.Client[v1.ConsumeCouponRequest, v1.ConsumeCouponResponse]
+	triggerReconciliation  *connect.Client[v1.TriggerReconciliationRequest, v1.TriggerReconciliationResponse]
+	reconcileCoupon        *connect.Client[v1.ReconcileCouponRequest, v1.ReconcileCouponResponse]
+	getReconciliationStats *connect.Client[v1.GetReconciliationStatsRequest, v1.GetReconciliationStatsResponse]
+	compensateUsage        *connect.Client[v1.CompensateUsageRequest, v1.CompensateUsageResponse]
+	listMerchants          *connect.Client[v1.ListMerchantsRequest, v1.ListMerchantsResponse]
+	listPaymentChannels    *connect.Client[v1.ListPaymentChannelsRequest, v1.ListPaymentChannelsResponse]
 }
 
 // GetCoupon calls coupon.CouponService.GetCoupon.
@@ -216,6 +325,51 @@ func (c *couponServiceClient) CalculateDiscount(ctx context.Context, req *connec
 	return c.calculateDiscount.CallUnary(ctx, req)
 }
 
+// ApplyCoupon calls coupon.CouponService.ApplyCoupon.
+func (c *couponServiceClient) ApplyCoupon(ctx context.Context, req *connect.Request[v1.ApplyCouponRequest]) (*connect.Response[v1.ApplyCouponResponse], error) {
+	return c.applyCoupon.CallUnary(ctx, req)
+}
+
+// VerifyCouponToken calls coupon.CouponService.VerifyCouponToken.
+func (c *couponServiceClient) VerifyCouponToken(ctx context.Context, req *connect.Request[v1.VerifyCouponTokenRequest]) (*connect.Response[v1.VerifyCouponTokenResponse], error) {
+	return c.verifyCouponToken.CallUnary(ctx, req)
+}
+
+// ConsumeCoupon calls coupon.CouponService.ConsumeCoupon.
+func (c *couponServiceClient) ConsumeCoupon(ctx context.Context, req *connect.Request[v1.ConsumeCouponRequest]) (*connect.Response[v1.ConsumeCouponResponse], error) {
+	return c.consumeCoupon.CallUnary(ctx, req)
+}
+
+// TriggerReconciliation calls coupon.CouponService.TriggerReconciliation.
+func (c *couponServiceClient) TriggerReconciliation(ctx context.Context, req *connect.Request[v1.TriggerReconciliationRequest]) (*connect.Response[v1.TriggerReconciliationResponse], error) {
+	return c.triggerReconciliation.CallUnary(ctx, req)
+}
+
+// ReconcileCoupon calls coupon.CouponService.ReconcileCoupon.
+func (c *couponServiceClient) ReconcileCoupon(ctx context.Context, req *connect.Request[v1.ReconcileCouponRequest]) (*connect.Response[v1.ReconcileCouponResponse], error) {
+	return c.reconcileCoupon.CallUnary(ctx, req)
+}
+
+// GetReconciliationStats calls coupon.CouponService.GetReconciliationStats.
+func (c *couponServiceClient) GetReconciliationStats(ctx context.Context, req *connect.Request[v1.GetReconciliationStatsRequest]) (*connect.Response[v1.GetReconciliationStatsResponse], error) {
+	return c.getReconciliationStats.CallUnary(ctx, req)
+}
+
+// CompensateUsage calls coupon.CouponService.CompensateUsage.
+func (c *couponServiceClient) CompensateUsage(ctx context.Context, req *connect.Request[v1.CompensateUsageRequest]) (*connect.Response[v1.CompensateUsageResponse], error) {
+	return c.compensateUsage.CallUnary(ctx, req)
+}
+
+// ListMerchants calls coupon.CouponService.ListMerchants.
+func (c *couponServiceClient) ListMerchants(ctx context.Context, req *connect.Request[v1.ListMerchantsRequest]) (*connect.Response[v1.ListMerchantsResponse], error) {
+	return c.listMerchants.CallUnary(ctx, req)
+}
+
+// ListPaymentChannels calls coupon.CouponService.ListPaymentChannels.
+func (c *couponServiceClient) ListPaymentChannels(ctx context.Context, req *connect.Request[v1.ListPaymentChannelsRequest]) (*connect.Response[v1.ListPaymentChannelsResponse], error) {
+	return c.listPaymentChannels.CallUnary(ctx, req)
+}
+
 // CouponServiceHandler is an implementation of the coupon.CouponService service.
 type CouponServiceHandler interface {
 	GetCoupon(context.Context, *connect.Request[v1.GetCouponRequest]) (*connect.Response[v1.GetCouponResponse], error)
@@ -228,6 +382,25 @@ type CouponServiceHandler interface {
 	ValidateReservation(context.Context, *connect.Request[v1.ValidateReservationRequest]) (*connect.Response[v1.ValidateReservationResponse], error)
 	ListClaimCoupon(context.Context, *connect.Request[v1.ListClaimCouponRequest]) (*connect.Response[v1.ListClaimCouponResponse], error)
 	CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error)
+	// ApplyCoupon mints a short‑lived JWT coupon token after validating
+	// policy (time window, min spend, merchant/payment constraints, etc.).
+	// Use this for FE -> API -> coupon-service path to get {token, exp}.
+	ApplyCoupon(context.Context, *connect.Request[v1.ApplyCouponRequest]) (*connect.Response[v1.ApplyCouponResponse], error)
+	// VerifyCouponToken verifies RS256 token and returns parsed claims for
+	// defense-in-depth checks by the caller. Optional for strong callers.
+	VerifyCouponToken(context.Context, *connect.Request[v1.VerifyCouponTokenRequest]) (*connect.Response[v1.VerifyCouponTokenResponse], error)
+	// ConsumeCoupon commits a coupon redemption idempotently. Caller passes
+	// order_id, transaction_id, amount, and the JWT token. The service enforces
+	// uniqueness by (transaction_id) and (coupon_id, user_id, order_id).
+	ConsumeCoupon(context.Context, *connect.Request[v1.ConsumeCouponRequest]) (*connect.Response[v1.ConsumeCouponResponse], error)
+	// Reconciliation endpoints for admin/monitoring purposes
+	TriggerReconciliation(context.Context, *connect.Request[v1.TriggerReconciliationRequest]) (*connect.Response[v1.TriggerReconciliationResponse], error)
+	ReconcileCoupon(context.Context, *connect.Request[v1.ReconcileCouponRequest]) (*connect.Response[v1.ReconcileCouponResponse], error)
+	GetReconciliationStats(context.Context, *connect.Request[v1.GetReconciliationStatsRequest]) (*connect.Response[v1.GetReconciliationStatsResponse], error)
+	CompensateUsage(context.Context, *connect.Request[v1.CompensateUsageRequest]) (*connect.Response[v1.CompensateUsageResponse], error)
+	// Merchant and Payment Channel reference data
+	ListMerchants(context.Context, *connect.Request[v1.ListMerchantsRequest]) (*connect.Response[v1.ListMerchantsResponse], error)
+	ListPaymentChannels(context.Context, *connect.Request[v1.ListPaymentChannelsRequest]) (*connect.Response[v1.ListPaymentChannelsResponse], error)
 }
 
 // NewCouponServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -297,6 +470,60 @@ func NewCouponServiceHandler(svc CouponServiceHandler, opts ...connect.HandlerOp
 		connect.WithSchema(couponServiceMethods.ByName("CalculateDiscount")),
 		connect.WithHandlerOptions(opts...),
 	)
+	couponServiceApplyCouponHandler := connect.NewUnaryHandler(
+		CouponServiceApplyCouponProcedure,
+		svc.ApplyCoupon,
+		connect.WithSchema(couponServiceMethods.ByName("ApplyCoupon")),
+		connect.WithHandlerOptions(opts...),
+	)
+	couponServiceVerifyCouponTokenHandler := connect.NewUnaryHandler(
+		CouponServiceVerifyCouponTokenProcedure,
+		svc.VerifyCouponToken,
+		connect.WithSchema(couponServiceMethods.ByName("VerifyCouponToken")),
+		connect.WithHandlerOptions(opts...),
+	)
+	couponServiceConsumeCouponHandler := connect.NewUnaryHandler(
+		CouponServiceConsumeCouponProcedure,
+		svc.ConsumeCoupon,
+		connect.WithSchema(couponServiceMethods.ByName("ConsumeCoupon")),
+		connect.WithHandlerOptions(opts...),
+	)
+	couponServiceTriggerReconciliationHandler := connect.NewUnaryHandler(
+		CouponServiceTriggerReconciliationProcedure,
+		svc.TriggerReconciliation,
+		connect.WithSchema(couponServiceMethods.ByName("TriggerReconciliation")),
+		connect.WithHandlerOptions(opts...),
+	)
+	couponServiceReconcileCouponHandler := connect.NewUnaryHandler(
+		CouponServiceReconcileCouponProcedure,
+		svc.ReconcileCoupon,
+		connect.WithSchema(couponServiceMethods.ByName("ReconcileCoupon")),
+		connect.WithHandlerOptions(opts...),
+	)
+	couponServiceGetReconciliationStatsHandler := connect.NewUnaryHandler(
+		CouponServiceGetReconciliationStatsProcedure,
+		svc.GetReconciliationStats,
+		connect.WithSchema(couponServiceMethods.ByName("GetReconciliationStats")),
+		connect.WithHandlerOptions(opts...),
+	)
+	couponServiceCompensateUsageHandler := connect.NewUnaryHandler(
+		CouponServiceCompensateUsageProcedure,
+		svc.CompensateUsage,
+		connect.WithSchema(couponServiceMethods.ByName("CompensateUsage")),
+		connect.WithHandlerOptions(opts...),
+	)
+	couponServiceListMerchantsHandler := connect.NewUnaryHandler(
+		CouponServiceListMerchantsProcedure,
+		svc.ListMerchants,
+		connect.WithSchema(couponServiceMethods.ByName("ListMerchants")),
+		connect.WithHandlerOptions(opts...),
+	)
+	couponServiceListPaymentChannelsHandler := connect.NewUnaryHandler(
+		CouponServiceListPaymentChannelsProcedure,
+		svc.ListPaymentChannels,
+		connect.WithSchema(couponServiceMethods.ByName("ListPaymentChannels")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/coupon.CouponService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case CouponServiceGetCouponProcedure:
@@ -319,6 +546,24 @@ func NewCouponServiceHandler(svc CouponServiceHandler, opts ...connect.HandlerOp
 			couponServiceListClaimCouponHandler.ServeHTTP(w, r)
 		case CouponServiceCalculateDiscountProcedure:
 			couponServiceCalculateDiscountHandler.ServeHTTP(w, r)
+		case CouponServiceApplyCouponProcedure:
+			couponServiceApplyCouponHandler.ServeHTTP(w, r)
+		case CouponServiceVerifyCouponTokenProcedure:
+			couponServiceVerifyCouponTokenHandler.ServeHTTP(w, r)
+		case CouponServiceConsumeCouponProcedure:
+			couponServiceConsumeCouponHandler.ServeHTTP(w, r)
+		case CouponServiceTriggerReconciliationProcedure:
+			couponServiceTriggerReconciliationHandler.ServeHTTP(w, r)
+		case CouponServiceReconcileCouponProcedure:
+			couponServiceReconcileCouponHandler.ServeHTTP(w, r)
+		case CouponServiceGetReconciliationStatsProcedure:
+			couponServiceGetReconciliationStatsHandler.ServeHTTP(w, r)
+		case CouponServiceCompensateUsageProcedure:
+			couponServiceCompensateUsageHandler.ServeHTTP(w, r)
+		case CouponServiceListMerchantsProcedure:
+			couponServiceListMerchantsHandler.ServeHTTP(w, r)
+		case CouponServiceListPaymentChannelsProcedure:
+			couponServiceListPaymentChannelsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -366,4 +611,40 @@ func (UnimplementedCouponServiceHandler) ListClaimCoupon(context.Context, *conne
 
 func (UnimplementedCouponServiceHandler) CalculateDiscount(context.Context, *connect.Request[v1.CalculateDiscountRequest]) (*connect.Response[v1.CalculateDiscountResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.CalculateDiscount is not implemented"))
+}
+
+func (UnimplementedCouponServiceHandler) ApplyCoupon(context.Context, *connect.Request[v1.ApplyCouponRequest]) (*connect.Response[v1.ApplyCouponResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.ApplyCoupon is not implemented"))
+}
+
+func (UnimplementedCouponServiceHandler) VerifyCouponToken(context.Context, *connect.Request[v1.VerifyCouponTokenRequest]) (*connect.Response[v1.VerifyCouponTokenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.VerifyCouponToken is not implemented"))
+}
+
+func (UnimplementedCouponServiceHandler) ConsumeCoupon(context.Context, *connect.Request[v1.ConsumeCouponRequest]) (*connect.Response[v1.ConsumeCouponResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.ConsumeCoupon is not implemented"))
+}
+
+func (UnimplementedCouponServiceHandler) TriggerReconciliation(context.Context, *connect.Request[v1.TriggerReconciliationRequest]) (*connect.Response[v1.TriggerReconciliationResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.TriggerReconciliation is not implemented"))
+}
+
+func (UnimplementedCouponServiceHandler) ReconcileCoupon(context.Context, *connect.Request[v1.ReconcileCouponRequest]) (*connect.Response[v1.ReconcileCouponResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.ReconcileCoupon is not implemented"))
+}
+
+func (UnimplementedCouponServiceHandler) GetReconciliationStats(context.Context, *connect.Request[v1.GetReconciliationStatsRequest]) (*connect.Response[v1.GetReconciliationStatsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.GetReconciliationStats is not implemented"))
+}
+
+func (UnimplementedCouponServiceHandler) CompensateUsage(context.Context, *connect.Request[v1.CompensateUsageRequest]) (*connect.Response[v1.CompensateUsageResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.CompensateUsage is not implemented"))
+}
+
+func (UnimplementedCouponServiceHandler) ListMerchants(context.Context, *connect.Request[v1.ListMerchantsRequest]) (*connect.Response[v1.ListMerchantsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.ListMerchants is not implemented"))
+}
+
+func (UnimplementedCouponServiceHandler) ListPaymentChannels(context.Context, *connect.Request[v1.ListPaymentChannelsRequest]) (*connect.Response[v1.ListPaymentChannelsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("coupon.CouponService.ListPaymentChannels is not implemented"))
 }

@@ -768,8 +768,11 @@ type ListCouponsRequest struct {
 	StartDateTo          *string `protobuf:"bytes,14,opt,name=start_date_to,json=startDateTo,proto3,oneof" json:"start_date_to,omitempty"`
 	EndDateFrom          *string `protobuf:"bytes,15,opt,name=end_date_from,json=endDateFrom,proto3,oneof" json:"end_date_from,omitempty"`
 	EndDateTo            *string `protobuf:"bytes,16,opt,name=end_date_to,json=endDateTo,proto3,oneof" json:"end_date_to,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	// Payment channel and merchant filters
+	PaymentChannels []int32 `protobuf:"varint,18,rep,packed,name=payment_channels,json=paymentChannels,proto3" json:"payment_channels,omitempty"` // Filter by payment channels, empty = all
+	MerchantId      *uint32 `protobuf:"varint,19,opt,name=merchant_id,json=merchantId,proto3,oneof" json:"merchant_id,omitempty"`                 // Filter by merchant, 0 = all merchants
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *ListCouponsRequest) Reset() {
@@ -919,6 +922,20 @@ func (x *ListCouponsRequest) GetEndDateTo() string {
 		return *x.EndDateTo
 	}
 	return ""
+}
+
+func (x *ListCouponsRequest) GetPaymentChannels() []int32 {
+	if x != nil {
+		return x.PaymentChannels
+	}
+	return nil
+}
+
+func (x *ListCouponsRequest) GetMerchantId() uint32 {
+	if x != nil && x.MerchantId != nil {
+		return *x.MerchantId
+	}
+	return 0
 }
 
 type ListCouponsResponse struct {
@@ -3282,7 +3299,7 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x02id\x18\x01 \x01(\tB\b\xfaB\x05r\x03\xb0\x01\x01R\x02id\"F\n" +
 	"\x14DeleteCouponResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x14\n" +
-	"\x05error\x18\x02 \x01(\tR\x05error\"\xf3\b\n" +
+	"\x05error\x18\x02 \x01(\tR\x05error\"\xd4\t\n" +
 	"\x12ListCouponsRequest\x12\x1e\n" +
 	"\x04page\x18\x01 \x01(\x05B\n" +
 	"\xfaB\a\x1a\x05\x18\xe8\a(\x01R\x04page\x12&\n" +
@@ -3303,7 +3320,10 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x0fstart_date_from\x18\r \x01(\tB\a\xfaB\x04r\x02\x18\x1eH\x05R\rstartDateFrom\x88\x01\x01\x120\n" +
 	"\rstart_date_to\x18\x0e \x01(\tB\a\xfaB\x04r\x02\x18\x1eH\x06R\vstartDateTo\x88\x01\x01\x120\n" +
 	"\rend_date_from\x18\x0f \x01(\tB\a\xfaB\x04r\x02\x18\x1eH\aR\vendDateFrom\x88\x01\x01\x12,\n" +
-	"\vend_date_to\x18\x10 \x01(\tB\a\xfaB\x04r\x02\x18\x1eH\bR\tendDateTo\x88\x01\x01B\x17\n" +
+	"\vend_date_to\x18\x10 \x01(\tB\a\xfaB\x04r\x02\x18\x1eH\bR\tendDateTo\x88\x01\x01\x12)\n" +
+	"\x10payment_channels\x18\x12 \x03(\x05R\x0fpaymentChannels\x12$\n" +
+	"\vmerchant_id\x18\x13 \x01(\rH\tR\n" +
+	"merchantId\x88\x01\x01B\x17\n" +
 	"\x15_first_time_user_onlyB\x13\n" +
 	"\x11_min_usage_globalB\x13\n" +
 	"\x11_max_usage_globalB\x1b\n" +
@@ -3312,7 +3332,8 @@ const file_coupon_v1_coupon_proto_rawDesc = "" +
 	"\x10_start_date_fromB\x10\n" +
 	"\x0e_start_date_toB\x10\n" +
 	"\x0e_end_date_fromB\x0e\n" +
-	"\f_end_date_to\"\x9c\x01\n" +
+	"\f_end_date_toB\x0e\n" +
+	"\f_merchant_id\"\x9c\x01\n" +
 	"\x13ListCouponsResponse\x12(\n" +
 	"\acoupons\x18\x01 \x03(\v2\x0e.coupon.CouponR\acoupons\x12\x14\n" +
 	"\x05total\x18\x02 \x01(\x05R\x05total\x12\x12\n" +

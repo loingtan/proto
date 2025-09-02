@@ -138,6 +138,10 @@ message ListCouponsRequest {
   optional string start_date_to = 14 [(validate.rules).string.max_len = 30];
   optional string end_date_from = 15 [(validate.rules).string.max_len = 30];
   optional string end_date_to = 16 [(validate.rules).string.max_len = 30];
+  
+  // Payment channel and merchant filters
+  repeated int32 payment_channels = 18; // Filter by payment channels, empty = all
+  optional uint32 merchant_id = 19; // Filter by merchant, 0 = all merchants
 }
 message ListCouponsResponse {
   repeated Coupon coupons = 1;

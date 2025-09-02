@@ -1662,6 +1662,10 @@ func (m *ListCouponsRequest) validate(all bool) error {
 
 	}
 
+	if m.MerchantId != nil {
+		// no validation rules for MerchantId
+	}
+
 	if len(errors) > 0 {
 		return ListCouponsRequestMultiError(errors)
 	}
